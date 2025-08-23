@@ -9,8 +9,15 @@ const articles = await getAllArticles();
   <ul>
     {articles.contents.map((article) => (
       <li>
-        <a href={`/articles/${article.id}`}>{article.title}</a>
+        <a class="article-link" href={`/articles/${article.id}`}>{article.title}</a>
       </li>
     ))}
   </ul>
 </Layout>
+
+<style>
+/* TODO: Add styles for article list */
+.article-link {
+  color: green;
+}
+</style>
