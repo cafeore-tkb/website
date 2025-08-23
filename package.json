@@ -5,15 +5,19 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"preview": "astro preview",
+		"preview": "astro preview && wrangler dev",
 		"astro": "astro",
+		"cf-typegen": "wrangler types",
 		"lint": "biome check",
 		"fmt": "biome check --write"
 	},
 	"dependencies": {
-		"astro": "^5.12.0"
+		"@astrojs/cloudflare": "^12.6.5",
+		"astro": "^5.13.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.0"
+		"@biomejs/biome": "2.2.0",
+		"@types/node": "^24.3.0",
+		"wrangler": "^4.32.0"
 	}
 }
