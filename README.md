@@ -1,4 +1,4 @@
-# Astro Starter Kit: Basics
+# 珈琲・俺 Website
 
 ```sh
 npm create astro@latest -- --template basics
