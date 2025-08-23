@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!package-lock.json"],
+		"includes": ["**", "!package-lock.json", "!worker-configuration.d.ts"],
 		"ignoreUnknown": false
 	},
 	"formatter": {
