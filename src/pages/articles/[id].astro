@@ -17,6 +17,15 @@ const { publishedAt, updatedAt, title, content, thumbnail } = article;
     <p>publishedAt: {publishedAt}</p>
     <p>updatedAt: {updatedAt}</p>
     {thumbnail && <img src={thumbnail.url} />}
-    <div set:html={content}></div>
+    <div class="article-content" set:html={content}></div>
   </main>
 </Layout>
+
+<style>
+.article-content {
+  /* TODO: Add styles for article contents */
+  h2 {
+    color: red;
+  }
+}
+</style>
