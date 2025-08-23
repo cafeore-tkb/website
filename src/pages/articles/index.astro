@@ -1,0 +1,16 @@
+---
+import { getAllArticles } from "../../apis/articles";
+import Layout from "../../layouts/Layout.astro";
+
+const articles = await getAllArticles();
+---
+
+<Layout>
+  <ul>
+    {articles.contents.map((article) => (
+      <li>
+        <a href={`/articles/${article.id}`}>{article.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>

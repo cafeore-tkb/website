@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"preview": "astro preview && wrangler dev",
+		"preview": "wrangler dev",
 		"astro": "astro",
 		"cf-typegen": "wrangler types",
 		"lint": "biome check",

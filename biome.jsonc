@@ -6,7 +6,12 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!package-lock.json", "!worker-configuration.d.ts"],
+		"includes": [
+			"**",
+			"!.astro",
+			"!package-lock.json",
+			"!worker-configuration.d.ts"
+		],
 		"ignoreUnknown": false
 	},
 	"formatter": {
