@@ -1,0 +1,87 @@
+---
+import { Image } from "astro:assets";
+import globalIcon from "../assets/language.svg";
+import logoIcon from "../assets/logo.svg";
+---
+<header class="header">
+  <div class="header-left">
+    <a href="/" class="logo">
+      <Image src={logoIcon} alt="Website Logo" />
+    </a>
+  </div>
+  
+  <nav class="header-nav">
+    <ul>
+      <li><a href="/about">ABOUT</a></li>
+      <li><a href="/news">NEWS</a></li>
+      <li><a href="/links">LINKS</a></li>
+    </ul>
+  </nav>
+
+  <div class="language-selector">
+    <Image class="global-icon" src={globalIcon} alt="Global Icon" />
+    <button class="lang-switch">JP</button>
+    /
+    <button class="lang-switch">EN</button>
+  </div>
+</header>
+
+<style>
+  .header {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    margin:0;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo img {
+    height: 40px;
+    margin-right: 1rem;
+  }
+
+  .header-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    color: #006367;
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    color: #006367;
+    font-weight: bold;
+  }
+
+  .language-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #006367;
+  }
+
+  .lang-switch {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    color:#006367;
+  }
+  .global-icon{
+    color:#006367;
+  }
+</style>
