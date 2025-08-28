@@ -1,7 +1,7 @@
 name: Code Formatter Check
 
 on:
-  # プルリクエストに対するプッシュ時に実行
+  # プッシュ時に実行
   push:
 
 jobs:
