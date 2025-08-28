@@ -3,8 +3,8 @@ import { getAllArticles, getArticleById } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-	const articles = await getAllArticles();
-	return articles.contents.map((article) => ({ params: { id: article.id } }));
+  const articles = await getAllArticles();
+  return articles.contents.map((article) => ({ params: { id: article.id } }));
 }
 const { id } = Astro.params;
 const article = await getArticleById(id);
@@ -17,15 +17,15 @@ const { publishedAt, updatedAt, title, content, thumbnail } = article;
     <p>publishedAt: {publishedAt}</p>
     <p>updatedAt: {updatedAt}</p>
     {thumbnail && <img src={thumbnail.url} />}
-    <div class="article-content" set:html={content}></div>
+    <div class="article-content" set:html={content} />
   </main>
 </Layout>
 
 <style>
-.article-content {
-  /* TODO: Add styles for article contents */
-  h2 {
-    color: red;
+  .article-content {
+    /* TODO: Add styles for article contents */
+    h2 {
+      color: red;
+    }
   }
-}
 </style>
