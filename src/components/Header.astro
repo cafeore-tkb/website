@@ -1,0 +1,422 @@
+---
+import { Image } from "astro:assets";
+// import globalIcon from "../assets/language.svg";
+import logoIcon from "../assets/logo.svg";
+import hamburgerIcon from "../assets/hamburger_menu.svg";
+---
+
+<header class="header" id="main-header">
+  <!-- 1段目：ロゴとハンバーガーボタン -->
+  <div class="header-row header-main-row">
+    <div class="header-left">
+      <a href="/" class="logo">
+        <Image src={logoIcon} alt="Website Logo" />
+      </a>
+    </div>
+    
+    <!-- デスクトップ用ナビゲーション -->
+    <nav class="header-nav desktop-nav">
+      <ul>
+        <li><a href="/about">ABOUT</a></li>
+        <li><a href="/news">NEWS</a></li>
+        <li><a href="/links">LINKS</a></li>
+      </ul>
+    </nav>
+    
+    <!-- デスクトップ用言語切り替え -->
+    <!-- <div class="language-selector desktop-lang">
+      <Image class="global-icon" src={globalIcon} alt="Global Icon" />
+      <button class="lang-switch">JP</button>
+      <p class="lang-switch-divider">/</p>
+      <button class="lang-switch">EN</button>
+    </div> -->
+    
+    <!-- ハンバーガーメニューボタン（スマホのみ） -->
+    <button class="hamburger-button mobile-only" id="hamburger-toggle">
+      <Image src={hamburgerIcon} alt="Menu" />
+    </button>
+  </div>
+
+  <!-- モバイル用展開メニュー -->
+  <div class="mobile-menu" id="mobile-menu">
+    <!-- ABOUT -->
+    <div class="mobile-menu-item">
+      <a href="/about" class="mobile-menu-link">ABOUT</a>
+    </div>
+
+    <!-- NEWS -->
+    <div class="mobile-menu-item">
+      <a href="/news" class="mobile-menu-link">NEWS</a>
+    </div>
+
+    <!-- LINKS -->
+    <div class="mobile-menu-item">
+      <a href="/links" class="mobile-menu-link">LINKS</a>
+    </div>
+
+    <!-- 言語切り替え -->
+    <!-- <div class="mobile-menu-item">
+      <div class="mobile-language-selector">
+        <Image class="global-icon" src={globalIcon} alt="Global Icon" />
+        <button class="lang-switch">JP</button>
+        <p class="lang-switch-divider">/</p>
+        <button class="lang-switch">EN</button>
+      </div>
+    </div> -->
+  </div>
+</header>
+
+<script>
+  // ヘッダーの表示・非表示制御
+  let lastScrollTop = 0;
+  const header = document.querySelector(".header");
+  
+  // スクロール制御は一旦コメントアウト（必要に応じて有効化）
+  /*
+  window.addEventListener("scroll", () => {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (header) {
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // 下にスクロール時は隠す（100px以上スクロールした場合のみ）
+        header.classList.add('header--hidden');
+      } else {
+        // 上にスクロール時は表示
+        header.classList.remove('header--hidden');
+      }
+      
+      // ページの一番上にいるときは常に表示
+      if (scrollTop === 0) {
+        header.classList.remove('header--hidden');
+      }
+    }
+    lastScrollTop = scrollTop;
+  });
+
+  // カーソルを合わせたときに表示
+  document.addEventListener('mousemove', (e) => {
+    if (header && e.clientY < 100) {
+      header.classList.remove('header--hidden');
+    }
+  });
+  */
+
+  // ハンバーガーメニューの開閉機能
+  const hamburgerToggle = document.getElementById('hamburger-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const body = document.body;
+
+  function toggleMenu() {
+    const isExpanded = header?.classList.contains('expanded');
+    
+    if (isExpanded) {
+      // メニューを閉じる
+      header?.classList.remove('expanded');
+      body.classList.remove('menu-expanded');
+      if (mobileMenu) {
+        mobileMenu.style.maxHeight = '0';
+      }
+    } else {
+      // メニューを開く
+      header?.classList.add('expanded');
+      body.classList.add('menu-expanded');
+      if (mobileMenu) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      }
+    }
+  }
+
+  hamburgerToggle?.addEventListener('click', toggleMenu);
+
+  // モバイルメニューのリンクをクリックしたら閉じる
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      header?.classList.remove('expanded');
+      body.classList.remove('menu-expanded');
+      if (mobileMenu) {
+        mobileMenu.style.maxHeight = '0';
+      }
+    });
+  });
+
+  // ESCキーで閉じる
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      header?.classList.remove('expanded');
+      body.classList.remove('menu-expanded');
+      if (mobileMenu) {
+        mobileMenu.style.maxHeight = '0';
+      }
+    }
+  });
+
+  // ページ読み込み時に初期状態を設定
+  window.addEventListener('load', () => {
+    if (mobileMenu) {
+      mobileMenu.style.maxHeight = '0';
+    }
+  });
+</script> 
+
+<style>
+  /* ヘッダー（常に上部に固定） */
+  .header {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    top: 0;
+    left: 0;
+    width: 95%;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+  }
+
+  .header--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .header-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 4rem;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo img {
+    height: 4rem;
+    padding-top: 0.8rem;
+    padding-left:0.5rem;
+    margin: 0;
+    display: block;
+    width: auto;
+  } 
+
+  /* モバイルメニュー */
+  .mobile-menu {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
+  }
+
+  .mobile-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(0, 99, 103, 0.1);
+  }
+
+  .mobile-menu-item:last-child {
+    border-bottom: none;
+    padding-bottom: 1rem;
+  }
+
+  .mobile-menu-link {
+    text-decoration: none;
+    color: #006367;
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 0.8rem 2rem;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 25px;
+    display: block;
+    text-align: center;
+  }
+
+  .mobile-menu-link:hover,
+  .mobile-menu-link:active {
+    color: #004d4f;
+    background-color: rgba(0, 99, 103, 0.15);
+    transform: scale(1.05);
+  }
+
+  .mobile-language-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #006367;
+    font-size: 1.2rem;
+    gap: 0.5rem;
+  }
+
+  /* デスクトップナビゲーション */
+  .header-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    margin: 0;
+    padding: 0;
+    color: #006367;
+    font-size: 1.2rem;
+    margin-right: 3rem;
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #006367;
+    transition: color 0.3s ease;
+  }
+
+  .header-nav a:hover {
+    color: #004d4f;
+  }
+
+  .language-selector {
+    display: flex;
+    align-items: center;
+    color: #006367;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    font-size: 1.2rem;
+    gap: 0.5rem;
+  }
+
+  .lang-switch {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.2rem 0.5rem;
+    font-weight: bold;
+    color: #006367;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-radius: 4px;
+  }
+
+  .lang-switch:hover {
+    color: #004d4f;
+    background-color: rgba(0, 99, 103, 0.1);
+  }
+
+  .lang-switch-divider {
+    margin: 0;
+    color: #006367;
+  }
+
+  .global-icon {
+    color: #006367;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  /* ハンバーガーボタン */
+  .hamburger-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.8rem;
+    margin-top: 0.4rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .hamburger-button:hover {
+    background-color: rgba(0, 99, 103, 0.1);
+    transform: scale(1.1);
+  }
+
+  .hamburger-button img {
+    width: 3rem;
+    height: 3rem;
+    transition: transform 0.3s ease;
+  }
+
+  .header.expanded .hamburger-button img {
+    transform: rotate(90deg);
+  }
+
+  /* ボディのパディング調整 */
+  body {
+    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body.menu-expanded {    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* メディアクエリ */
+  @media (max-width: 768px) {
+    .mobile-only {
+      display: flex !important;
+    }
+
+    .desktop-nav,
+    .desktop-lang {
+      display: none !important;
+    }
+
+    .header {
+      padding: 0.8rem 1rem;
+      width: 95%;
+    }
+
+    .logo img {
+      padding-top: 0rem;
+      height: 5rem;
+    }
+
+    .mobile-menu {
+      display: block;
+    }
+
+
+    
+  }
+
+  @media (min-width: 769px) {
+    .mobile-only {
+      display: none !important;
+    }
+
+    .mobile-menu {
+      display: none !important;
+    }
+
+    /* デスクトップでは通常のpadding-topのみ */
+    body.menu-expanded {
+      padding-top: 120px;
+    }
+  }
+
+  /* スムーズなアニメーション用のCSS */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu {
+      transition: none;
+    }
+    
+    .mobile-menu-link {
+      transition: none;
+    }
+    
+    .hamburger-button img {
+      transition: none;
+    }
+    
+    .header {
+      transition: none;
+    }
+    
+    body {
+      transition: none;
+    }
+  }
+</style>
