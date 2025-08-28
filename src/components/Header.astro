@@ -49,11 +49,14 @@ import logoIcon from "../assets/logo.svg";
   });
 
   // カーソルを合わせたときに表示
-  if (header) {
-    header.addEventListener('mouseover', () => {
-      header.classList.remove('header--hidden');
-    });
-  }
+  document.addEventListener('mousemove', (e) => {
+    if (header) {
+      if (e.clientY < 50) { // 50pxはヘッダーの高さに合わせて調整
+        header.classList.remove('header--hidden');
+      }
+    }
+  });
+
 </script>
 
 <style>
