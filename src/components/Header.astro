@@ -21,10 +21,40 @@ import logoIcon from "../assets/logo.svg";
   <div class="language-selector">
     <Image class="global-icon" src={globalIcon} alt="Global Icon" />
     <button class="lang-switch">JP</button>
-    /
+    <p class="lang-switch-divider">/</p>
     <button class="lang-switch">EN</button>
   </div>
 </header>
+<script>
+  let lastScrollTop = 0;
+  const header = document.querySelector(".header");
+  
+  window.addEventListener("scroll", () => {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (header) {
+      if (scrollTop > lastScrollTop){
+        // 下にスクロール
+        header.classList.add('header--hidden');
+      } else {
+        // 上にスクロール
+        header.classList.remove('header--hidden');
+      }
+      
+      // ページの一番上にいるときは常に表示
+      if (scrollTop === 0) {
+        header.classList.remove('header--hidden');
+      }
+    }
+    lastScrollTop = scrollTop;
+  });
+
+  // カーソルを合わせたときに表示
+  if (header) {
+    header.addEventListener('mouseover', () => {
+      header.classList.remove('header--hidden');
+    });
+  }
+</script>
 
 <style>
   .header {
@@ -38,11 +68,17 @@ import logoIcon from "../assets/logo.svg";
   z-index: 1000;
   transition: transform 0.4s ease-out, opacity 0.3s ease-out;
   padding: 1rem 1rem;
+  pointer-events: none;
+}
+
+.header:hover {
+   pointer-events: auto;
 }
 
 .header--hidden {
   transform: translateY(-100%);
   opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
   .header-left {
