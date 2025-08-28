@@ -1,3 +1,5 @@
+// ts-check
+
 import { defineConfig } from "eslint/config";
 import eslintPluginAstro from "eslint-plugin-astro";
 
