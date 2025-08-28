@@ -1,6 +1,7 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
 
 export async function getStaticPaths() {
 	const articles = await getAllArticles();
@@ -13,6 +14,7 @@ const { publishedAt, updatedAt, title, content, thumbnail } = article;
 
 <Layout>
   <main>
+    <Header />
     <h1>{title}</h1>
     <p>publishedAt: {publishedAt}</p>
     <p>updatedAt: {updatedAt}</p>
