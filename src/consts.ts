@@ -1,0 +1,1 @@
+export const SITE_TITLE = "珈琲・俺ポータルサイト";
