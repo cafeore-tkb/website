@@ -10,10 +10,15 @@ import { Image } from "astro:assets";
   <div class="header-row header-main-row">
     <div class="header-left">
       <a href="/" class="logo">
-        <Image src="/assets/logo.svg" width={400} height={400} alt="Website Logo" />
+        <Image
+          src="/assets/logo.svg"
+          width={400}
+          height={400}
+          alt="Website Logo"
+        />
       </a>
     </div>
-    
+
     <!-- デスクトップ用ナビゲーション -->
     <nav class="header-nav desktop-nav">
       <ul>
@@ -22,7 +27,7 @@ import { Image } from "astro:assets";
         <li><a href="/links">LINKS</a></li>
       </ul>
     </nav>
-    
+
     <!-- デスクトップ用言語切り替え -->
     <!-- <div class="language-selector desktop-lang">
       <Image class="global-icon" src={globalIcon} alt="Global Icon" />
@@ -30,10 +35,15 @@ import { Image } from "astro:assets";
       <p class="lang-switch-divider">/</p>
       <button class="lang-switch">EN</button>
     </div> -->
-    
+
     <!-- ハンバーガーメニューボタン（スマホのみ） -->
     <button class="hamburger-button mobile-only" id="hamburger-toggle">
-      <Image src="/assets/hamburger_menu.svg" width={24} height={24} alt="Menu" />
+      <Image
+        src="/assets/hamburger_menu.svg"
+        width={24}
+        height={24}
+        alt="Menu"
+      />
     </button>
   </div>
 
@@ -70,7 +80,7 @@ import { Image } from "astro:assets";
   // ヘッダーの表示・非表示制御
   let lastScrollTop = 0;
   const header = document.querySelector(".header");
-  
+
   // スクロール制御は一旦コメントアウト（必要に応じて有効化）
   /*
   window.addEventListener("scroll", () => {
@@ -102,62 +112,62 @@ import { Image } from "astro:assets";
   */
 
   // ハンバーガーメニューの開閉機能
-  const hamburgerToggle = document.getElementById('hamburger-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerToggle = document.getElementById("hamburger-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
   const body = document.body;
 
   function toggleMenu() {
-    const isExpanded = header?.classList.contains('expanded');
-    
+    const isExpanded = header?.classList.contains("expanded");
+
     if (isExpanded) {
       // メニューを閉じる
-      header?.classList.remove('expanded');
-      body.classList.remove('menu-expanded');
+      header?.classList.remove("expanded");
+      body.classList.remove("menu-expanded");
       if (mobileMenu) {
-        mobileMenu.style.maxHeight = '0';
+        mobileMenu.style.maxHeight = "0";
       }
     } else {
       // メニューを開く
-      header?.classList.add('expanded');
-      body.classList.add('menu-expanded');
+      header?.classList.add("expanded");
+      body.classList.add("menu-expanded");
       if (mobileMenu) {
-        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
       }
     }
   }
 
-  hamburgerToggle?.addEventListener('click', toggleMenu);
+  hamburgerToggle?.addEventListener("click", toggleMenu);
 
   // モバイルメニューのリンクをクリックしたら閉じる
-  const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
-  mobileMenuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      header?.classList.remove('expanded');
-      body.classList.remove('menu-expanded');
+  const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      header?.classList.remove("expanded");
+      body.classList.remove("menu-expanded");
       if (mobileMenu) {
-        mobileMenu.style.maxHeight = '0';
+        mobileMenu.style.maxHeight = "0";
       }
     });
   });
 
   // ESCキーで閉じる
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      header?.classList.remove('expanded');
-      body.classList.remove('menu-expanded');
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      header?.classList.remove("expanded");
+      body.classList.remove("menu-expanded");
       if (mobileMenu) {
-        mobileMenu.style.maxHeight = '0';
+        mobileMenu.style.maxHeight = "0";
       }
     }
   });
 
   // ページ読み込み時に初期状態を設定
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     if (mobileMenu) {
-      mobileMenu.style.maxHeight = '0';
+      mobileMenu.style.maxHeight = "0";
     }
   });
-</script> 
+</script>
 
 <style>
   /* ヘッダー（常に上部に固定） */
@@ -169,7 +179,9 @@ import { Image } from "astro:assets";
     padding: 1rem;
     backdrop-filter: blur(10px);
     z-index: 1000;
-    transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+    transition:
+      transform 0.4s ease-out,
+      opacity 0.3s ease-out;
   }
 
   .header--hidden {
@@ -199,11 +211,11 @@ import { Image } from "astro:assets";
   .logo img {
     height: 4rem;
     padding-top: 0.8rem;
-    padding-left:0.5rem;
+    padding-left: 0.5rem;
     margin: 0;
     display: block;
     width: auto;
-  } 
+  }
 
   /* モバイルメニュー */
   .mobile-menu {
@@ -229,19 +241,21 @@ import { Image } from "astro:assets";
 
   .mobile-menu-link {
     text-decoration: none;
-    color: #006367;
-    font-size: 1.4rem;
+    color: var(--primary-color);
     font-weight: bold;
+    font-size: 1.4rem;
     padding: 0.8rem 2rem;
-    transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+    transition:
+      color var(--transition),
+      background-color var(--transition),
+      transform 0.2s ease;
     border-radius: 25px;
-    display: block;
     text-align: center;
   }
 
   .mobile-menu-link:hover,
   .mobile-menu-link:active {
-    color: #004d4f;
+    color: var(--primary-hover);
     background-color: rgba(0, 99, 103, 0.15);
     transform: scale(1.05);
   }
@@ -296,7 +310,9 @@ import { Image } from "astro:assets";
     padding: 0.2rem 0.5rem;
     font-weight: bold;
     color: #006367;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease;
     border-radius: 4px;
   }
 
@@ -327,7 +343,9 @@ import { Image } from "astro:assets";
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
   }
 
   .hamburger-button:hover {
@@ -350,7 +368,8 @@ import { Image } from "astro:assets";
     transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  body.menu-expanded {    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  body.menu-expanded {
+    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* メディアクエリ */
@@ -377,9 +396,6 @@ import { Image } from "astro:assets";
     .mobile-menu {
       display: block;
     }
-
-
-    
   }
 
   @media (min-width: 769px) {
@@ -402,19 +418,19 @@ import { Image } from "astro:assets";
     .mobile-menu {
       transition: none;
     }
-    
+
     .mobile-menu-link {
       transition: none;
     }
-    
+
     .hamburger-button img {
       transition: none;
     }
-    
+
     .header {
       transition: none;
     }
-    
+
     body {
       transition: none;
     }

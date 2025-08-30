@@ -1,7 +1,6 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
 
 export async function getStaticPaths() {
   const articles = await getAllArticles();
@@ -12,27 +11,27 @@ const { id } = Astro.params;
 const article = await getArticleById(id);
 
 const { publishedAt, updatedAt, title, content, thumbnail } = article;
-
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).replace(/\//g, '/');
+  return date
+    .toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "/");
 };
 ---
 
-<Layout>
+<Layout title={title} isHeaderOverlay={false}>
   <main>
-    <Header />
     <div class="article-container">
       <div class="title-date">
         <h1 class="article-title">{title}</h1>
         <p class="published-date">{formatDate(publishedAt)}</p>
       </div>
       {thumbnail && <img src={thumbnail.url} />}
-      <div class="article-content" set:html={content}></div>
+      <div class="article-content" set:html={content} />
     </div>
   </main>
 </Layout>
@@ -55,7 +54,12 @@ const formatDate = (dateString) => {
     font-family: Serif;
   }
   .article-content {
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: #006367;
       font-family: Serif;
     }
@@ -80,26 +84,30 @@ const formatDate = (dateString) => {
 
   /* ▼▼▼ ここから変更 ▼▼▼ */
   .title-date {
-    display: flex; /* Flexboxを有効にする */
+    display: flex;
+    /* Flexboxを有効にする */
     justify-content: space-between; /* 両端に配置する */
-    align-items: flex-end; /* 下端で揃える */
+    align-items: flex-end;
+    /* 下端で揃える */
     gap: 1rem; /* タイトルと日付の間に最低限の隙間を設ける */
     margin-bottom: 1rem;
   }
 
   .title-date h1 {
     margin: 0; /* h1のデフォルトマージンをリセット */
-    margin-bottom: 0; /* 元のmargin-bottomを削除 */
+    margin-bottom: 0;
+    /* 元のmargin-bottomを削除 */
   }
 
   .title-date p {
-    /* position: absolute; を削除 */
+    /* position: absolute;
+    を削除 */
     margin: 0;
-    color: #64A19E;
+    color: #64a19e;
     font-size: 0.9rem;
-    white-space: nowrap; /* 日付が改行しないようにする */
+    white-space: nowrap;
+    /* 日付が改行しないようにする */
     flex-shrink: 0; /* コンテナが狭くなっても日付部分が縮まないようにする */
-     margin-bottom: 0.4rem;
+    margin-bottom: 0.4rem;
   }
 </style>
-

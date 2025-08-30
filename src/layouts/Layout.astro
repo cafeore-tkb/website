@@ -1,25 +1,43 @@
+---
+import Header from "../components/Header.jsx";
+
+export interface Props {
+  title: string;
+  isHeaderOverlay?: boolean; // isHeaderOverlayを受け取れるようにする
+}
+
+// デフォルトは true (ヘッダーが重なる) に設定
+const { title, isHeaderOverlay = true } = Astro.props;
+---
+
 <!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="generator" content={Astro.generator} />
-  <title>Astro Basics</title>
-</head>
-<body>
-  <slot />
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header client:load isOverlay={isHeaderOverlay} />
 
+    <main class:list={[{ "with-overlay-header": isHeaderOverlay }]}>
+      <slot />
+    </main>
+  </body>
 </html>
-
 <style>
   html,
   body {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: #F9F8F6;
+    background-color: #f9f8f6;
+  }
+
+  /* isHeaderOverlayがtrueの時だけ、mainタグにpadding-topを追加 */
+  main.with-overlay-header {
+    padding-top: 8rem; /* ヘッダーの高さに応じて調整 */
   }
 </style>
-
