@@ -67,7 +67,6 @@ export default function InteractiveHeader({ isOverlay = true }) {
 
 		.logo-svg {
 			height: 4rem;
-			padding-top: 0.8rem;
 			padding-left: 0.5rem;
 			display: block;
 			width: auto;
@@ -84,6 +83,7 @@ export default function InteractiveHeader({ isOverlay = true }) {
 		.header-nav a {
 			text-decoration: none;
 			font-weight: bold;
+			font-size: 1.3rem;
 			color: var(--primary-color);
 			transition: color var(--transition);
 		}
