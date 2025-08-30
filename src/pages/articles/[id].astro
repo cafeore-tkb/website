@@ -11,7 +11,7 @@ const article = await getArticleById(id);
 const { publishedAt, updatedAt, title, content, thumbnail } = article;
 ---
 
-<Layout>
+<Layout title={title} isHeaderOverlay={false}>
   <main>
     <h1>{title}</h1>
     <p>publishedAt: {publishedAt}</p>
