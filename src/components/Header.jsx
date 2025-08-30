@@ -26,7 +26,7 @@ export default function InteractiveHeader({ isOverlay = true }) {
 
   const headerStyles = `
 		:root {
-			--primary-color: #006367;
+			--primary-color: var(--header-text-color, #006367); 
 			--primary-hover: #004d4f;
 			--transition: 0.3s ease;
 		}
@@ -41,14 +41,12 @@ export default function InteractiveHeader({ isOverlay = true }) {
 			transition: transform 0.4s ease-out, opacity 0.3s ease-out;
 		}
 
-		/* ▼▼▼ ここから追加 ▼▼▼ */
 		.header.is-overlay {
 			position: fixed;
 		}
 		.header.is-static {
 			position: relative;
 		}
-		/* ▲▲▲ ここまで追加 ▲▲▲ */
 
 		.header-row {
 			display: flex;
