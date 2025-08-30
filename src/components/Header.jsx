@@ -196,7 +196,7 @@ export default function InteractiveHeader({ isOverlay = true }) {
                 <a href="/about">ABOUT</a>
               </li>
               <li>
-                <a href="/news">NEWS</a>
+                <a href="/articles">NEWS</a>
               </li>
               <li>
                 <a href="/links">LINKS</a>
