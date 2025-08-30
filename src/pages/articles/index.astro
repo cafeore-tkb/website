@@ -7,18 +7,22 @@ const articles = await getAllArticles();
 
 <Layout>
   <ul>
-    {articles.contents.map((article) => (
-      <li>
-        <a class="article-link" href={`/articles/${article.id}`}>{article.title}</a>
-      </li>
-    ))}
+    {
+      articles.contents.map((article) => (
+        <li>
+          <a class="article-link" href={`/articles/${article.id}`}>
+            {article.title}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </Layout>
 
 <style>
-/* TODO: Add styles for article list */
-.article-link {
-  color: green;
-  font-size: 2rem;
-}
+  /* TODO: Add styles for article list */
+  .article-link {
+    color: green;
+    font-size: 2rem;
+  }
 </style>
