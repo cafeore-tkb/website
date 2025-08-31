@@ -2,10 +2,13 @@
 import Header from "../components/Header.jsx";
 
 export interface Props {
+  title: string;
   isHeaderOverlay?: boolean;
   textColor?: string;
 }
-const { isHeaderOverlay = true, textColor = "#006367" } = Astro.props;
+
+// デフォルトは true (ヘッダーが重なる) に設定
+const { title, isHeaderOverlay = true, textColor = "#006367" } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,16 +19,16 @@ const { isHeaderOverlay = true, textColor = "#006367" } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style define:vars={{ "header-text-color": textColor }}></style>
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>{title}</title>
   </head>
   <body>
     <Header client:load isOverlay={isHeaderOverlay} />
+
     <main>
       <slot />
     </main>
   </body>
 </html>
-
 <style>
   html,
   body {
