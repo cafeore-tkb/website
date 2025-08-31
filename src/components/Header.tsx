@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import CafeoreLogo from "./CafeoreLogo";
-import HamburgerMenu from "./HamburgerMenu";
+import CafeoreLogo from "../assets/logo.svg?react";
+import HamburgerMenu from "../assets/hamburger_menu.svg?react";
 import "./Header.css";
 
 export default function InteractiveHeader({ isOverlay = true }) {
