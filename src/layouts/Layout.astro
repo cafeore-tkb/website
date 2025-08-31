@@ -1,14 +1,28 @@
+---
+import Header from "../components/Header.jsx";
+
+export interface Props {
+  isHeaderOverlay?: boolean;
+  textColor?: string;
+}
+const { isHeaderOverlay = true, textColor = "#006367" } = Astro.props;
+---
+
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style define:vars={{ "header-text-color": textColor }}></style>
     <meta name="generator" content={Astro.generator} />
     <title>Astro Basics</title>
   </head>
   <body>
-    <slot />
+    <Header client:load isOverlay={isHeaderOverlay} />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
 
