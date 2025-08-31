@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CafeoreLogo from "./CafeoreLogo";
 import HamburgerMenu from "./HamburgerMenu";
-import "../assets/css/header.css";
+import ".css";
 
 export default function InteractiveHeader({ isOverlay = true }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,12 +23,13 @@ export default function InteractiveHeader({ isOverlay = true }) {
     };
   }, [isMenuOpen]);
 
+  const handleMobileMenuClick = () => setIsMenuOpen(false);
+
   return (
     <>
+      <style dangerouslySetInnerHTML={{ __html: headerStyles }} />
       <header
-        className={`header ${isMenuOpen ? "expanded" : ""} ${
-          isOverlay ? "is-overlay" : "is-static"
-        }`}
+        className={`header ${isMenuOpen ? "expanded" : ""} ${isOverlay ? "is-overlay" : "is-static"}`}
       >
         <div className="header-row">
           <div className="header-left">
@@ -70,7 +71,7 @@ export default function InteractiveHeader({ isOverlay = true }) {
               <a
                 href={`/${item}`}
                 className="mobile-menu-link"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={handleMobileMenuClick}
               >
                 {item.toUpperCase()}
               </a>
