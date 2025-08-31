@@ -30,7 +30,7 @@ const formatDate = (dateString: string) => {
         <h1 class="article-title">{title}</h1>
         <p class="published-date">{formatDate(publishedAt)}</p>
       </div>
-      {thumbnail && <img src={thumbnail.url} />}
+      {thumbnail && <img src={thumbnail.url} alt={title} />}
       <div class="article-content" set:html={content} />
     </div>
   </main>
