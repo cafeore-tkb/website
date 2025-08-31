@@ -1,6 +1,7 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
+
 export async function getStaticPaths() {
   const articles = await getAllArticles();
   return articles.contents.map((article) => ({ params: { id: article.id } }));
@@ -11,12 +12,15 @@ const article = await getArticleById(id);
 
 const { publishedAt, updatedAt, title, content, thumbnail } = article;
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Tokyo",
-  });
+  const date = new Date(dateString);
+  return date
+    .toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "Asia/Tokyo",
+    })
+    .replace(/\//g, "/");
 };
 ---
 
@@ -98,7 +102,7 @@ const formatDate = (dateString: string) => {
 
   .title-date p {
     /* position: absolute;
-     を削除 */
+    を削除 */
     margin: 0;
     color: #64a19e;
     font-size: 0.9rem;
