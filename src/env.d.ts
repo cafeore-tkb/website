@@ -12,3 +12,9 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module "*.svg?react" {
+  import type { FunctionComponent, SVGProps } from "react";
+  const content: FunctionComponent<SVGProps<SVGSVGElement>>;
+  export default content;
+}
