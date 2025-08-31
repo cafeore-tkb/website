@@ -1,9 +1,3 @@
-:root {
-  --primary-color: var(--header-text-color, #006367);
-  --primary-hover: #004d4f;
-  --transition: 0.3s ease;
-}
-
 .header {
   font-family: "Helvetica Neue", Arial, sans-serif;
   top: 0;
@@ -135,11 +129,11 @@
 }
 
 @media (max-width: 768px) {
-  .mobile-only {
-    display: flex !important;
+  .header .mobile-only {
+    display: flex;
   }
-  .desktop-nav {
-    display: none !important;
+  .header .desktop-nav {
+    display: none;
   }
   .logo-svg {
     padding-top: 0rem;
@@ -151,7 +145,7 @@
 }
 
 @media (min-width: 769px) {
-  .mobile-only {
-    display: none !important;
+  .header .mobile-only {
+    display: none;
   }
 }
