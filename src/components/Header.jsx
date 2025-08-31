@@ -12,6 +12,7 @@ export default function InteractiveHeader({ isOverlay = true }) {
     const body = document.body;
     body.classList.toggle("menu-expanded", isMenuOpen);
 
+    /** @param {KeyboardEvent} e */
     const handleEsc = (e) => {
       if (e.key === "Escape") setIsMenuOpen(false);
     };
