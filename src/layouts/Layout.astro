@@ -3,13 +3,12 @@ import Header from "../components/Header.jsx";
 
 export interface Props {
   title: string;
-  isHeaderOverlay?: boolean; 
-  	textColor?: string;
-
+  isHeaderOverlay?: boolean;
+  textColor?: string;
 }
 
 // デフォルトは true (ヘッダーが重なる) に設定
-const { title, isHeaderOverlay = true, textColor = '#006367' } = Astro.props;
+const { title, isHeaderOverlay = true, textColor = "#006367" } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,7 +24,7 @@ const { title, isHeaderOverlay = true, textColor = '#006367' } = Astro.props;
   <body>
     <Header client:load isOverlay={isHeaderOverlay} />
 
-    <main class:list={[{ "with-overlay-header": isHeaderOverlay }]}>
+    <main>
       <slot />
     </main>
   </body>
@@ -37,10 +36,5 @@ const { title, isHeaderOverlay = true, textColor = '#006367' } = Astro.props;
     width: 100%;
     height: 100%;
     background-color: #f9f8f6;
-  }
-
-  /* isHeaderOverlayがtrueの時だけ、mainタグにpadding-topを追加 */
-  main.with-overlay-header {
-    padding-top: 8rem; /* ヘッダーの高さに応じて調整 */
   }
 </style>
