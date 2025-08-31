@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CafeoreLogo from "./CafeoreLogo";
 import HamburgerMenu from "./HamburgerMenu";
-import "../assets/css/header.css";
+import "./Header.css";
 
 export default function InteractiveHeader({ isOverlay = true }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

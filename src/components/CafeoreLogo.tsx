@@ -1,4 +1,4 @@
-export default function CafeoreLogo({ className }) {
+export default function CafeoreLogo({ className = "" }) {
   return (
     <svg
       viewBox="0 0 218 68"
