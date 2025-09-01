@@ -16,7 +16,7 @@ const { publishedAt, updatedAt, title, content, thumbnail } = article;
     <h1>{title}</h1>
     <p>publishedAt: {publishedAt}</p>
     <p>updatedAt: {updatedAt}</p>
-    {thumbnail && <img src={thumbnail.url} />}
+    {thumbnail && <img src={thumbnail.url} alt={title} />}
     <div class="article-content" set:html={content} />
   </main>
 </Layout>
