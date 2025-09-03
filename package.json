@@ -15,12 +15,18 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/cloudflare": "^12.6.5",
+    "@astrojs/cloudflare": "^12.6.7",
+    "@astrojs/react": "^4.3.0",
     "@astrojs/ts-plugin": "^1.10.4",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "astro": "^5.13.3",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "typescript": "^5.9.2"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^24.3.0",
     "@typescript-eslint/parser": "^8.41.0",
     "eslint": "^9.34.0",
@@ -28,6 +34,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
+    "satori": "^0.18.1",
     "wrangler": "^4.32.0"
   }
 }
