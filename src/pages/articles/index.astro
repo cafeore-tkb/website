@@ -1,6 +1,8 @@
 ---
 import { getAllArticles } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
+import CafeoreLogo from "../../assets/logo.svg";
+import HamburgerMenu from "../../assets/hamburger_menu.svg";
 
 const articles = await getAllArticles();
 ---
@@ -17,6 +19,8 @@ const articles = await getAllArticles();
       ))
     }
   </ul>
+  <CafeoreLogo />
+  <HamburgerMenu />
 </Layout>
 
 <style>
@@ -24,5 +28,9 @@ const articles = await getAllArticles();
   .article-link {
     color: green;
     font-size: 2rem;
+  }
+
+  svg {
+    color: #006367;
   }
 </style>
