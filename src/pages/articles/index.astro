@@ -8,19 +8,10 @@ const articles = await getAllArticles();
 ---
 
 <Layout>
-  <ul>
-    {
-      articles.contents.map((article) => (
-        <li>
-          <a class="article-link" href={`/articles/${article.id}`}>
-            {article.title}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-  <CafeoreLogo />
-  <HamburgerMenu />
+  <CafeoreLogo fill="currentColor" />
+  <CafeoreLogo fill="ab2034" />
+  <CafeoreLogo fill="" />
+  <CafeoreLogo fill="" stroke="" />
 </Layout>
 
 <style>
