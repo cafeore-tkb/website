@@ -1,17 +1,22 @@
 ---
 import { getAllArticles } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
-import CafeoreLogo from "../../assets/logo.svg";
-import HamburgerMenu from "../../assets/hamburger_menu.svg";
 
 const articles = await getAllArticles();
 ---
 
 <Layout>
-  <CafeoreLogo fill="currentColor" />
-  <CafeoreLogo fill="ab2034" />
-  <CafeoreLogo fill="" />
-  <CafeoreLogo fill="" stroke="" />
+  <ul>
+    {
+      articles.contents.map((article) => (
+        <li>
+          <a class="article-link" href={`/articles/${article.id}`}>
+            {article.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </Layout>
 
 <style>
