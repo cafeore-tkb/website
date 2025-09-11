@@ -22,8 +22,8 @@ const formatDate = (dateString: string) => {
 <Layout>
   <main>
     <h1>{title}</h1>
-    <p>publishedAt: {publishedAt}</p>
-    <p>updatedAt: {updatedAt}</p>
+    <p class="published-date">{formatDate(publishedAt)}</p>
+
     {thumbnail && <img src={thumbnail.url} alt={title} />}
     <div class="article-content" set:html={content} />
   </main>
