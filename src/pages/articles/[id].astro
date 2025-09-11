@@ -47,29 +47,6 @@ const formatDate = (dateString: string) => {
   }
   h1 {
     color: #006367;
-    font-family: "Hiragino ";
-  }
-  .article-content {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #006367;
-      font-family: Serif;
-    }
-    .published-date {
-      color: #006367;
-    }
-    /* content内の画像にスタイルを適用 */
-    img {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      display: block;
-      margin: 1rem 0;
-    }
   }
   /* サムネイル画像のレスポンシブ対応 */
   img {
@@ -98,5 +75,26 @@ const formatDate = (dateString: string) => {
     white-space: nowrap;
     flex-shrink: 0;
     margin-bottom: 0.4rem;
+  }
+  .article-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #006367;
+    }
+    .published-date {
+      color: #006367;
+    }
+    /* content内の画像にスタイルを適用 */
+    img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display: block;
+      margin: 1rem 0;
+    }
   }
 </style>
