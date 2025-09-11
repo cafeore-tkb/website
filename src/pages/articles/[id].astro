@@ -21,12 +21,25 @@ const formatDate = (dateString: string) => {
 
 <Layout>
   <main>
-    <h1>{title}</h1>
-    <p class="published-date">{formatDate(publishedAt)}</p>
+    <div class="article-container">
+      <h1>{title}</h1>
+      <p class="published-date">{formatDate(publishedAt)}</p>
 
-    {thumbnail && <img src={thumbnail.url} alt={title} />}
-    <div class="article-content" set:html={content} />
+      {thumbnail && <img src={thumbnail.url} alt={title} />}
+      <div class="article-content" set:html={content} />
+    </div>
   </main>
 </Layout>
 
-<style></style>
+<style>
+  .article-container {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 1rem;
+    @media (min-width: 768px) {
+      max-width: 40%;
+      padding: 0 2rem;
+    }
+  }
+</style>
