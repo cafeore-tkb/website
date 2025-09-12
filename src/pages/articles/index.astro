@@ -1,6 +1,7 @@
 ---
-import { getAllArticles } from "../../apis/articles";
+import { getAllArticles, type Article } from "../../apis/articles";
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 
 const articles = await getAllArticles();
 ---
@@ -8,11 +9,21 @@ const articles = await getAllArticles();
 <Layout>
   <ul>
     {
-      articles.contents.map((article) => (
+      articles.contents.map((article: Article) => (
         <li>
-          <a class="article-link" href={`/articles/${article.id}`}>
-            {article.title}
-          </a>
+          <div class="article-card">
+            <a class="article-link" href={`/articles/${article.id}`}>
+              {article.title}
+            </a>
+            <Image
+              src={
+                article.thumbnail?.url ?? "https://picsum.photos/id/1/200/300"
+              }
+              width={100}
+              height={100}
+              alt="thumbnail of article"
+            />
+          </div>
         </li>
       ))
     }
