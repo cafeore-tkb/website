@@ -16,9 +16,14 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^12.6.8",
+    "@astrojs/react": "^4.3.1",
     "@astrojs/ts-plugin": "^1.10.4",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
     "astro": "^5.13.7",
     "normalize.css": "^8.0.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "typescript": "^5.9.2"
   },
   "devDependencies": {
