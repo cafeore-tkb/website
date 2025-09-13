@@ -1,6 +1,7 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import ArticleBody from "../../components/ArticleBody.astro";
+import SideBanners from "../../components/SideBanners.astro";
 import MainSideLayout from "../../layouts/MainSideLayout.astro";
 
 export async function getStaticPaths() {
@@ -32,7 +33,9 @@ const formatDate = (date: Date) => {
       <ArticleBody htmlContent={content} />
     </div>
   </Fragment>
-  <Fragment slot="aside"></Fragment>
+  <Fragment slot="aside">
+    <SideBanners />
+  </Fragment>
 </MainSideLayout>
 
 <style>
