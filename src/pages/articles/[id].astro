@@ -1,5 +1,6 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
+import ArticleBody from "../../components/ArticleBody.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -26,7 +27,7 @@ const formatDate = (dateString: string) => {
       <p class="published-date">{formatDate(publishedAt)}</p>
 
       {thumbnail && <img src={thumbnail.url} alt={title} />}
-      <div class="article-content" set:html={content} />
+      <ArticleBody htmlContent={content} />
     </div>
   </main>
 </Layout>
@@ -74,26 +75,5 @@ const formatDate = (dateString: string) => {
     white-space: nowrap;
     flex-shrink: 0;
     margin-bottom: 0.4rem;
-  }
-  .article-content {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #006367;
-    }
-    .published-date {
-      color: #006367;
-    }
-    /* content内の画像にスタイルを適用 */
-    img {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      display: block;
-      margin: 1rem 0;
-    }
   }
 </style>
