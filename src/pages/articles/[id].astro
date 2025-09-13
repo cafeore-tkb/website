@@ -9,23 +9,91 @@ export async function getStaticPaths() {
 const { id } = Astro.params;
 const article = await getArticleById(id);
 const { publishedAt, updatedAt, title, content, thumbnail } = article;
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Tokyo",
+  });
+};
 ---
 
 <Layout>
   <main>
-    <h1>{title}</h1>
-    <p>publishedAt: {publishedAt}</p>
-    <p>updatedAt: {updatedAt}</p>
-    {thumbnail && <img src={thumbnail.url} alt={title} />}
-    <div class="article-content" set:html={content} />
+    <div class="article-container">
+      <h1>{title}</h1>
+      <p class="published-date">{formatDate(publishedAt)}</p>
+
+      {thumbnail && <img src={thumbnail.url} alt={title} />}
+      <div class="article-content" set:html={content} />
+    </div>
   </main>
 </Layout>
 
 <style>
+  main {
+  }
+  .article-container {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 1rem;
+    @media (min-width: 768px) {
+      max-width: 40%;
+      padding: 0 2rem;
+    }
+  }
+  h1 {
+    color: #006367;
+  }
+  /* サムネイル画像のレスポンシブ対応 */
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .title-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .title-date h1 {
+    margin: 0;
+    margin-bottom: 0;
+  }
+
+  .title-date p {
+    margin: 0;
+    color: #64a19e;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-bottom: 0.4rem;
+  }
   .article-content {
-    /* TODO: Add styles for article contents */
-    h2 {
-      color: red;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #006367;
+    }
+    .published-date {
+      color: #006367;
+    }
+    /* content内の画像にスタイルを適用 */
+    img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display: block;
+      margin: 1rem 0;
     }
   }
 </style>
