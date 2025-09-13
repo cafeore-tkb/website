@@ -10,8 +10,9 @@ export async function getStaticPaths() {
 const { id } = Astro.params;
 const article = await getArticleById(id);
 const { publishedAt, updatedAt, title, content, thumbnail } = article;
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("ja-JP", {
+const publishedDate = new Date(publishedAt);
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("ja-JP", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -24,8 +25,9 @@ const formatDate = (dateString: string) => {
   <main>
     <div class="article-container">
       <h1 class="article-title">{title}</h1>
-      <p class="published-date">{formatDate(publishedAt)}</p>
-
+      <time class="published-date" datetime={publishedDate.toISOString()}>
+        {formatDate(publishedDate)}
+      </time>
       {thumbnail && <img class="thumbnail" src={thumbnail.url} alt={title} />}
       <ArticleBody htmlContent={content} />
     </div>
@@ -42,6 +44,10 @@ const formatDate = (dateString: string) => {
   }
   .article-title {
     color: #006367;
+  }
+  .published-date {
+    display: block;
+    margin-block: 1rem;
   }
   .thumbnail {
     width: 100%;
