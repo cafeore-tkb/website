@@ -1,5 +1,5 @@
 import { useState, type FunctionComponent, type ReactNode } from "react";
-import "./Header.css";
+import styles from "./Header.module.css";
 
 export interface HeaderProps {
   children: ReactNode;
@@ -8,36 +8,36 @@ export interface HeaderProps {
 export const Header: FunctionComponent<HeaderProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="header">
-      <a className="top-link" href="/">
+    <header className={styles.header}>
+      <a className={styles.topLink} href="/">
         {children}
       </a>
       <button
-        className="button"
+        className={styles.button}
         type="button"
         onClick={() => setOpen((o) => !o)}
       >
         {children}
       </button>
-      <nav className={`navigation ${open ? "open" : ""}`}>
-        <ul className="link-list">
-          <li className="link-item">
-            <a className="link top" href="/">
+      <nav className={`${styles.navigation} ${open ? styles.open : ""}`}>
+        <ul className={styles.linkList}>
+          <li className={styles.linkItem}>
+            <a className={`${styles.link} ${styles.top}`} href="/">
               TOP
             </a>
           </li>
-          <li className="link-item">
-            <a className="link" href="/about">
+          <li className={styles.linkItem}>
+            <a className={styles.link} href="/about">
               ABOUT
             </a>
           </li>
-          <li className="link-item">
-            <a className="link" href="/articles">
+          <li className={styles.linkItem}>
+            <a className={styles.link} href="/articles">
               NEWS
             </a>
           </li>
-          <li className="link-item">
-            <a className="link" href="/links">
+          <li className={styles.linkItem}>
+            <a className={styles.link} href="/links">
               LINKS
             </a>
           </li>

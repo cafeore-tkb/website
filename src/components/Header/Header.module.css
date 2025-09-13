@@ -6,7 +6,7 @@
   height: 70px;
   background-color: rgb(30, 13, 1);
 }
-.top-link {
+.topLink {
   display: block;
   height: 100%;
   margin-inline-start: 16px;
@@ -19,7 +19,7 @@
   width: 100%;
   height: fit-content;
 }
-.link-list {
+.linkList {
   padding-inline: 16px;
   margin-inline-start: auto;
   margin-block: 0;
@@ -29,7 +29,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.link-item {
+.linkItem {
   display: inline-block;
   height: 100%;
   list-style: none;
@@ -59,7 +59,7 @@
     flex-direction: column;
     padding: 4px;
   }
-  .top-link {
+  .topLink {
     display: none;
   }
   .button {
@@ -79,7 +79,7 @@
   .navigation.open {
     max-height: 50px;
   }
-  .link-list {
+  .linkList {
     padding: 0;
     margin-block: 8px;
     margin-inline: auto;
