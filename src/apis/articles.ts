@@ -1,4 +1,5 @@
 import { fetchWithAuth } from "./api-base";
+import type { MicroCMSImage } from "./type";
 
 export interface Article {
   id: string;
@@ -7,11 +8,7 @@ export interface Article {
   publishedAt: string;
   revisedAt: string;
   title: string;
-  thumbnail: {
-    url: string;
-    height: number;
-    width: number;
-  };
+  thumbnail: MicroCMSImage;
   content: string;
 }
 
