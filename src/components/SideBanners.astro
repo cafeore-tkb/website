@@ -1,0 +1,44 @@
+---
+import { getSideBanner } from "../apis/side-banner";
+import Banner from "./Banner.astro";
+
+const sideBanner = await getSideBanner();
+---
+
+<div class="side-banners">
+  {
+    sideBanner.banners.map((banner) => (
+      <div class="banner">
+        <Banner banner={banner} />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  :root {
+    --side-banner-gap: 30px;
+    --side-banner-mrg: 20px;
+  }
+  /* 980px < width */
+  .side-banners {
+    display: flex;
+    flex-direction: column;
+    gap: var(--side-banner-gap);
+  }
+  .banner {
+    width: 100%;
+  }
+  /* width <= 980px */
+  @media (max-width: 980px) {
+    .side-banners {
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-block: var(--side-banner-mrg);
+      margin-inline: var(--side-banner-mrg);
+    }
+    .banner {
+      width: calc((100% - var(--side-banner-gap)) / 2);
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import type { Banner } from "../apis/side-banner";
+export interface Props {
+  banner: Banner;
+}
+
+const { banner } = Astro.props;
+const { href, externalLink, image, alt } = banner;
+---
+
+{
+  href ? (
+    <a class="banner-link" href={href} target={externalLink ? "_blank" : null}>
+      <img
+        class="banner-img"
+        src={image.url}
+        alt={alt}
+        width={image.width}
+        height={image.height}
+      />
+    </a>
+  ) : (
+    <img
+      class="banner-img"
+      src={image.url}
+      alt={alt}
+      width={image.width}
+      height={image.height}
+    />
+  )
+}
+
+<style>
+  .banner-link {
+    cursor: pointer;
+  }
+  .banner-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+  }
+</style>
