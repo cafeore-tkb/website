@@ -1,7 +1,7 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import ArticleBody from "../../components/ArticleBody.astro";
-import Layout from "../../layouts/Layout.astro";
+import MainSideLayout from "../../layouts/MainSideLayout.astro";
 
 export async function getStaticPaths() {
   const articles = await getAllArticles();
@@ -21,8 +21,8 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<Layout title={title}>
-  <main>
+<MainSideLayout title={title}>
+  <Fragment slot="main">
     <div class="article-container">
       <h1 class="article-title">{title}</h1>
       <time class="published-date" datetime={publishedDate.toISOString()}>
@@ -31,17 +31,11 @@ const formatDate = (date: Date) => {
       {thumbnail && <img class="thumbnail" src={thumbnail.url} alt={title} />}
       <ArticleBody htmlContent={content} />
     </div>
-  </main>
-</Layout>
+  </Fragment>
+  <Fragment slot="aside"></Fragment>
+</MainSideLayout>
 
 <style>
-  .article-container {
-    width: 620px;
-    margin-inline: auto;
-    @media (max-width: 620px) {
-      width: 100%;
-    }
-  }
   .article-title {
     color: #006367;
   }
