@@ -1,18 +1,15 @@
 ---
 import InstagramIcon from "../assets/icon-instagram.svg";
 import XIcon from "../assets/icon-x.svg";
+import { INSTAGRAM_URL, X_URL } from "../consts.ts";
 ---
 
 <footer class="footer">
   <div class="sns-icons-container">
-    <a
-      class="sns-icon"
-      href="https://www.instagram.com/cafeore_tkb"
-      target="_blank"
-    >
+    <a class="sns-icon" href={INSTAGRAM_URL} target="_blank">
       <InstagramIcon fill="var(--gray)" />
     </a>
-    <a class="sns-icon" href="https://x.com/cafeore_tkb" target="_blank">
+    <a class="sns-icon" href={X_URL} target="_blank">
       <XIcon fill="var(--gray)" />
     </a>
   </div>
@@ -22,7 +19,6 @@ import XIcon from "../assets/icon-x.svg";
 <style>
   .footer {
     height: 60px;
-    /* background: linear-gradient(0deg, oklch(23.4% 0.15 272.94), var(--ivory)); */
     color: var(--gray);
     text-align: center;
     margin-block-start: 60px;
