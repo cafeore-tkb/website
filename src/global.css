@@ -1,7 +1,8 @@
 @import "normalize.css" layer(reset);
+@import "color-tokens.css" layer(tokens);
 
 html,
 body {
-  background-color: #f9f8f6;
+  background-color: var(--ivory);
   font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP";
 }
