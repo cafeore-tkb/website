@@ -33,11 +33,15 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
       <li class="link-item">
         <a class="link" href="/articles"> NEWS </a>
       </li>
-      <li class="link-item sns">
-        <a class="link sns" href={INSTAGRAM_URL} target="_blank">
+    </ul>
+    <ul class="sns-list">
+      <li>
+        <a class="sns" href={INSTAGRAM_URL} target="_blank">
           <InstagramIcon class="sns-icon" fill="var(--dark-gray)" />
         </a>
-        <a class="link sns" href={X_URL} target="_blank">
+      </li>
+      <li>
+        <a class="sns" href={X_URL} target="_blank">
           <XIcon class="sns-icon" fill="var(--dark-gray)" />
         </a>
       </li>
@@ -81,31 +85,27 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     display: none;
   }
   .navigation {
-    display: block;
+    display: flex;
     width: 100%;
     height: fit-content;
+    justify-content: end;
+    align-items: center;
   }
   .link-list {
     padding-inline: 16px;
-    padding-inline-end: 40px;
+    padding-inline-end: 8px;
     margin-inline-start: auto;
     margin-block: 0;
-    max-width: 320px;
     height: 100%;
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
+    border-inline-end: 1px solid var(--gray);
   }
   .link-item {
     display: inline-block;
     height: 100%;
     list-style: none;
-  }
-  .link-item.sns {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
   }
   .link {
     display: inline-block;
@@ -119,13 +119,25 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     letter-spacing: 2px;
     font-weight: bold;
   }
-  .link.sns {
+  .sns-list {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    list-style: none;
+    padding-inline: 16px;
+  }
+  .sns {
+    display: inline-block;
     line-height: inherit;
-    padding-inline: 8px;
+    padding: 16px;
     height: fit-content;
     transition: transform 0.3s ease;
   }
-  .link.sns:hover {
+  .sns:hover {
     transform: scale(1.1);
   }
   .sns-icon {
@@ -162,15 +174,17 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
       transition-property: max-height;
       transition-duration: 0.3s;
       overflow: hidden;
+      flex-direction: column;
     }
     .navigation.open {
-      max-height: 60px;
+      max-height: 120px;
     }
     .link-list {
       padding: 0;
       margin-block: 8px;
       margin-inline: auto;
       align-items: center;
+      border: 0;
     }
     .link {
       line-height: inherit;
@@ -190,6 +204,10 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     }
     .link.top {
       display: inline-block;
+    }
+    .sns-list {
+      padding-inline-end: 0;
+      gap: 16px;
     }
     .sns-icon {
       opacity: 0.85;
