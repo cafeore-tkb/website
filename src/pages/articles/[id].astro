@@ -1,6 +1,6 @@
 ---
 import { getAllArticles, getArticleById } from "../../apis/articles";
-import ArticleBody from "../../components/ArticleBody.astro";
+import Article from "../../components/Article.astro";
 import SideBanners from "../../components/SideBanners.astro";
 import MainSideLayout from "../../layouts/MainSideLayout.astro";
 
@@ -10,45 +10,13 @@ export async function getStaticPaths() {
 }
 const { id } = Astro.params;
 const article = await getArticleById(id);
-const { publishedAt, updatedAt, title, content, thumbnail } = article;
-const publishedDate = new Date(publishedAt);
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Tokyo",
-  });
-};
 ---
 
-<MainSideLayout title={title}>
+<MainSideLayout title={article.title}>
   <Fragment slot="main">
-    <div class="article-container">
-      <h1 class="article-title">{title}</h1>
-      <time class="published-date" datetime={publishedDate.toISOString()}>
-        {formatDate(publishedDate)}
-      </time>
-      {thumbnail && <img class="thumbnail" src={thumbnail.url} alt={title} />}
-      <ArticleBody htmlContent={content} />
-    </div>
+    <Article article={article} />
   </Fragment>
   <Fragment slot="aside">
     <SideBanners />
   </Fragment>
 </MainSideLayout>
-
-<style>
-  .article-title {
-    color: #006367;
-  }
-  .published-date {
-    display: block;
-    margin-block: 1rem;
-  }
-  .thumbnail {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-  }
-</style>
