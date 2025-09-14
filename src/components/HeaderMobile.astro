@@ -1,0 +1,166 @@
+---
+import Logo from "../assets/logo_name_cafeore.svg";
+import InstagramIcon from "../assets/icon-instagram.svg";
+import XIcon from "../assets/icon-x.svg";
+import { INSTAGRAM_URL, X_URL } from "../consts.ts";
+---
+
+<header class="header">
+  <div class="header-top">
+    <button id="mobile-button" class="button" type="button">
+      <Logo
+        class="logo"
+        fill="var(--cafeore-brown)"
+        role="img"
+        aria-label="珈琲・俺（かふぇおれ）"
+      />
+    </button>
+    <ul class="sns-list">
+      <li>
+        <a class="sns-link" href={INSTAGRAM_URL} target="_blank">
+          <InstagramIcon
+            role="img"
+            aria-label="Instagram"
+            class="sns-icon"
+            fill="var(--dark-gray)"
+          />
+        </a>
+      </li>
+      <li>
+        <a class="sns-link" href={X_URL} target="_blank">
+          <XIcon
+            role="img"
+            aria-label="X"
+            class="sns-icon"
+            fill="var(--dark-gray)"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+  <nav id="nav" class="navigation">
+    <ul class="link-list">
+      <li class="link-item">
+        <a class="link top" href="/"> TOP </a>
+      </li>
+      <li class="link-item">
+        <a class="link" href="/about"> ABOUT </a>
+      </li>
+      <li class="link-item">
+        <a class="link" href="/articles"> NEWS </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const button = document.getElementById("mobile-button");
+  const navigation = document.getElementById("nav");
+
+  button?.addEventListener("click", () => {
+    navigation?.classList.toggle("open");
+  });
+</script>
+
+<style>
+  .logo {
+    width: auto;
+    height: 100%;
+  }
+  .header {
+    display: none;
+  }
+  .header {
+    height: fit-content;
+    flex-direction: column;
+    padding: 4px;
+    position: sticky;
+    top: 0;
+    background-color: rgba(var(--ivory-rgb), 0.8);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline-start: 8px;
+    padding-inline-end: 16px;
+  }
+  .button {
+    display: inline-block;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    margin-block: 8px;
+    height: 50px;
+  }
+  .navigation {
+    max-height: 0;
+    transition-property: max-height;
+    transition-duration: 0.3s;
+    overflow-y: hidden;
+    flex-direction: column;
+    margin-inline: 24px;
+  }
+  .navigation.open {
+    max-height: 200px;
+  }
+  .link-list {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+  }
+  .link-item {
+    width: 100%;
+  }
+  .link {
+    display: block;
+    width: 100%;
+    height: 50px;
+    text-decoration: none;
+    line-height: 50px;
+    font-size: 1.1rem;
+    color: black;
+    letter-spacing: 2px;
+    font-weight: bold;
+    border-block-start: 1px solid rgba(var(--gray-rgb), 0.5);
+  }
+  .link-item + .link-item {
+  }
+  .link:hover {
+    text-decoration: none;
+  }
+  .link:active {
+    background-color: rgba(var(--gray-rgb), 0.2);
+  }
+  .link.top {
+    display: inline-block;
+  }
+  .sns-list {
+    display: inline-flex;
+    padding: 0;
+    padding-inline-end: 0;
+    margin: 0;
+    gap: 24px;
+    list-style: none;
+  }
+  .sns-link {
+    display: inline-block;
+  }
+  .sns-icon {
+    width: 30px;
+    height: 30px;
+    opacity: 0.85;
+  }
+  @media (max-width: 620px) {
+    .header {
+      display: flex;
+    }
+  }
+</style>
