@@ -99,8 +99,11 @@
     line-height: 1.5rem;
     border-radius: 1rem;
   }
+  .link:hover {
+    text-decoration: none;
+  }
   .link:active {
-    background-color: red;
+    background-color: rgba(var(--gray-rgb), 0.2);
   }
   .link.top {
     display: inline-block;
