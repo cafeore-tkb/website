@@ -4,7 +4,11 @@
   align-items: center;
   justify-content: space-between;
   height: 70px;
-  background-color: var(--cafeore-brown);
+  position: sticky;
+  top: 0;
+  background-color: rgba(var(--ivory-rgb), 0.8);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .topLink {
   display: block;
@@ -43,7 +47,7 @@
   line-height: 50px;
   font-size: 1.1rem;
   font-family: "Helvetica Neue"; /* Needs review for variation of OS */
-  color: white;
+  color: black;
 }
 .link.top {
   display: none;
@@ -87,7 +91,7 @@
   .link {
     line-height: inherit;
     height: fit-content;
-    background-color: white;
+    background-color: transparent;
     color: black;
     font-size: 1rem;
     padding-inline: 0.8rem;
