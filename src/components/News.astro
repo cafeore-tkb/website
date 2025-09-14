@@ -1,0 +1,52 @@
+---
+import { getAllArticles } from "../apis/articles";
+import ArticleCard from "./ArticleCard.astro";
+
+const articles = await getAllArticles();
+---
+
+<div class="container">
+  <h1 class="news-title">NEWS</h1>
+  <ul class="news-list">
+    {
+      articles.contents.map((article) => (
+        <li class="news-item">
+          <ArticleCard article={article} />
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .container {
+    padding-inline: 1rem;
+  }
+  .news-title {
+    color: var(--cafeore-brown);
+    font-size: 1.8rem;
+    margin-block: 2rem;
+  }
+  .news-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .news-item {
+    width: calc((620px - 2rem - 20px) / 2);
+    margin-block-end: 40px;
+  }
+  @media (max-width: 620px) {
+    .news-list {
+      flex-direction: column;
+      align-items: center;
+    }
+    .news-item {
+      width: 85%;
+      margin-block-end: 15px;
+    }
+  }
+</style>
