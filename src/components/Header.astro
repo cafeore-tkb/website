@@ -3,6 +3,8 @@ import Logo from "../assets/logo_name_cafeore.svg";
 import InstagramIcon from "../assets/icon-instagram.svg";
 import XIcon from "../assets/icon-x.svg";
 import { INSTAGRAM_URL, X_URL } from "../consts.ts";
+
+import HeaderMobile from "./HeaderMobile.astro";
 ---
 
 <header class="header">
@@ -14,19 +16,8 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
       aria-label="珈琲・俺（かふぇおれ）"
     />
   </a>
-  <button id="mobile-button" class="button" type="button">
-    <Logo
-      class="logo"
-      fill="var(--cafeore-brown)"
-      role="img"
-      aria-label="珈琲・俺（かふぇおれ）"
-    />
-  </button>
-  <nav id="nav" class="navigation">
+  <nav class="navigation">
     <ul class="link-list">
-      <li class="link-item">
-        <a class="link top" href="/"> TOP </a>
-      </li>
       <li class="link-item">
         <a class="link" href="/about"> ABOUT </a>
       </li>
@@ -58,15 +49,7 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     </ul>
   </nav>
 </header>
-
-<script>
-  const button = document.getElementById("mobile-button");
-  const navigation = document.getElementById("nav");
-
-  button?.addEventListener("click", () => {
-    navigation?.classList.toggle("open");
-  });
-</script>
+<HeaderMobile />
 
 <style>
   .logo {
@@ -85,11 +68,6 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     backdrop-filter: blur(30px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 10;
-  }
-  .top-link {
-    display: block;
-    height: 100%;
-    margin-inline-start: 16px;
   }
   .button {
     display: none;
@@ -111,11 +89,11 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     flex-direction: row;
     justify-content: space-between;
     border-inline-end: 1px solid var(--gray);
+    list-style: none;
   }
   .link-item {
     display: inline-block;
     height: 100%;
-    list-style: none;
   }
   .link {
     display: inline-block;
@@ -154,73 +132,13 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     width: 28px;
     height: 28px;
   }
-  .link.top {
-    display: none;
-  }
   .link:hover {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
-
   @media (max-width: 620px) {
     .header {
-      height: fit-content;
-      flex-direction: column;
-      padding: 4px;
-    }
-    .top-link {
       display: none;
-    }
-    .button {
-      display: block;
-      cursor: pointer;
-      background-color: transparent;
-      border: 0;
-      margin-block: 8px;
-      height: 50px;
-    }
-    .navigation {
-      max-height: 0;
-      transition-property: max-height;
-      transition-duration: 0.3s;
-      overflow: hidden;
-      flex-direction: column;
-    }
-    .navigation.open {
-      max-height: 120px;
-    }
-    .link-list {
-      padding: 0;
-      margin-block: 8px;
-      margin-inline: auto;
-      align-items: center;
-      border: 0;
-    }
-    .link {
-      line-height: inherit;
-      height: fit-content;
-      background-color: transparent;
-      color: black;
-      font-size: 1rem;
-      padding-inline: 0.8rem;
-      line-height: 1.5rem;
-      border-radius: 1rem;
-    }
-    .link:hover {
-      text-decoration: none;
-    }
-    .link:active {
-      background-color: rgba(var(--gray-rgb), 0.2);
-    }
-    .link.top {
-      display: inline-block;
-    }
-    .sns-list {
-      padding-inline-end: 0;
-      gap: 16px;
-    }
-    .sns-icon {
-      opacity: 0.85;
     }
   }
 </style>
