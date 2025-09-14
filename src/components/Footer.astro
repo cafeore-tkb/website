@@ -1,18 +1,52 @@
+---
+import InstagramIcon from "../assets/icon-instagram.svg";
+import XIcon from "../assets/icon-x.svg";
+---
+
 <footer class="footer">
+  <div class="sns-icons-container">
+    <a
+      class="sns-icon"
+      href="https://www.instagram.com/cafeore_tkb"
+      target="_blank"
+    >
+      <InstagramIcon fill="var(--gray)" />
+    </a>
+    <a class="sns-icon" href="https://x.com/cafeore_tkb" target="_blank">
+      <XIcon fill="var(--gray)" />
+    </a>
+  </div>
   <span class="copyright"> &copy; 2025 珈琲・俺 All rights reserved. </span>
 </footer>
 
 <style>
   .footer {
-    height: 200px;
-    background: linear-gradient(0deg, oklch(23.4% 0.15 272.94), var(--ivory));
-    color: white;
+    height: 60px;
+    /* background: linear-gradient(0deg, oklch(23.4% 0.15 272.94), var(--ivory)); */
+    color: var(--gray);
     text-align: center;
     margin-block-start: 60px;
+    margin-block-end: 20px;
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items: center;
+  }
+  .sns-icons-container {
+    margin-block-end: 24px;
+    gap: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sns-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease;
+  }
+  .sns-icon:hover {
+    transform: scale(1.1);
   }
   .copyright {
     font-size: 0.9rem;
