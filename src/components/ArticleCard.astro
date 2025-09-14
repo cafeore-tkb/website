@@ -1,0 +1,26 @@
+---
+import type { Article } from "../apis/articles";
+
+export interface Props {
+  article: Article;
+}
+const { article } = Astro.props;
+const { id, title, thumbnail, publishedAt } = article;
+const publishedDate = new Date(publishedAt);
+---
+
+<a class="article-card" href={`/articles/${id}`}>
+  <div class="thumbnail">
+    <img src={thumbnail.url} alt="" />
+  </div>
+  <div class="content">
+    <h2 class="title">{title}</h2>
+    <p class="published-at">{publishedDate.toLocaleDateString()}</p>
+  </div>
+</a>
+
+<style>
+  .article-card {
+    display: inline-block;
+  }
+</style>
