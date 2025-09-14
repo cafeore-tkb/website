@@ -50,20 +50,24 @@ const formatDate = (date: Date) => {
     font-size: 0.9rem;
   }
   .thumbnail-container {
-    padding-inline: 1rem;
-    padding-block-start: 3rem;
+    margin-inline: 1rem;
+    margin-block-start: 3rem;
   }
   .thumbnail {
     width: 100%;
     height: auto;
     max-width: 100%;
+    border-radius: 12px;
   }
   @media (max-width: 620px) {
     .article-title {
       font-size: 1.5rem;
     }
     .thumbnail-container {
-      padding: 0;
+      margin: 0;
+    }
+    .thumbnail {
+      border-radius: 0;
     }
   }
 </style>
