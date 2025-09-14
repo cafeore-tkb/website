@@ -12,7 +12,7 @@ const { id } = Astro.params;
 const article = await getArticleById(id);
 ---
 
-<MainSideLayout title={article.title}>
+<MainSideLayout title={article.title} ogImageUrl={article.thumbnail.url}>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>

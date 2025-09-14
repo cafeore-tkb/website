@@ -1,24 +1,30 @@
 ---
+import { CAFEORE_NAME } from "../consts";
 import "../global.css";
 export interface Props {
   title?: string;
+  ogImageUrl?: string | undefined;
 }
 
-const { title: pageTitle } = Astro.props;
-const siteTitle = "珈琲・俺";
+const { title: pageTitle, ogImageUrl } = Astro.props;
 
+const isHome = Astro.url.pathname === "/";
 // トップページならサイトタイトルだけ、そうでなければ「ページタイトル | サイトタイトル」とする
-const fullTitle =
-  Astro.url.pathname === "/" ? siteTitle : `${pageTitle} | ${siteTitle}`;
+const fullTitle = isHome ? CAFEORE_NAME : `${pageTitle} | ${CAFEORE_NAME}`;
+const ogType = isHome ? "website" : "article";
 ---
 
 <!doctype html>
 <html lang="ja">
-  <head>
+  <head prefix="og: http://ogp.me/ns#">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url.href} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <title>{fullTitle}</title>
   </head>
   <body>
