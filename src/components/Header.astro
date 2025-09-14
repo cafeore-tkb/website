@@ -1,0 +1,20 @@
+---
+import { Header as ReactHeader } from "../components/Header/Header";
+import Logo from "../assets/logo_name_cafeore.svg";
+---
+
+<ReactHeader client:load>
+  <Logo
+    class="logo"
+    fill="#fff"
+    role="img"
+    aria-label="珈琲・俺（かふぇおれ）"
+  />
+</ReactHeader>
+
+<style>
+  .logo {
+    width: auto;
+    height: 100%;
+  }
+</style>
