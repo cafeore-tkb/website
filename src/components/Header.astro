@@ -37,12 +37,22 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     <ul class="sns-list">
       <li>
         <a class="sns" href={INSTAGRAM_URL} target="_blank">
-          <InstagramIcon class="sns-icon" fill="var(--dark-gray)" />
+          <InstagramIcon
+            role="img"
+            aria-label="Instagram"
+            class="sns-icon"
+            fill="var(--dark-gray)"
+          />
         </a>
       </li>
       <li>
         <a class="sns" href={X_URL} target="_blank">
-          <XIcon class="sns-icon" fill="var(--dark-gray)" />
+          <XIcon
+            role="img"
+            aria-label="X"
+            class="sns-icon"
+            fill="var(--dark-gray)"
+          />
         </a>
       </li>
     </ul>
