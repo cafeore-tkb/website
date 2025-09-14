@@ -1,8 +1,7 @@
 ---
-import { Header } from "../components/Header/Header";
-import Logo from "../assets/logo_name_cafeore.svg";
 import Layout from "./Layout.astro";
 import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 export interface Props {
   title: string;
@@ -12,14 +11,7 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <Header client:load>
-    <Logo
-      class="logo"
-      fill="#fff"
-      role="img"
-      aria-label="珈琲・俺（かふぇおれ）"
-    />
-  </Header>
+  <Header />
   <div class="container">
     <main class="main-container">
       <slot name="main" />
@@ -32,10 +24,6 @@ const { title } = Astro.props;
 </Layout>
 
 <style>
-  .logo {
-    width: auto;
-    height: 100%;
-  }
   :root {
     --max-main-width: 620px;
     --aside-width: 300px;
