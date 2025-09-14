@@ -11,6 +11,18 @@ const { href, externalLink, image, alt } = banner;
 {
   href ? (
     <a class="banner-link" href={href} target={externalLink ? "_blank" : null}>
+      <div class="img-container">
+        <img
+          class="banner-img"
+          src={image.url}
+          alt={alt}
+          width={image.width}
+          height={image.height}
+        />
+      </div>
+    </a>
+  ) : (
+    <div class="img-container">
       <img
         class="banner-img"
         src={image.url}
@@ -18,26 +30,30 @@ const { href, externalLink, image, alt } = banner;
         width={image.width}
         height={image.height}
       />
-    </a>
-  ) : (
-    <img
-      class="banner-img"
-      src={image.url}
-      alt={alt}
-      width={image.width}
-      height={image.height}
-    />
+    </div>
   )
 }
 
 <style>
   .banner-link {
+    display: block;
     cursor: pointer;
   }
+  .img-container {
+    overflow: hidden;
+    border-radius: 16px;
+    display: inline-block;
+  }
   .banner-img {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: auto;
-    border-radius: 16px;
+    transition: transform 0.3s;
+  }
+  .banner-link:hover .banner-img {
+    transform: scale(1.05);
+  }
+  .banner-link:active .banner-img {
+    transform: scale(0.95);
   }
 </style>
