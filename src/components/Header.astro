@@ -1,5 +1,8 @@
 ---
 import Logo from "../assets/logo_name_cafeore.svg";
+import InstagramIcon from "../assets/icon-instagram.svg";
+import XIcon from "../assets/icon-x.svg";
+import { INSTAGRAM_URL, X_URL } from "../consts.ts";
 ---
 
 <header class="header">
@@ -22,13 +25,21 @@ import Logo from "../assets/logo_name_cafeore.svg";
   <nav id="nav" class="navigation">
     <ul class="link-list">
       <li class="link-item">
-        <a class="link" href="/"> TOP </a>
+        <a class="link top" href="/"> TOP </a>
       </li>
       <li class="link-item">
         <a class="link" href="/about"> ABOUT </a>
       </li>
       <li class="link-item">
         <a class="link" href="/articles"> NEWS </a>
+      </li>
+      <li class="link-item sns">
+        <a class="link sns" href={INSTAGRAM_URL} target="_blank">
+          <InstagramIcon class="sns-icon" fill="var(--dark-gray)" />
+        </a>
+        <a class="link sns" href={X_URL} target="_blank">
+          <XIcon class="sns-icon" fill="var(--dark-gray)" />
+        </a>
       </li>
     </ul>
   </nav>
@@ -76,6 +87,7 @@ import Logo from "../assets/logo_name_cafeore.svg";
   }
   .link-list {
     padding-inline: 16px;
+    padding-inline-end: 40px;
     margin-inline-start: auto;
     margin-block: 0;
     max-width: 320px;
@@ -89,6 +101,12 @@ import Logo from "../assets/logo_name_cafeore.svg";
     height: 100%;
     list-style: none;
   }
+  .link-item.sns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+  }
   .link {
     display: inline-block;
     padding-inline: 16px;
@@ -97,8 +115,22 @@ import Logo from "../assets/logo_name_cafeore.svg";
     text-decoration: none;
     line-height: 50px;
     font-size: 1.1rem;
-    font-family: "Helvetica Neue"; /* Needs review for variation of OS */
     color: black;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  .link.sns {
+    line-height: inherit;
+    padding-inline: 8px;
+    height: fit-content;
+    transition: transform 0.3s ease;
+  }
+  .link.sns:hover {
+    transform: scale(1.1);
+  }
+  .sns-icon {
+    width: 28px;
+    height: 28px;
   }
   .link.top {
     display: none;
@@ -132,12 +164,13 @@ import Logo from "../assets/logo_name_cafeore.svg";
       overflow: hidden;
     }
     .navigation.open {
-      max-height: 50px;
+      max-height: 60px;
     }
     .link-list {
       padding: 0;
       margin-block: 8px;
       margin-inline: auto;
+      align-items: center;
     }
     .link {
       line-height: inherit;
@@ -157,6 +190,9 @@ import Logo from "../assets/logo_name_cafeore.svg";
     }
     .link.top {
       display: inline-block;
+    }
+    .sns-icon {
+      opacity: 0.85;
     }
   }
 </style>
