@@ -23,13 +23,9 @@ const formatDate = (date: Date) => {
 ---
 
 <article>
-  {
-    thumbnail && (
-      <div class="thumbnail-container">
-        <img class="thumbnail" src={thumbnail.url} alt={title} />
-      </div>
-    )
-  }
+  <div class="thumbnail-container">
+    <img class="thumbnail" src={thumbnail.url} alt={title} />
+  </div>
   <div class="article-header">
     <h1 class="article-title">{title}</h1>
     <time class="published-date" datetime={publishedDate.toISOString()}>
