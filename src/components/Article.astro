@@ -1,0 +1,73 @@
+---
+import type { Article } from "../apis/articles";
+import ArticleBody from "./ArticleBody.astro";
+
+export interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const { publishedAt, title, content, thumbnail } = article;
+
+const publishedDate = new Date(publishedAt);
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Tokyo",
+  });
+};
+---
+
+<article>
+  {
+    thumbnail && (
+      <div class="thumbnail-container">
+        <img class="thumbnail" src={thumbnail.url} alt={title} />
+      </div>
+    )
+  }
+  <div class="article-header">
+    <h1 class="article-title">{title}</h1>
+    <time class="published-date" datetime={publishedDate.toISOString()}>
+      {formatDate(publishedDate)}
+    </time>
+  </div>
+  <ArticleBody htmlContent={content} />
+</article>
+
+<style>
+  .article-header {
+    padding-inline: 1rem;
+    margin-block-end: 2rem;
+  }
+  .article-title {
+    color: #006367;
+    margin-block-end: 0.5rem;
+  }
+  .published-date {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  .thumbnail-container {
+    padding-inline: 1rem;
+    padding-block-start: 3rem;
+  }
+  .thumbnail {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+  @media (max-width: 620px) {
+    .article-title {
+      font-size: 1.5rem;
+    }
+    .thumbnail-container {
+      padding: 0;
+    }
+  }
+</style>
