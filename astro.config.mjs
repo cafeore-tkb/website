@@ -14,10 +14,11 @@ export default defineConfig({
 
     imageService: "compile",
   }),
-
+  build: {
+    concurrency: 50,
+  },
   image: {
     domains: ["images.microcms-assets.io"],
   },
-
   integrations: [react()],
 });
