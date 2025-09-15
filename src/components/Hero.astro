@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import { getTopImages } from "../apis/top-images";
 import HeroMessage from "../assets/hero-message.svg";
+import { getWidthHeight } from "../utils/image-sizing";
 
 const topImages = await getTopImages();
 ---
@@ -12,10 +13,12 @@ const topImages = await getTopImages();
       class="hero-image"
       src={topImages.image.url}
       alt=""
-      width={topImages.image.width}
-      height={topImages.image.height}
       format="webp"
       quality="high"
+      {...getWidthHeight({
+        src: topImages.image,
+        maxWidth: 1920,
+      })}
     />
     <div class="image-filter"></div>
   </div>
