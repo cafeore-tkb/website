@@ -2,7 +2,7 @@
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import Article from "../../components/Article.astro";
 import SideBanners from "../../components/SideBanners.astro";
-import MainSideLayout from "../../layouts/MainSideLayout.astro";
+import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
 
 export async function getStaticPaths() {
   const articles = await getAllArticles();
@@ -12,11 +12,11 @@ const { id } = Astro.params;
 const article = await getArticleById(id);
 ---
 
-<MainSideLayout title={article.title} ogImageUrl={article.thumbnail.url}>
+<MainSideStaticLayout title={article.title} ogImageUrl={article.thumbnail.url}>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>
   <Fragment slot="aside">
     <SideBanners />
   </Fragment>
-</MainSideLayout>
+</MainSideStaticLayout>
