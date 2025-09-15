@@ -38,9 +38,10 @@ const publishedDate = new Date(publishedAt);
   .card-link {
     display: inline-block;
     width: 100%;
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
   }
+
   .thumbnail-container {
     display: inline-block;
     width: 100%;
@@ -49,26 +50,31 @@ const publishedDate = new Date(publishedAt);
     overflow: hidden;
     border-radius: 8px;
   }
+
   .thumbnail {
-    height: 100%;
     width: 100%;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
+
   .card-link:hover .thumbnail {
     transform: scale(1.07);
   }
+
   .published-date {
-    color: var(--gray);
-    font-size: 0.9rem;
-    margin-inline: 0;
     margin-block: 0.4rem;
+    margin-inline: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
   }
+
   .title {
-    font-size: 1.1rem;
     margin-block: 0;
+    font-size: 1.1rem;
     color: var(--cafeore-brown);
   }
+
   .card-link:hover .title {
     color: var(--orange);
   }

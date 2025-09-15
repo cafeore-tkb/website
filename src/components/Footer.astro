@@ -18,34 +18,37 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
 
 <style>
   .footer {
-    height: 60px;
-    color: var(--gray);
-    text-align: center;
-    margin-block-start: 60px;
-    margin-block-end: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: end;
-    align-items: center;
+    height: 60px;
+    margin-block: 60px 20px;
+    color: var(--gray);
+    text-align: center;
   }
+
   .sns-icons-container {
-    margin-block-end: 24px;
-    gap: 24px;
     display: flex;
-    justify-content: center;
+    gap: 24px;
     align-items: center;
+    justify-content: center;
+    margin-block-end: 24px;
   }
+
   .sns-icon {
     display: inline-block;
     width: 32px;
     height: 32px;
     transition: transform 0.3s ease;
   }
+
   .sns-icon:hover {
     transform: scale(1.1);
   }
+
   .copyright {
-    font-size: 0.9rem;
     margin-block-end: 20px;
+    font-size: 0.9rem;
   }
 </style>

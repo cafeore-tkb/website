@@ -20,23 +20,26 @@ const sideBanner = await getSideBanner();
     --side-banner-gap: 30px;
     --side-banner-mrg: 1rem;
   }
+
   /* 1010px < width */
   .side-banners {
     display: flex;
     flex-direction: column;
     gap: var(--side-banner-gap);
   }
+
   .banner {
     width: 100%;
   }
+
   /* width <= 1010px */
-  @media (max-width: 1010px) {
+  @media (width <= 1010px) {
     .side-banners {
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       margin-block: calc(var(--side-banner-mrg) * 5);
       margin-inline: var(--side-banner-mrg);
     }
+
     .banner {
       width: calc((100% - var(--side-banner-gap)) / 2);
     }

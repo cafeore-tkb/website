@@ -23,7 +23,8 @@ const { title, ogImageUrl } = Astro.props;
     width: var(--max-main-width);
     margin-inline: auto;
   }
-  @media (max-width: 620px) {
+
+  @media (width <= 620px) {
     .static-container {
       width: 100%;
     }
