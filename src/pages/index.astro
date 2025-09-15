@@ -1,15 +1,60 @@
 ---
+import { getAllArticles } from "../apis/articles";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const res = await getAllArticles();
+const articles = res.contents;
 ---
 
 <Layout>
   <Header />
-  <Hero />
+  <main>
+    <Hero />
+    <section class="news-section">
+      <h2 class="section-title">NEWS</h2>
+      <ul class="news-list">
+        {
+          articles.map((article) => (
+            <li class="news-item">
+              <ArticleCard article={article} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
   <Footer />
 </Layout>
+
+<style>
+  .news-section {
+    padding-inline: 1rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    color: var(--cafeore-brown);
+    margin-block: 1.5rem;
+    padding-inline: 1rem;
+  }
+  .news-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .news-item {
+    width: 100%;
+  }
+  @media (max-width: 600px) {
+    .news-list {
+      grid-template-columns: 1fr;
+      padding-inline: 1rem;
+    }
+  }
+</style>
