@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import type { Article } from "../apis/articles";
 import { formatDate } from "../utils/date";
 import ArticleBody from "./ArticleBody.astro";
+import { getWidthHeight } from "../utils/image-sizing";
 
 export interface Props {
   article: Article;
@@ -20,10 +21,12 @@ const publishedDate = new Date(publishedAt);
       class="thumbnail"
       src={thumbnail.url}
       alt=""
-      width={thumbnail.width}
-      height={thumbnail.height}
       format="webp"
       quality="high"
+      {...getWidthHeight({
+        src: thumbnail,
+        maxWidth: 1200,
+      })}
     />
   </div>
   <div class="article-header">

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { Banner } from "../apis/side-banner";
+import { getWidthHeight } from "../utils/image-sizing";
 export interface Props {
   banner: Banner;
 }
@@ -17,10 +18,12 @@ const { href, externalLink, image, alt } = banner;
           class="banner-img"
           src={image.url}
           alt={alt}
-          width={image.width}
-          height={image.height}
           format="webp"
           quality="mid"
+          {...getWidthHeight({
+            src: image,
+            maxWidth: 600,
+          })}
         />
       </div>
     </a>
@@ -30,10 +33,12 @@ const { href, externalLink, image, alt } = banner;
         class="banner-img"
         src={image.url}
         alt={alt}
-        width={image.width}
-        height={image.height}
         format="webp"
-        quality="low"
+        quality="mid"
+        {...getWidthHeight({
+          src: image,
+          maxWidth: 600,
+        })}
       />
     </div>
   )
