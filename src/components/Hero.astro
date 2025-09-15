@@ -1,0 +1,106 @@
+---
+import { getTopImages } from "../apis/top-images";
+import HeroMessage from "../assets/hero-message.svg";
+
+const topImages = await getTopImages();
+---
+
+<section class="hero">
+  <div class="image-container">
+    <img class="hero-image" src={topImages.image.url} alt="" />
+    <div class="image-filter"></div>
+  </div>
+  <div class="hero-message-container">
+    <HeroMessage
+      id="hero-message"
+      class="hero-message"
+      role="img"
+      aria-label="一口に伝統と誇りをこめて。"
+    />
+  </div>
+</section>
+
+<script>
+  const heroMessage = document.getElementById("hero-message");
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      heroMessage?.classList.add("active");
+    }, 300);
+  });
+</script>
+
+<style>
+  .hero {
+    width: 100%;
+    height: 70dvh;
+    overflow: hidden;
+    position: relative;
+  }
+  @media (max-width: 620px) {
+    .hero {
+      height: 30dvh;
+    }
+  }
+</style>
+
+<style>
+  :root {
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  .hero-message-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+  }
+  .hero-message {
+    position: relative;
+    top: 8%;
+    left: 5%;
+    width: 60%;
+    height: auto;
+    display: block;
+    opacity: 0;
+    translate: 0 10%;
+  }
+  .hero-message.active {
+    opacity: 1;
+    translate: 0;
+    transition-timing-function:
+      opacity var(--ease-out-cubic),
+      translate var(--ease-out-quint);
+    transition-duration: 1s;
+  }
+  @media (max-width: 620px) {
+    .hero-message {
+      width: 80%;
+      top: 10%;
+      left: 7%;
+    }
+  }
+</style>
+
+<style>
+  .image-container {
+    width: 100%;
+    height: 100%;
+  }
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .image-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(from var(--sepia) r g b / 0.3);
+    backdrop-filter: grayscale(30%) brightness(70%) blur(2px);
+  }
+</style>
