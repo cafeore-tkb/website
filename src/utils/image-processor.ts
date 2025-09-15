@@ -13,25 +13,33 @@ async function traverse(node: parse5.DefaultTreeAdapterTypes.Node) {
   }
 
   const src = node.attrs.find((attr) => attr.name === "src")?.value;
-  const width = node.attrs.find((attr) => attr.name === "width")?.value;
-  const height = node.attrs.find((attr) => attr.name === "height")?.value;
-  if (!src || !width || !height) return;
+  const srcWidth = node.attrs.find((attr) => attr.name === "width")?.value;
+  const srcHeight = node.attrs.find((attr) => attr.name === "height")?.value;
+  if (!src || !srcWidth || !srcHeight) return;
+
+  const imageSize = getWidthHeight({
+    src: { width: Number(srcWidth), height: Number(srcHeight) },
+    maxWidth: 1200,
+  });
 
   const image = await getImage({
     src,
     format: "webp",
     quality: "mid",
-    ...getWidthHeight({
-      src: { width: Number(width), height: Number(height) },
-      maxWidth: 1200,
-    }),
+    ...imageSize,
   });
 
-  node.attrs.forEach((attr) => {
+  for (const attr of node.attrs) {
     if (attr.name === "src") {
       attr.value = image.src;
     }
-  });
+    if (attr.name === "width") {
+      attr.value = String(imageSize.width);
+    }
+    if (attr.name === "height") {
+      attr.value = String(imageSize.height);
+    }
+  }
   node.attrs.push({ name: "loading", value: "lazy" });
   node.attrs.push({ name: "decoding", value: "async" });
 }
