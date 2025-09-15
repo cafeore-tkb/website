@@ -15,5 +15,9 @@ export default defineConfig({
     imageService: "cloudflare",
   }),
 
+  image: {
+    domains: ["images.microcms-assets.io"],
+  },
+
   integrations: [react()],
 });
