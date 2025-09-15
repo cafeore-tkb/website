@@ -6,16 +6,15 @@ import Header from "../components/Header.astro";
 export interface Props {
   title: string;
   ogImageUrl?: string;
-  mainMaxWidth?: boolean;
 }
 
-const { title, ogImageUrl, mainMaxWidth = true } = Astro.props;
+const { title, ogImageUrl } = Astro.props;
 ---
 
 <Layout title={title} ogImageUrl={ogImageUrl}>
   <Header />
   <div class="container">
-    <main class:list={["main-container", { "max-width": mainMaxWidth }]}>
+    <main class="main-container">
       <slot name="main" />
     </main>
     <aside class="aside-container">
@@ -39,10 +38,6 @@ const { title, ogImageUrl, mainMaxWidth = true } = Astro.props;
   }
   .main-container {
     width: calc(100% - var(--aside-width) - var(--main-aside-space));
-  }
-  .main-container.max-width {
-    width: var(--max-main-width);
-    margin-inline: auto;
   }
   .aside-container {
     width: var(--aside-width);
@@ -68,9 +63,6 @@ const { title, ogImageUrl, mainMaxWidth = true } = Astro.props;
   /* width <= 620px */
   @media (max-width: 620px) {
     .container {
-      width: 100%;
-    }
-    .main-container.max-width {
       width: 100%;
     }
   }
