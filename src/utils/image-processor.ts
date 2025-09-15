@@ -1,5 +1,6 @@
 import { getImage } from "astro:assets";
 import * as parse5 from "parse5";
+import { getWidthHeight } from "./image-sizing";
 
 async function traverse(node: parse5.DefaultTreeAdapterTypes.Node) {
   if (node.nodeName !== "img") {
@@ -18,10 +19,12 @@ async function traverse(node: parse5.DefaultTreeAdapterTypes.Node) {
 
   const image = await getImage({
     src,
-    width: Number(width),
-    height: Number(height),
     format: "webp",
     quality: "mid",
+    ...getWidthHeight({
+      src: { width: Number(width), height: Number(height) },
+      maxWidth: 1200,
+    }),
   });
 
   node.attrs.forEach((attr) => {
