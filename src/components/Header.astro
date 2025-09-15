@@ -1,155 +1,41 @@
 ---
-import Logo from "../assets/logo_name_cafeore.svg";
-import InstagramIcon from "../assets/icon-instagram.svg";
-import XIcon from "../assets/icon-x.svg";
-import { INSTAGRAM_URL, X_URL } from "../consts.ts";
-
-import HeaderMobile from "./HeaderMobile.astro";
+import HeaderInner from "./Header/HeaderInner.astro";
+import HeaderInnerMobile from "./Header/HeaderInnerMobile.astro";
 ---
 
 <header class="header">
-  <a class="top-link" href="/">
-    <Logo
-      class="logo"
-      fill="var(--cafeore-brown)"
-      role="img"
-      aria-label="珈琲・俺（かふぇおれ）"
-    />
-  </a>
-  <nav class="navigation">
-    <ul class="link-list">
-      <li class="link-item">
-        <a class="link" href="/about"> ABOUT </a>
-      </li>
-      <li class="link-item">
-        <a class="link" href="/articles"> NEWS </a>
-      </li>
-    </ul>
-    <ul class="sns-list">
-      <li>
-        <a class="sns" href={INSTAGRAM_URL} target="_blank">
-          <InstagramIcon
-            role="img"
-            aria-label="Instagram"
-            class="sns-icon"
-            fill="var(--dark-gray)"
-          />
-        </a>
-      </li>
-      <li>
-        <a class="sns" href={X_URL} target="_blank">
-          <XIcon
-            role="img"
-            aria-label="X"
-            class="sns-icon"
-            fill="var(--dark-gray)"
-          />
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div class="desktop-only">
+    <HeaderInner />
+  </div>
+  <div class="mobile-only">
+    <HeaderInnerMobile />
+  </div>
 </header>
-<HeaderMobile />
 
 <style>
-  .logo {
-    width: auto;
-    height: 100%;
-  }
-
   .header {
     position: sticky;
     top: 0;
     z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 70px;
-    padding: 16px;
-    background-color: rgb(from var(--ivory) r g b / 80%);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    backdrop-filter: blur(30px);
+    width: 100%;
+    height: auto;
   }
 
-  .button {
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
     display: none;
   }
 
-  .navigation {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    width: 100%;
-    height: fit-content;
-  }
-
-  .link-list {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 100%;
-    padding-inline: 16px;
-    padding-inline-end: 8px;
-    margin-block: 0;
-    margin-inline-start: auto;
-    list-style: none;
-    border-inline-end: 1px solid var(--gray);
-  }
-
-  .link-item {
-    display: inline-block;
-    height: 100%;
-  }
-
-  .link {
-    display: inline-block;
-    width: fit-content;
-    height: 50px;
-    padding-inline: 16px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    line-height: 50px;
-    color: black;
-    letter-spacing: 2px;
-    text-decoration: none;
-  }
-
-  .sns-list {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 0;
-    padding-inline: 16px;
-    margin: 0;
-    list-style: none;
-  }
-
-  .sns {
-    display: inline-block;
-    height: fit-content;
-    padding: 16px;
-    line-height: inherit;
-    transition: transform 0.3s ease;
-  }
-
-  .sns:hover {
-    transform: scale(1.1);
-  }
-
-  .sns-icon {
-    width: 28px;
-    height: 28px;
-  }
-
-  .link:hover {
-    color: var(--orange);
-  }
-
   @media (width <= 620px) {
-    .header {
+    .desktop-only {
       display: none;
+    }
+
+    .mobile-only {
+      display: block;
     }
   }
 </style>
