@@ -34,12 +34,14 @@ const articles = res.contents;
   .news-section {
     padding-inline: 1rem;
   }
+
   .section-title {
+    padding-inline: 1rem;
+    margin-block: 1.5rem;
     font-size: 1.5rem;
     color: var(--cafeore-brown);
-    margin-block: 1.5rem;
-    padding-inline: 1rem;
   }
+
   .news-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -48,10 +50,12 @@ const articles = res.contents;
     margin: 0;
     list-style: none;
   }
+
   .news-item {
     width: 100%;
   }
-  @media (max-width: 600px) {
+
+  @media (width <= 620px) {
     .news-list {
       grid-template-columns: 1fr;
       padding-inline: 1rem;

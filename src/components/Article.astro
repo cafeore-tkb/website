@@ -43,31 +43,38 @@ const publishedDate = new Date(publishedAt);
     padding-inline: 1rem;
     margin-block-end: 2rem;
   }
+
   .article-title {
     margin-block-end: 0.5rem;
     color: var(--cafeore-brown);
   }
+
   .published-date {
     display: block;
-    color: var(--gray);
     font-size: 0.9rem;
+    color: var(--gray);
   }
+
   .thumbnail-container {
-    margin-inline: 1rem;
     margin-block-start: 3rem;
+    margin-inline: 1rem;
   }
+
   .thumbnail {
     width: 100%;
     height: auto;
     border-radius: 12px;
   }
-  @media (max-width: 620px) {
+
+  @media (width <= 620px) {
     .article-title {
       font-size: 1.5rem;
     }
+
     .thumbnail-container {
       margin: 0;
     }
+
     .thumbnail {
       border-radius: 0;
     }

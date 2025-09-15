@@ -22,11 +22,13 @@ const articles = await getAllArticles();
   .container {
     padding-inline-start: 2rem;
   }
+
   .news-title {
-    color: var(--cafeore-brown);
-    font-size: 1.8rem;
     margin-block: 2rem;
+    font-size: 1.8rem;
+    color: var(--cafeore-brown);
   }
+
   .news-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -35,13 +37,16 @@ const articles = await getAllArticles();
     margin: 0;
     list-style: none;
   }
+
   .news-item {
     width: 100%;
   }
-  @media (max-width: 620px) {
+
+  @media (width <= 620px) {
     .container {
       padding-inline: 1rem;
     }
+
     .news-list {
       grid-template-columns: 1fr;
       padding-inline: 1rem;

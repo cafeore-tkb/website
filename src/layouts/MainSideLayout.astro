@@ -29,39 +29,47 @@ const { title, ogImageUrl } = Astro.props;
     --max-main-width: 620px;
     --aside-width: 300px;
     --main-aside-space: 45px;
+
     /* var(--main-aside-space) + var(--aside-width)
        + var(--main-aside-space) * 2 = 1010px */
   }
+
   /* 1010px < width */
   .container {
     display: flex;
   }
+
   .main-container {
     width: calc(100% - var(--aside-width) - var(--main-aside-space));
   }
+
   .aside-container {
     width: var(--aside-width);
     margin-block-start: var(--main-aside-space);
     margin-inline: var(--main-aside-space);
   }
-  /* 620px < width <= 1010px*/
-  @media (max-width: 1010px) {
+
+  /* 620px < width <= 1010px */
+  @media (width <= 1010px) {
     .container {
       display: block;
       width: var(--max-main-width);
       margin-inline: auto;
     }
+
     .main-container {
       width: 100%;
       margin: 0;
     }
+
     .aside-container {
       width: 100%;
       margin: 0;
     }
   }
+
   /* width <= 620px */
-  @media (max-width: 620px) {
+  @media (width <= 620px) {
     .container {
       width: 100%;
     }

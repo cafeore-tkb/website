@@ -56,86 +56,98 @@ import HeaderMobile from "./HeaderMobile.astro";
     width: auto;
     height: 100%;
   }
+
   .header {
-    padding: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 70px;
-    position: sticky;
-    top: 0;
-    background-color: rgba(from var(--ivory) r g b / 0.8);
+    padding: 16px;
+    background-color: rgb(from var(--ivory) r g b / 80%);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
     backdrop-filter: blur(30px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 10;
   }
+
   .button {
     display: none;
   }
+
   .navigation {
     display: flex;
+    align-items: center;
+    justify-content: end;
     width: 100%;
     height: fit-content;
-    justify-content: end;
-    align-items: center;
   }
+
   .link-list {
-    padding-inline: 16px;
-    padding-inline-end: 8px;
-    margin-inline-start: auto;
-    margin-block: 0;
-    height: 100%;
     display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
-    border-inline-end: 1px solid var(--gray);
+    height: 100%;
+    padding-inline: 16px;
+    padding-inline-end: 8px;
+    margin-block: 0;
+    margin-inline-start: auto;
     list-style: none;
+    border-inline-end: 1px solid var(--gray);
   }
+
   .link-item {
     display: inline-block;
     height: 100%;
   }
+
   .link {
     display: inline-block;
-    padding-inline: 16px;
-    height: 50px;
     width: fit-content;
-    text-decoration: none;
-    line-height: 50px;
+    height: 50px;
+    padding-inline: 16px;
     font-size: 1.1rem;
+    font-weight: bold;
+    line-height: 50px;
     color: black;
     letter-spacing: 2px;
-    font-weight: bold;
+    text-decoration: none;
   }
+
   .sns-list {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 0;
-    margin: 0;
     height: 100%;
-    list-style: none;
+    padding: 0;
     padding-inline: 16px;
+    margin: 0;
+    list-style: none;
   }
+
   .sns {
     display: inline-block;
-    line-height: inherit;
-    padding: 16px;
     height: fit-content;
+    padding: 16px;
+    line-height: inherit;
     transition: transform 0.3s ease;
   }
+
   .sns:hover {
     transform: scale(1.1);
   }
+
   .sns-icon {
     width: 28px;
     height: 28px;
   }
+
   .link:hover {
     color: var(--orange);
   }
-  @media (max-width: 620px) {
+
+  @media (width <= 620px) {
     .header {
       display: none;
     }
