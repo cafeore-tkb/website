@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { Article } from "../apis/articles";
 import { formatDate } from "../utils/date";
 import ArticleBody from "./ArticleBody.astro";
@@ -15,7 +16,15 @@ const publishedDate = new Date(publishedAt);
 
 <article>
   <div class="thumbnail-container">
-    <img class="thumbnail" src={thumbnail.url} alt={title} />
+    <Image
+      class="thumbnail"
+      src={thumbnail.url}
+      alt=""
+      width={thumbnail.width}
+      height={thumbnail.height}
+      format="webp"
+      quality="high"
+    />
   </div>
   <div class="article-header">
     <h1 class="article-title">{title}</h1>
