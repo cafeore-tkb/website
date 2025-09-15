@@ -1,12 +1,15 @@
 ---
+import { optimizeImages } from "../utils/image-processor";
+
 export interface Props {
   htmlContent: string;
 }
 
 const { htmlContent } = Astro.props;
+const htmlWithImageOptimized = await optimizeImages(htmlContent);
 ---
 
-<div class="article-content" set:html={htmlContent} />
+<div class="article-content" set:html={htmlWithImageOptimized} />
 
 <style>
   .article-content {

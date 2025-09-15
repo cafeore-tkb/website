@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { getTopImages } from "../apis/top-images";
 import HeroMessage from "../assets/hero-message.svg";
 
@@ -7,7 +8,15 @@ const topImages = await getTopImages();
 
 <section class="hero">
   <div class="image-container">
-    <img class="hero-image" src={topImages.image.url} alt="" />
+    <Image
+      class="hero-image"
+      src={topImages.image.url}
+      alt=""
+      width={topImages.image.width}
+      height={topImages.image.height}
+      format="webp"
+      quality="high"
+    />
     <div class="image-filter"></div>
   </div>
   <div class="hero-message-container">

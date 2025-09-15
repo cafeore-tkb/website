@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { Article } from "../apis/articles";
 import { formatDate } from "../utils/date";
 
@@ -13,7 +14,15 @@ const publishedDate = new Date(publishedAt);
 <a class="card-link" href={`/articles/${id}`}>
   <article>
     <div class="thumbnail-container">
-      <img class="thumbnail" src={thumbnail.url} alt="" />
+      <Image
+        class="thumbnail"
+        src={thumbnail.url}
+        alt=""
+        width={thumbnail.width}
+        height={thumbnail.height}
+        format="webp"
+        quality="low"
+      />
     </div>
     <div class="content">
       <p class="published-date">{formatDate(publishedDate)}</p>
