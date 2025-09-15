@@ -20,7 +20,7 @@ const articles = await getAllArticles();
 
 <style>
   .container {
-    padding-inline: 1rem;
+    padding-inline-start: 2rem;
   }
   .news-title {
     color: var(--cafeore-brown);
@@ -39,6 +39,9 @@ const articles = await getAllArticles();
     width: 100%;
   }
   @media (max-width: 620px) {
+    .container {
+      padding-inline: 1rem;
+    }
     .news-list {
       grid-template-columns: 1fr;
       padding-inline: 1rem;
