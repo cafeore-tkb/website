@@ -1,11 +1,11 @@
 ---
-import Logo from "../assets/logo_name_cafeore.svg";
-import InstagramIcon from "../assets/icon-instagram.svg";
-import XIcon from "../assets/icon-x.svg";
-import { INSTAGRAM_URL, X_URL } from "../consts.ts";
+import Logo from "../../assets/logo_name_cafeore.svg";
+import InstagramIcon from "../../assets/icon-instagram.svg";
+import XIcon from "../../assets/icon-x.svg";
+import { INSTAGRAM_URL, X_URL } from "../../consts.ts";
 ---
 
-<header class="header">
+<div class="container">
   <div class="header-top">
     <button id="mobile-button" class="button" type="button">
       <Logo
@@ -51,7 +51,7 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
       </li>
     </ul>
   </nav>
-</header>
+</div>
 
 <script>
   const button = document.getElementById("mobile-button");
@@ -68,11 +68,8 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     height: 100%;
   }
 
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: none;
+  .container {
+    display: flex;
     flex-direction: column;
     height: fit-content;
     padding: 4px;
@@ -158,11 +155,5 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
     width: 30px;
     height: 30px;
     opacity: 0.85;
-  }
-
-  @media (width <= 620px) {
-    .header {
-      display: flex;
-    }
   }
 </style>

@@ -1,0 +1,41 @@
+---
+import HeaderInner from "./Header/HeaderInner.astro";
+import HeaderInnerMobile from "./Header/HeaderInnerMobile.astro";
+---
+
+<header class="header">
+  <div class="desktop-only">
+    <HeaderInner />
+  </div>
+  <div class="mobile-only">
+    <HeaderInnerMobile />
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: auto;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (width <= 620px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+</style>
