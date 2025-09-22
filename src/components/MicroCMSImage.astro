@@ -21,6 +21,10 @@ const {
   maxWidth,
   maxHeight,
   quality,
+  /** You need to pass ...rest to also pass data-astro-cid-* attributes,
+   *  which is used for default scoped styling in Astro.
+   * @see https://docs.astro.build/en/guides/styling/#passing-a-class-to-a-child-component
+   */
   ...rest
 } = Astro.props;
 
