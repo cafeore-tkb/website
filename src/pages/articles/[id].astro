@@ -1,8 +1,11 @@
 ---
+import { getImage } from "astro:assets";
 import { getAllArticles, getArticleById } from "../../apis/articles";
 import Article from "../../components/Article.astro";
 import SideBanners from "../../components/SideBanners.astro";
 import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
+import { getWidthHeight } from "../../utils/image-sizing";
+import { getWebpLosslessSrc } from "../../utils/imgix";
 
 export async function getStaticPaths() {
   const articles = await getAllArticles();
@@ -10,9 +13,20 @@ export async function getStaticPaths() {
 }
 const { id } = Astro.params;
 const article = await getArticleById(id);
+
+const imageSrc = getWebpLosslessSrc(article.thumbnail.url);
+const imageSize = getWidthHeight({
+  src: article.thumbnail,
+  maxWidth: 1200,
+});
+const ogpImage = await getImage({
+  src: imageSrc,
+  quality: "mid",
+  ...imageSize,
+});
 ---
 
-<MainSideStaticLayout title={article.title} ogImageUrl={article.thumbnail.url}>
+<MainSideStaticLayout title={article.title} ogImageUrl={ogpImage.src}>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>
