@@ -1,0 +1,42 @@
+---
+import { Image } from "astro:assets";
+import type { ImageQuality } from "astro";
+import type { MicroCMSImage } from "../apis/type";
+import { getWidthHeight } from "../utils/image-sizing";
+import { getWebpLosslessSrc } from "../utils/imgix";
+
+export interface Props {
+  src: MicroCMSImage;
+  class: string;
+  alt: string;
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: ImageQuality;
+}
+
+const {
+  src,
+  class: className,
+  alt,
+  maxWidth,
+  maxHeight,
+  quality,
+  ...rest
+} = Astro.props;
+
+const { width, height } = getWidthHeight({
+  src,
+  maxWidth,
+  maxHeight,
+});
+---
+
+<Image
+  src={getWebpLosslessSrc(src.url)}
+  class={className}
+  alt={alt}
+  quality={quality}
+  width={width}
+  height={height}
+  {...rest}
+/>
