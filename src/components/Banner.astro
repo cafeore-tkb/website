@@ -1,7 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import type { Banner } from "../apis/side-banner";
 import { getWidthHeight } from "../utils/image-sizing";
+import MicroCMSImage from "./MicroCMSImage.astro";
 export interface Props {
   banner: Banner;
 }
@@ -14,31 +14,23 @@ const { href, externalLink, image, alt } = banner;
   href ? (
     <a class="banner-link" href={href} target={externalLink ? "_blank" : null}>
       <div class="img-container">
-        <Image
+        <MicroCMSImage
           class="banner-img"
-          src={image.url}
-          alt={alt}
-          format="webp"
+          src={image}
           quality="mid"
-          {...getWidthHeight({
-            src: image,
-            maxWidth: 600,
-          })}
+          maxWidth={600}
+          alt={alt}
         />
       </div>
     </a>
   ) : (
     <div class="img-container">
-      <Image
+      <MicroCMSImage
         class="banner-img"
-        src={image.url}
-        alt={alt}
-        format="webp"
+        src={image}
         quality="mid"
-        {...getWidthHeight({
-          src: image,
-          maxWidth: 600,
-        })}
+        maxWidth={600}
+        alt={alt}
       />
     </div>
   )

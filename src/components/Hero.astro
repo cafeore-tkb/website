@@ -1,25 +1,21 @@
 ---
-import { Image } from "astro:assets";
 import { getTopImages } from "../apis/top-images";
 import HeroMessage from "../assets/hero-message.svg";
 import CafeoreName from "../assets/cafeore-name-only.svg";
 import { getWidthHeight } from "../utils/image-sizing";
+import MicroCMSImage from "./MicroCMSImage.astro";
 
 const topImages = await getTopImages();
 ---
 
 <section class="hero">
   <div class="image-container">
-    <Image
+    <MicroCMSImage
       class="hero-image"
-      src={topImages.image.url}
-      alt=""
-      format="webp"
+      src={topImages.image}
       quality="high"
-      {...getWidthHeight({
-        src: topImages.image,
-        maxWidth: 1920,
-      })}
+      maxWidth={1920}
+      alt=""
     />
     <div class="image-filter"></div>
   </div>
