@@ -24,9 +24,10 @@ const ogpImage = await getImage({
   quality: "mid",
   ...imageSize,
 });
+const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
 ---
 
-<MainSideStaticLayout title={article.title} ogImageUrl={ogpImage.src}>
+<MainSideStaticLayout title={article.title} ogImageUrl={ogImageUrl}>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>
