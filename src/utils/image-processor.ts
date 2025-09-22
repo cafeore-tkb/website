@@ -1,6 +1,7 @@
 import { getImage } from "astro:assets";
 import * as parse5 from "parse5";
 import { getWidthHeight } from "./image-sizing";
+import { getWebpLosslessSrc } from "./imgix";
 
 async function traverse(node: parse5.DefaultTreeAdapterTypes.Node) {
   if (node.nodeName !== "img") {
@@ -23,8 +24,7 @@ async function traverse(node: parse5.DefaultTreeAdapterTypes.Node) {
   });
 
   const image = await getImage({
-    src,
-    format: "webp",
+    src: getWebpLosslessSrc(src),
     quality: "mid",
     ...imageSize,
   });
