@@ -322,27 +322,8 @@ const { items } = Astro.props;
 </div>
 
 <style>
-  :root {
-    /* Timeline Layout */
-    --timeline-max-width: 800px;
-    --timeline-spacing: 2rem;
-    --timeline-year-size: 80px;
-    --timeline-year-min-size: 60px;
-    --timeline-content-min-height: 120px;
-    --timeline-content-hover-height: 300px;
-    
-    /* Animation */
-    --timeline-border-radius: 20px;
-    --timeline-mobile-border-radius: 8px;
-    
-    /* Colors */
-    --timeline-text-color: #666;
-    --timeline-overlay-bg: rgb(0 0 0 / 30%);
-  }
-
   .timeline {
     position: relative;
-    max-width: var(--timeline-max-width);
     margin: 0 auto;
   }
 
@@ -362,9 +343,9 @@ const { items } = Astro.props;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: var(--timeline-year-size);
-    min-width: var(--timeline-year-size);
-    max-width: var(--timeline-year-size);
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
     padding: 0.8rem 1rem 0.5rem;
     text-align: center;
   }
@@ -391,7 +372,7 @@ const { items } = Astro.props;
   .timeline-content {
     position: relative;
     flex: 1;
-    min-height: var(--timeline-content-min-height);
+    min-height: 120px;
     padding: 1.5rem;
     overflow: hidden;
     background: white;
@@ -419,7 +400,7 @@ const { items } = Astro.props;
     z-index: 4;
     width: 100%;
     height: 100%;
-    background: var(--timeline-overlay-bg);
+    background: rgb(0 0 0 / 30%);
     opacity: 0;
   }
 
@@ -430,7 +411,7 @@ const { items } = Astro.props;
     font-size: 1.3rem;
     font-weight: 600;
     line-height: 1.6;
-    color: var(--timeline-text-color);
+    color: #666;
   }
 
   .timeline-event:last-child {
