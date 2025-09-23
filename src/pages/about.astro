@@ -1,14 +1,54 @@
 ---
-import SideBanners from "../components/SideBanners.astro";
-import MainSideLayout from "../layouts/MainSideLayout.astro";
+import Timeline from "../components/Timeline.astro";
+import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
+import { timelineData } from "../utils/timeline";
 ---
 
-<MainSideLayout title="ABOUT">
-  <Fragment slot="main">
-    <h1>ABOUT</h1>
-    <p>Work in progress...</p>
-  </Fragment>
-  <Fragment slot="aside">
-    <SideBanners />
-  </Fragment>
-</MainSideLayout>
+<MainNoSideLayout title="ABOUT">
+  <section class="about-section">
+    <div class="about-section-inner">
+      <h1 class="about-title">ABOUT</h1>
+
+      <h2>沿革</h2>
+      <p>珈琲・俺の歴史をご紹介します。</p>
+    </div>
+
+    <Timeline items={timelineData} />
+  </section>
+</MainNoSideLayout>
+
+<style>
+  .about-title {
+    margin-block: 2rem;
+    font-size: 1.8rem;
+    color: var(--cafeore-brown);
+  }
+
+  .about-section {
+    margin-top: 2rem;
+  }
+
+  .about-section-inner {
+    padding-inline: 2rem;
+  }
+
+  .about-section h2 {
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: var(--cafeore-brown);
+    border-bottom: 2px solid var(--cafeore-brown);
+  }
+
+  .about-section p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: var(--cafeore-brown);
+  }
+
+  @media (width <= 620px) {
+    .container {
+      padding-inline: 1rem;
+    }
+  }
+</style>
