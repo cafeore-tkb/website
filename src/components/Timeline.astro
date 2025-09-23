@@ -330,19 +330,11 @@ const { items } = Astro.props;
     --timeline-year-min-size: 60px;
     --timeline-content-min-height: 120px;
     --timeline-content-hover-height: 300px;
-
-    /* Z-Index Layers */
-    --timeline-z-base: 1;
-    --timeline-z-year: 5;
-    --timeline-z-theme: 6;
-    --timeline-z-event: 7;
-    --timeline-z-image: 3;
-    --timeline-z-overlay: 4;
-
+    
     /* Animation */
     --timeline-border-radius: 20px;
     --timeline-mobile-border-radius: 8px;
-
+    
     /* Colors */
     --timeline-text-color: #666;
     --timeline-overlay-bg: rgb(0 0 0 / 30%);
@@ -356,7 +348,7 @@ const { items } = Astro.props;
 
   .timeline-item {
     position: relative;
-    z-index: var(--timeline-z-base);
+    z-index: 1;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -365,7 +357,7 @@ const { items } = Astro.props;
 
   .timeline-year {
     position: relative;
-    z-index: var(--timeline-z-year);
+    z-index: 5;
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -386,7 +378,7 @@ const { items } = Astro.props;
 
   .timeline-theme-header {
     position: relative;
-    z-index: var(--timeline-z-theme);
+    z-index: 6;
     padding: 0.5rem 0;
     margin-bottom: 1rem;
     font-size: 1.5rem;
@@ -410,7 +402,7 @@ const { items } = Astro.props;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: var(--timeline-z-image);
+    z-index: 3;
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
@@ -424,7 +416,7 @@ const { items } = Astro.props;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: var(--timeline-z-overlay);
+    z-index: 4;
     width: 100%;
     height: 100%;
     background: var(--timeline-overlay-bg);
@@ -433,7 +425,7 @@ const { items } = Astro.props;
 
   .timeline-event {
     position: relative;
-    z-index: var(--timeline-z-event);
+    z-index: 7;
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
     font-weight: 600;
