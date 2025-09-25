@@ -1,0 +1,40 @@
+import { fetchWithAuth } from "./api-base";
+import type { MicroCMSImage } from "./type";
+
+export interface HistoryItem {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  year: number;
+  theme: string;
+  themeColorCode: string;
+  themeColorName: string;
+  events: string; // HTML文字列として格納
+  thumbnail: MicroCMSImage;
+  images: MicroCMSImage[];
+}
+
+export interface HistoryResponse {
+  contents: HistoryItem[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+}
+
+export async function getAllHistory(): Promise<HistoryResponse> {
+  const res = await fetchWithAuth("history");
+  const data: HistoryResponse = await res.json();
+
+  // 年度順にソート（古い年度から新しい年度順）
+  data.contents.sort((a, b) => a.year - b.year);
+
+  return data;
+}
+
+export async function getHistoryById(id: string): Promise<HistoryItem> {
+  const res = await fetchWithAuth(`history/${id}`);
+  const data: HistoryItem = await res.json();
+  return data;
+}
