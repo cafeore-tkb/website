@@ -24,13 +24,48 @@ export interface HistoryResponse {
 }
 
 export async function getAllHistory(): Promise<HistoryResponse> {
-  const res = await fetchWithAuth("history");
-  const data: HistoryResponse = await res.json();
+  try {
+    // microCMSのAPIエンドポイント（limitは最大100）
+    const res = await fetchWithAuth("history?limit=100");
 
-  // 年度順にソート（古い年度から新しい年度順）
-  data.contents.sort((a, b) => a.year - b.year);
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("APIリクエストが失敗しました:", res.status, res.statusText);
+      console.error("エラー詳細:", errorText);
+      return {
+        contents: [],
+        totalCount: 0,
+        offset: 0,
+        limit: 0,
+      };
+    }
 
-  return data;
+    const data: HistoryResponse = await res.json();
+
+    // エラーハンドリング: contentsが存在しない場合の処理
+    if (!data || !data.contents) {
+      console.error("APIレスポンスにcontentsが存在しません:", data);
+      return {
+        contents: [],
+        totalCount: 0,
+        offset: 0,
+        limit: 0,
+      };
+    }
+
+    // 年度順にソート（古い年度から新しい年度順）
+    data.contents.sort((a, b) => a.year - b.year);
+
+    return data;
+  } catch (error) {
+    console.error("APIリクエスト中にエラーが発生しました:", error);
+    return {
+      contents: [],
+      totalCount: 0,
+      offset: 0,
+      limit: 0,
+    };
+  }
 }
 
 export async function getHistoryById(id: string): Promise<HistoryItem> {

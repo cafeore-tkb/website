@@ -1,19 +1,18 @@
 ---
 import Timeline from "../components/Timeline.astro";
 import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
-import { timelineData } from "../utils/timeline";
 ---
 
 <MainNoSideLayout title="ABOUT">
   <section class="about-section">
     <div class="about-section-inner">
-      <h1 class="about-title">ABOUT</h1>
+      <h1 class="about-title">HISTORY</h1>
 
       <h2>沿革</h2>
       <p>珈琲・俺の歴史をご紹介します。</p>
     </div>
 
-    <Timeline items={timelineData} />
+    <Timeline />
   </section>
 </MainNoSideLayout>
 
