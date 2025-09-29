@@ -1,53 +1,16 @@
 ---
-import Timeline from "../components/Timeline.astro";
+import SectionWrapper from "../components/About/SectionWrapper.astro";
+import Organization from "../components/About/Organization.astro";
+import Timeline from "../components/About/Timeline.astro";
 import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
 ---
 
 <MainNoSideLayout title="ABOUT">
-  <section class="about-section">
-    <div class="about-section-inner">
-      <h1 class="about-title">HISTORY</h1>
+  <SectionWrapper title="Organization" description="">
+    <Organization />
+  </SectionWrapper>
 
-      <h2>沿革</h2>
-      <p>珈琲・俺の歴史をご紹介します。</p>
-    </div>
-
+  <SectionWrapper title="HISTORY" description="珈琲・俺の歩みをご紹介します。">
     <Timeline />
-  </section>
+  </SectionWrapper>
 </MainNoSideLayout>
-
-<style>
-  .about-title {
-    margin-block: 2rem;
-    font-size: 1.8rem;
-    color: var(--cafeore-brown);
-  }
-
-  .about-section {
-    margin-top: 2rem;
-  }
-
-  .about-section-inner {
-    padding-inline: 2rem;
-  }
-
-  .about-section h2 {
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-    color: var(--cafeore-brown);
-    border-bottom: 2px solid var(--cafeore-brown);
-  }
-
-  .about-section p {
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-    color: var(--cafeore-brown);
-  }
-
-  @media (width <= 620px) {
-    .container {
-      padding-inline: 1rem;
-    }
-  }
-</style>
