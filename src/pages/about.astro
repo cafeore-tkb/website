@@ -3,6 +3,10 @@ import SectionWrapper from "../components/About/SectionWrapper.astro";
 import Organization from "../components/About/Organization.astro";
 import Timeline from "../components/About/Timeline/Timeline.astro";
 import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
+import { getAllHistory } from "../apis/history";
+
+let historyData = null;
+historyData = await getAllHistory();
 ---
 
 <MainNoSideLayout title="ABOUT">
@@ -11,6 +15,6 @@ import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
   </SectionWrapper>
 
   <SectionWrapper title="HISTORY" description="珈琲・俺の歩みをご紹介します。">
-    <Timeline />
+    <Timeline historyData={historyData} />
   </SectionWrapper>
 </MainNoSideLayout>

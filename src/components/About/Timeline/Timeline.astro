@@ -1,14 +1,21 @@
 ---
 import TimelineItem from "./TimelineItem.astro";
 import TimelineItemMobile from "./TimelineItemMobile.astro";
+import type { HistoryResponse } from "../../../apis/history";
+
+interface Props {
+  historyData: HistoryResponse | null;
+}
+
+const { historyData } = Astro.props;
 ---
 
 <div class="timeline">
   <div class="desktop-only">
-    <TimelineItem />
+    <TimelineItem historyData={historyData} />
   </div>
   <div class="mobile-only">
-    <TimelineItemMobile />
+    <TimelineItemMobile historyData={historyData} />
   </div>
 </div>
 

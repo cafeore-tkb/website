@@ -1,14 +1,12 @@
 ---
-import { getAllHistory } from "../../../apis/history";
-import type { HistoryItem } from "../../../apis/history";
+import type { HistoryItem, HistoryResponse } from "../../../apis/history";
 
 interface Props {
-  items?: HistoryItem[];
+  historyData: HistoryResponse | null;
 }
 
-// APIから取得（API側で年度順にソート済み）
-const historyData = await getAllHistory();
-const items = historyData.contents;
+const { historyData } = Astro.props;
+const items: HistoryItem[] = historyData?.contents || [];
 ---
 
 <script>
