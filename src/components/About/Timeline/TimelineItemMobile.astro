@@ -1,0 +1,511 @@
+---
+import { getAllHistory } from "../../../apis/history";
+import type { HistoryItem } from "../../../apis/history";
+
+interface Props {
+  items?: HistoryItem[];
+}
+
+// APIから取得（API側で年度順にソート済み）
+const historyData = await getAllHistory();
+const items = historyData.contents;
+---
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import {
+    isMobile,
+    getCenterTimelineItem,
+    getItemElements,
+    createThrottledScrollHandler,
+    scrollToCenter,
+    type TimelineElements,
+  } from "./TimelineUtils";
+  import { ANIMATION_CONFIG } from "./TimelineConfig";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 初期状態の設定
+  function setInitialStates(): void {
+    // 奇数番目のアイテム（左から登場）
+    gsap.set(".timeline-item:nth-child(odd)", {
+      opacity: 0,
+      x: -100,
+      y: 0,
+    });
+
+    // 偶数番目のアイテム（右から登場）
+    gsap.set(".timeline-item:nth-child(even)", {
+      opacity: 0,
+      x: 100,
+      y: 0,
+    });
+
+    // 背景画像の初期状態
+    gsap.set(".timeline-image-bg", {
+      opacity: 0.4, // モバイル用は少し濃く
+      filter: "grayscale(100%)",
+    });
+
+    // オーバーレイの初期状態
+    gsap.set(".timeline-image-overlay", {
+      opacity: 0,
+    });
+
+    // イベントテキストの初期状態
+    gsap.set(".timeline-events *", {
+      opacity: 0.8,
+      y: 5,
+      color: ANIMATION_CONFIG.colors.eventText,
+      textShadow: "none",
+    });
+  }
+
+  // スクロールアニメーション
+  function initScrollAnimation(): void {
+    gsap.to(".timeline-item", {
+      opacity: 1,
+      x: 0,
+      duration: 0.8,
+      stagger: ANIMATION_CONFIG.stagger.items,
+      ease: ANIMATION_CONFIG.ease.bounce,
+      scrollTrigger: {
+        trigger: ".timeline",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  }
+
+  // ホバー時のアニメーション
+  function createHoverAnimation(
+    elements: TimelineElements
+  ): gsap.core.Timeline {
+    const { year, content, imageBg, overlay, themeHeader, events } = elements;
+    const tl = gsap.timeline();
+
+    // 年度数字のフォントサイズ拡大
+    const yearNumber = year?.querySelector(".timeline-year-number");
+    if (yearNumber) {
+      tl.to(
+        yearNumber,
+        {
+          fontSize: "1.65rem",
+          duration: ANIMATION_CONFIG.duration.fast,
+          ease: ANIMATION_CONFIG.ease.bounce,
+        },
+        0
+      );
+    }
+
+    // コンテンツエリアの高さ拡張
+    tl.to(
+      content,
+      {
+        minHeight: "300px",
+        duration: ANIMATION_CONFIG.duration.slow,
+        ease: ANIMATION_CONFIG.ease.smooth,
+      },
+      0
+    )
+
+      // 背景画像の表示
+      .to(
+        imageBg,
+        {
+          opacity: 0.8,
+          filter: "grayscale(0%)",
+          duration: ANIMATION_CONFIG.duration.slow,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      )
+
+      // オーバーレイの表示
+      .to(
+        overlay,
+        {
+          opacity: 1,
+          duration: ANIMATION_CONFIG.duration.normal,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0.1
+      )
+
+      // テーマヘッダーのフォントサイズ拡大
+      .to(
+        themeHeader,
+        {
+          fontSize: "1.7rem",
+          duration: ANIMATION_CONFIG.duration.normal,
+          ease: ANIMATION_CONFIG.ease.bounce,
+        },
+        0.1
+      );
+
+    // イベントテキストの表示
+    if (events.length > 0) {
+      tl.to(
+        events,
+        {
+          opacity: 1,
+          y: 0,
+          color: ANIMATION_CONFIG.colors.eventTextHover,
+          textShadow: "0 1px 2px rgba(0, 0, 0, 0.7)",
+          duration: ANIMATION_CONFIG.duration.normal,
+          stagger: ANIMATION_CONFIG.stagger.events,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      );
+    }
+
+    return tl;
+  }
+
+  // ホバー終了時のアニメーション
+  function createLeaveAnimation(
+    elements: TimelineElements
+  ): gsap.core.Timeline {
+    const { year, content, imageBg, overlay, themeHeader, events } = elements;
+    const tl = gsap.timeline();
+
+    // 年度数字のフォントサイズを元に戻す
+    const yearNumber = year?.querySelector(".timeline-year-number");
+    if (yearNumber) {
+      tl.to(
+        yearNumber,
+        {
+          fontSize: "1.5rem",
+          duration: ANIMATION_CONFIG.duration.fast,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      );
+    }
+
+    // コンテンツエリアの高さを元に戻す
+    tl.to(
+      content,
+      {
+        minHeight: "200px",
+        duration: ANIMATION_CONFIG.duration.slow,
+        ease: ANIMATION_CONFIG.ease.smooth,
+      },
+      0
+    )
+
+      // 背景画像を元の状態に戻す
+      .to(
+        imageBg,
+        {
+          opacity: 0.4, // モバイル用の初期値に戻す
+          filter: "grayscale(100%)",
+          duration: ANIMATION_CONFIG.duration.slow,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      )
+
+      // オーバーレイを非表示にする
+      .to(
+        overlay,
+        {
+          opacity: 0,
+          duration: ANIMATION_CONFIG.duration.normal,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      )
+
+      // テーマヘッダーのフォントサイズを元に戻す
+      .to(
+        themeHeader,
+        {
+          fontSize: "1.5rem",
+          duration: ANIMATION_CONFIG.duration.normal,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      );
+
+    // イベントテキストを元の状態に戻す
+    if (events.length > 0) {
+      tl.to(
+        events,
+        {
+          opacity: 0.8,
+          y: 5,
+          color: ANIMATION_CONFIG.colors.eventText,
+          textShadow: "none",
+          duration: ANIMATION_CONFIG.duration.fast,
+          stagger: ANIMATION_CONFIG.stagger.eventsOut,
+          ease: ANIMATION_CONFIG.ease.smooth,
+        },
+        0
+      );
+    }
+
+    return tl;
+  }
+
+  // モバイル用スクロールアニメーション
+  function setupMobileScrollAnimation(hoveredItem: Element | null): void {
+    if (!isMobile()) return;
+
+    let currentCenterItem: Element | null = null;
+
+    const handleScroll = () => {
+      if (hoveredItem) return;
+
+      const centerItem = getCenterTimelineItem();
+
+      if (centerItem !== currentCenterItem) {
+        // 前のアイテムを閉じる
+        if (currentCenterItem) {
+          const elements = getItemElements(currentCenterItem);
+          createLeaveAnimation(elements);
+        }
+
+        // 新しい中央アイテムを開く
+        if (centerItem) {
+          const elements = getItemElements(centerItem);
+          createHoverAnimation(elements);
+        }
+
+        currentCenterItem = centerItem;
+      }
+    };
+
+    // スクロールイベントの設定（throttle）
+    const throttledScrollHandler = createThrottledScrollHandler(handleScroll);
+    window.addEventListener("scroll", throttledScrollHandler);
+  }
+
+  // ホバー状態の管理
+  let hoveredItem: Element | null = null;
+
+  // ホバーイベントの設定
+  function setupHoverEvents() {
+    const timelineItems = document.querySelectorAll(".timeline-item");
+
+    timelineItems.forEach((item) => {
+      const elements = getItemElements(item);
+
+      // マウスホバー時のイベント
+      item.addEventListener("mouseenter", () => {
+        hoveredItem = item;
+        createHoverAnimation(elements);
+      });
+
+      // マウスが離れた時のイベント
+      item.addEventListener("mouseleave", () => {
+        hoveredItem = null;
+        createLeaveAnimation(elements);
+      });
+
+      // クリック時のスクロール処理
+      item.addEventListener("click", () => scrollToCenter(item));
+    });
+  }
+
+  // 初期化処理
+  document.addEventListener("DOMContentLoaded", () => {
+    setInitialStates();
+    initScrollAnimation();
+    setupHoverEvents();
+    setupMobileScrollAnimation(hoveredItem);
+  });
+</script>
+
+<!-- タイムラインコンテナ -->
+<div class="timeline">
+  {
+    items.map((item) => {
+      const themeColor = `#${item.themeColorCode}`;
+      const backgroundImage = `url(${item.thumbnail.url})`;
+
+      return (
+        <article
+          class="timeline-item"
+          data-year={item.year}
+          style={`--item-theme-color: ${themeColor}`}
+        >
+          {/* 年度表示エリア */}
+          <header class="timeline-year">
+            <time class="timeline-year-number" datetime={item.year.toString()}>
+              {item.year}
+            </time>
+          </header>
+
+          {/* コンテンツエリア（テーマ、イベント、背景画像を含む） */}
+          <div class="timeline-content">
+            {/* 年度のテーマヘッダー */}
+            <h3
+              class="timeline-theme-header"
+              style={`--theme-color: ${themeColor}`}
+            >
+              {item.theme}
+            </h3>
+
+            {/* 年度のイベントリスト（HTMLをそのまま表示） */}
+            <div class="timeline-events" set:html={item.events} />
+
+            {/* 背景画像 */}
+            <div
+              class="timeline-image-bg"
+              style={`background-image: ${backgroundImage}`}
+              role="img"
+              aria-label={`${item.year}年の背景画像`}
+            >
+              {/* ホバー時のオーバーレイ */}
+              <div class="timeline-image-overlay" />
+            </div>
+          </div>
+        </article>
+      );
+    })
+  }
+</div>
+
+<style>
+  /* CSS変数の定義 */
+  :root {
+    --timeline-item-height: 120px;
+    --timeline-item-height-expanded: 300px;
+    --timeline-year-width: 80px;
+    --timeline-year-mobile-width: 60px;
+    --timeline-content-height: 150px;
+    --timeline-content-height-mobile: 100px;
+    --timeline-border-radius: 8px;
+    --timeline-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    --timeline-overlay-bg: rgb(0 0 0 / 30%);
+    --timeline-text-shadow: 0 1px 2px rgb(0 0 0 / 70%);
+  }
+
+  /* タイムラインコンテナ */
+  .timeline {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  /* 各年度のタイムラインアイテム */
+  .timeline-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: var(--item-theme-color, transparent);
+    padding-left: 60px; /* 年度表示分のパディング */
+  }
+
+  /* 年度表示エリア */
+  .timeline-year {
+    position: absolute; /* 絶対配置で左上に固定 */
+    top: 0;
+    left: 0;
+    z-index: 10; /* 最前面レイヤー */
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--timeline-year-mobile-width);
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--timeline-border-radius);
+    text-align: center;
+  }
+
+  /* 年度数字 */
+  .timeline-year-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(
+      to right,
+      white 50%,
+      var(--item-theme-color, #666) 50%
+    );
+    background-clip: text; /* テキストにグラデーション適用 */
+    transform: translateX(3px);
+  }
+
+  /* テーマヘッダー */
+  .timeline-theme-header {
+    position: relative;
+    z-index: 6;
+    padding: 0.5rem 0;
+    margin-bottom: 0.8rem; /* マージン調整 */
+    font-size: 1.2rem; /* フォントサイズ調整 */
+    font-weight: bold;
+    color: var(--theme-color);
+    text-align: center;
+    border-bottom: 2px solid var(--theme-color);
+  }
+
+  /* コンテンツエリア */
+  .timeline-content {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    height: var(--timeline-content-height);
+    min-height: var(--timeline-content-height-mobile);
+    margin: 0;
+    padding: 1.5rem;
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--timeline-shadow);
+  }
+
+  /* 背景画像 */
+  .timeline-image-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.4; /* 少し濃く表示 */
+  }
+
+  /* ホバー時のオーバーレイ */
+  .timeline-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    background: var(--timeline-overlay-bg);
+  }
+
+  /* イベントテキスト */
+  .timeline-events {
+    position: relative;
+    z-index: 7;
+  }
+
+  .timeline-events ul {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .timeline-events * {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.6;
+    list-style: none;
+  }
+
+  .timeline-events *:last-child {
+    margin-bottom: 0;
+  }
+</style>

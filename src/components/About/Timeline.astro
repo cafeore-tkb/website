@@ -1,0 +1,38 @@
+---
+import TimelineItem from "./Timeline/TimelineItem.astro";
+import TimelineItemMobile from "./Timeline/TimelineItemMobile.astro";
+---
+
+<div class="timeline">
+  <div class="desktop-only">
+    <TimelineItem />
+  </div>
+  <div class="mobile-only">
+    <TimelineItemMobile />
+  </div>
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (width <= 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+</style>
