@@ -1,0 +1,45 @@
+---
+import TimelineItem from "./TimelineItem.astro";
+import TimelineItemMobile from "./TimelineItemMobile.astro";
+import type { HistoryResponse } from "../../../apis/history";
+
+interface Props {
+  historyData: HistoryResponse | null;
+}
+
+const { historyData } = Astro.props;
+---
+
+<div class="timeline">
+  <div class="desktop-only">
+    <TimelineItem historyData={historyData} />
+  </div>
+  <div class="mobile-only">
+    <TimelineItemMobile historyData={historyData} />
+  </div>
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (width <= 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+</style>

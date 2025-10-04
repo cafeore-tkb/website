@@ -1,14 +1,20 @@
 ---
-import SideBanners from "../components/SideBanners.astro";
-import MainSideLayout from "../layouts/MainSideLayout.astro";
+import SectionWrapper from "../components/About/SectionWrapper.astro";
+import Organization from "../components/About/Organization.astro";
+import Timeline from "../components/About/Timeline/Timeline.astro";
+import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
+import { getAllHistory } from "../apis/history";
+
+let historyData = null;
+historyData = await getAllHistory();
 ---
 
-<MainSideLayout title="ABOUT">
-  <Fragment slot="main">
-    <h1>ABOUT</h1>
-    <p>Work in progress...</p>
-  </Fragment>
-  <Fragment slot="aside">
-    <SideBanners />
-  </Fragment>
-</MainSideLayout>
+<MainNoSideLayout title="ABOUT">
+  <SectionWrapper title="Organization" description="">
+    <Organization />
+  </SectionWrapper>
+
+  <SectionWrapper title="HISTORY" description="珈琲・俺の歩みをご紹介します。">
+    <Timeline historyData={historyData} />
+  </SectionWrapper>
+</MainNoSideLayout>

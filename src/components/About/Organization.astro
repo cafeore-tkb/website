@@ -1,0 +1,81 @@
+---
+// Organizationコンポーネント
+// 珈琲・俺の概要と特徴を表示
+import { organizationData } from "../../data/organization";
+
+const { description, features } = organizationData;
+---
+
+<!-- Organizationコンテンツ -->
+<div class="organization-content">
+  <p class="section-description">
+    {description}
+  </p>
+
+  <div class="organization-features">
+    {
+      features.map((feature) => (
+        <div class="feature-item">
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* 共通スタイル */
+  .section-description {
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    color: var(--cafeore-brown);
+    text-align: center;
+  }
+
+  /* Organizationコンテンツ */
+  .organization-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .organization-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-item {
+    padding: 1.5rem;
+    text-align: center;
+    background: rgb(139 69 19 / 5%);
+    border-radius: 8px;
+  }
+
+  .feature-item h3 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--cafeore-brown);
+  }
+
+  .feature-item p {
+    line-height: 1.6;
+    color: var(--cafeore-brown);
+  }
+
+  /* レスポンシブデザイン */
+  @media (width <= 768px) {
+    .section-description {
+      font-size: 1.1rem;
+    }
+
+    .organization-features {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      padding: 1rem;
+    }
+  }
+</style>
