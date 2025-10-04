@@ -78,7 +78,7 @@ const items = historyData.contents;
 
   // ホバー時のアニメーション
   function createHoverAnimation(
-    elements: TimelineElements
+    elements: TimelineElements,
   ): gsap.core.Timeline {
     const { year, content, imageBg, overlay, themeHeader, events } = elements;
     const tl = gsap.timeline();
@@ -93,7 +93,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.fast,
           ease: ANIMATION_CONFIG.ease.bounce,
         },
-        0
+        0,
       );
     }
 
@@ -105,7 +105,7 @@ const items = historyData.contents;
         duration: ANIMATION_CONFIG.duration.slow,
         ease: ANIMATION_CONFIG.ease.smooth,
       },
-      0
+      0,
     )
 
       // 背景画像の表示
@@ -117,7 +117,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.slow,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       )
 
       // オーバーレイの表示
@@ -128,7 +128,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.normal,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0.1
+        0.1,
       )
 
       // テーマヘッダーのフォントサイズ拡大
@@ -139,7 +139,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.normal,
           ease: ANIMATION_CONFIG.ease.bounce,
         },
-        0.1
+        0.1,
       );
 
     // イベントテキストの表示
@@ -155,7 +155,7 @@ const items = historyData.contents;
           stagger: ANIMATION_CONFIG.stagger.events,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       );
     }
 
@@ -164,7 +164,7 @@ const items = historyData.contents;
 
   // ホバー終了時のアニメーション
   function createLeaveAnimation(
-    elements: TimelineElements
+    elements: TimelineElements,
   ): gsap.core.Timeline {
     const { year, content, imageBg, overlay, themeHeader, events } = elements;
     const tl = gsap.timeline();
@@ -179,7 +179,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.fast,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       );
     }
 
@@ -191,7 +191,7 @@ const items = historyData.contents;
         duration: ANIMATION_CONFIG.duration.slow,
         ease: ANIMATION_CONFIG.ease.smooth,
       },
-      0
+      0,
     )
 
       // 背景画像を元の状態に戻す
@@ -203,7 +203,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.slow,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       )
 
       // オーバーレイを非表示にする
@@ -214,7 +214,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.normal,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       )
 
       // テーマヘッダーのフォントサイズを元に戻す
@@ -225,7 +225,7 @@ const items = historyData.contents;
           duration: ANIMATION_CONFIG.duration.normal,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       );
 
     // イベントテキストを元の状態に戻す
@@ -241,7 +241,7 @@ const items = historyData.contents;
           stagger: ANIMATION_CONFIG.stagger.eventsOut,
           ease: ANIMATION_CONFIG.ease.smooth,
         },
-        0
+        0,
       );
     }
 
@@ -275,11 +275,42 @@ const items = historyData.contents;
     });
   }
 
+  // 画像の遅延読み込み
+  function loadImagesWhenVisible() {
+    const imageElements = document.querySelectorAll(
+      ".timeline-image-bg[data-bg]",
+    );
+
+    const imageObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const element = entry.target as HTMLElement;
+            const bgImage = element.getAttribute("data-bg");
+            if (bgImage) {
+              element.style.backgroundImage = bgImage;
+              element.removeAttribute("data-bg");
+              imageObserver.unobserve(element);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: "50px 0px", // 50px手前から読み込み開始
+      },
+    );
+
+    imageElements.forEach((element) => {
+      imageObserver.observe(element);
+    });
+  }
+
   // 初期化処理
   document.addEventListener("DOMContentLoaded", () => {
     setInitialStates();
     initScrollAnimation();
     setupHoverEvents();
+    loadImagesWhenVisible();
   });
 </script>
 
@@ -319,7 +350,7 @@ const items = historyData.contents;
             {/* 背景画像 */}
             <div
               class="timeline-image-bg"
-              style={`background-image: ${backgroundImage}`}
+              data-bg={backgroundImage}
               role="img"
               aria-label={`${item.year}年の背景画像`}
             >
@@ -360,6 +391,8 @@ const items = historyData.contents;
     flex-direction: row;
     align-items: flex-start;
     background-color: var(--item-theme-color, transparent);
+    transform: translateZ(0); /* レイヤー分離 */
+    will-change: transform; /* GPUアクセラレーション */
   }
 
   /* 年度表示エリア */
