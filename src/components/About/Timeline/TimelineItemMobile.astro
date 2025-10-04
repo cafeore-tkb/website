@@ -77,14 +77,17 @@ const items = historyData.contents;
 <!-- タイムラインコンテナ -->
 <div class="timeline">
   {
-    items.map((item) => {
+    items.map((item, index) => {
       const themeColor = `#${item.themeColorCode}`;
       const backgroundImage = `url(${item.thumbnail.url})`;
+      const isOdd = index % 2 === 0; // 0-based indexなので偶数番目が奇数番目のアイテム
+      const imagePosition = isOdd ? "left" : "right";
 
       return (
         <article
           class="timeline-item"
           data-year={item.year}
+          data-image-position={imagePosition}
           style={`--item-theme-color: ${themeColor}`}
         >
           {/* 年度表示エリア */}
@@ -173,6 +176,17 @@ const items = historyData.contents;
     overflow: hidden;
     text-align: center;
     border-radius: var(--timeline-border-radius);
+  }
+
+  /* 偶数番目のアイテム（年度を右側に配置） */
+  .timeline-item[data-image-position="right"] {
+    padding-left: 0;
+    padding-right: 60px;
+  }
+
+  .timeline-item[data-image-position="right"] .timeline-year {
+    left: auto;
+    right: 0;
   }
 
   /* 年度数字 */

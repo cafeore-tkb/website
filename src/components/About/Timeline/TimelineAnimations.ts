@@ -182,7 +182,7 @@ export function createLeaveAnimation(
   tl.to(
     content,
     {
-      minHeight: "200px",
+      minHeight: "120px", // 初期値に戻す
       duration: ANIMATION_CONFIG.duration.slow,
       ease: ANIMATION_CONFIG.ease.smooth,
     },
