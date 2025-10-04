@@ -10,6 +10,7 @@ export interface HistoryItem {
   year: number;
   themeColorCode: string;
   themeColorName: string;
+  theme: string | null; // テーマ（nullの場合もある）
   eventsTitle: string; // テーマ
   events: string; // HTML文字列として格納
   thumbnail: MicroCMSImage;
