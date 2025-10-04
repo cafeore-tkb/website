@@ -196,6 +196,28 @@ const items = historyData.contents;
   .timeline-events {
     position: relative;
     z-index: 7;
+    display: -webkit-box;
+    max-height: calc(1.6em * 2); /* 2行分の高さ */
+    overflow: hidden;
+    -webkit-line-clamp: 2; /* 非ホバー時は2行まで表示 */
+    line-height: 1.6;
+    transition:
+      max-height 0.3s ease,
+      -webkit-line-clamp 0.3s ease;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ホバー時は全て表示 */
+  .timeline-item:hover .timeline-events {
+    max-height: none;
+    -webkit-line-clamp: unset;
+  }
+
+  /* 年度が右側にある場合（偶数番目のアイテム）のみ左マージンを適用 */
+  .timeline-item[data-image-position="right"] .timeline-events {
+    margin-left: calc(
+      var(--timeline-year-width) + 2rem
+    ); /* 年度の幅 + 余裕分 */
   }
 
   .timeline-events ul {
