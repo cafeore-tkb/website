@@ -22,7 +22,7 @@ const items: HistoryItem[] = historyData?.contents || [];
     setInitialStates,
     initScrollAnimation,
     setupHoverEvents,
-    loadImagesWhenVisible,
+    preloadHistoryImages,
     createHoverAnimation,
     createLeaveAnimation,
   } from "./TimelineAnimations";
@@ -63,17 +63,29 @@ const items: HistoryItem[] = historyData?.contents || [];
   }
 
   // 初期化処理
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     setInitialStates(true); // モバイル版
+
+    // 画像の事前読み込みを待ってからアニメーションを開始
+    await preloadHistoryImages();
+
+    // タイムラインを表示
+    const timelineElement = document.getElementById(
+      "timeline-container-mobile",
+    );
+    if (timelineElement) {
+      timelineElement.style.display = "block";
+    }
+
     initScrollAnimation();
+
     const hoverState = setupHoverEvents(true); // モバイル版
     setupMobileScrollAnimation(hoverState.hoveredItem);
-    loadImagesWhenVisible();
   });
 </script>
 
 <!-- タイムラインコンテナ -->
-<div class="timeline">
+<div class="timeline" id="timeline-container-mobile" style="display: none;">
   {
     items.map((item, index) => {
       const themeColor = `#${item.themeColorCode}`;

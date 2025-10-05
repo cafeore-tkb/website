@@ -277,33 +277,86 @@ export function setupHoverEvents(isMobile: boolean = false): {
 }
 
 /**
- * 画像の遅延読み込み
+ * 画像の爆速事前読み込み
  */
-export function loadImagesWhenVisible(): void {
+export async function preloadHistoryImages(): Promise<void> {
   const imageElements = document.querySelectorAll(
     ".timeline-image-bg[data-bg]",
   );
 
-  const imageObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const element = entry.target as HTMLElement;
-          const bgImage = element.getAttribute("data-bg");
-          if (bgImage) {
-            element.style.backgroundImage = bgImage;
-            element.removeAttribute("data-bg");
-            imageObserver.unobserve(element);
-          }
-        }
-      });
-    },
-    {
-      rootMargin: "50px 0px", // 50px手前から読み込み開始
-    },
-  );
+  // 画像URLを抽出
+  const imageUrls = Array.from(imageElements)
+    .map((element) => {
+      const bgImage = element.getAttribute("data-bg");
+      return bgImage ? bgImage.replace(/url\(|\)/g, "") : null;
+    })
+    .filter((url): url is string => url !== null);
 
+  // 画像サイズに基づいて優先度を設定（小さい画像を先に読み込み）
+  const prioritizedUrls = imageUrls.sort((a, b) => {
+    // URLから画像サイズを推測（例: ?w=300&h=200 のようなパラメータ）
+    const getSizeFromUrl = (url: string) => {
+      const match = url.match(/[?&]w=(\d+)/);
+      return match ? parseInt(match[1]) : 1000; // デフォルトは大きいサイズとして扱う
+    };
+    return getSizeFromUrl(a) - getSizeFromUrl(b);
+  });
+
+  // 並列読み込みの制限（同時接続数を制御）
+  const CONCURRENT_LIMIT = 100; // 並列読み込み数を大幅に増加
+  const batches: string[][] = [];
+
+  for (let i = 0; i < prioritizedUrls.length; i += CONCURRENT_LIMIT) {
+    batches.push(prioritizedUrls.slice(i, i + CONCURRENT_LIMIT));
+  }
+
+  // バッチごとに順次処理
+  const batchPromises = batches.map((batch) => {
+    return new Promise<void>((resolve) => {
+      const batchImagePromises = batch.map((url) => {
+        return new Promise<void>((resolveImage) => {
+          const img = new Image();
+
+          // 画像読み込みの最適化
+          img.crossOrigin = "anonymous"; // CORS対応
+          img.decoding = "async"; // 非同期デコード
+          img.loading = "eager"; // 優先読み込み
+
+          // タイムアウト設定
+          const timeoutId = setTimeout(() => {
+            resolveImage();
+          }, 5000);
+
+          img.onload = () => {
+            clearTimeout(timeoutId);
+            resolveImage();
+          };
+
+          img.onerror = () => {
+            clearTimeout(timeoutId);
+            resolveImage(); // エラーでも続行
+          };
+
+          // 画像読み込み開始
+          img.src = url;
+        });
+      });
+
+      Promise.all(batchImagePromises).then(() => {
+        resolve();
+      });
+    });
+  });
+
+  // 全バッチの完了を待つ
+  await Promise.all(batchPromises);
+
+  // 画像をDOMに適用
   imageElements.forEach((element) => {
-    imageObserver.observe(element);
+    const bgImage = element.getAttribute("data-bg");
+    if (bgImage) {
+      (element as HTMLElement).style.backgroundImage = bgImage;
+      element.removeAttribute("data-bg");
+    }
   });
 }

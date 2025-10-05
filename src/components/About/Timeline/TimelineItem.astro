@@ -16,22 +16,32 @@ const items: HistoryItem[] = historyData?.contents || [];
     setInitialStates,
     initScrollAnimation,
     setupHoverEvents,
-    loadImagesWhenVisible,
+    preloadHistoryImages,
   } from "./TimelineAnimations";
 
   gsap.registerPlugin(ScrollTrigger);
 
   // 初期化処理
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     setInitialStates(false); // デスクトップ版
+
+    // 画像の事前読み込みを待ってからアニメーションを開始
+    await preloadHistoryImages();
+
+    // タイムラインを表示
+    const timelineElement = document.getElementById("timeline-container");
+    if (timelineElement) {
+      timelineElement.style.display = "block";
+    }
+
     initScrollAnimation();
+
     setupHoverEvents(false); // デスクトップ版
-    loadImagesWhenVisible();
   });
 </script>
 
 <!-- タイムラインコンテナ -->
-<div class="timeline">
+<div class="timeline" id="timeline-container" style="display: none;">
   {
     items.map((item, index) => {
       const themeColor = `#${item.themeColorCode}`;
