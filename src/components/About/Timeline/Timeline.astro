@@ -8,7 +8,45 @@ interface Props {
 }
 
 const { historyData } = Astro.props;
+
+// 画像URLを抽出してプリロード用のスクリプトを生成
+const imageUrls =
+  historyData?.contents?.map((item) => item.thumbnail.url) || [];
 ---
+
+<!-- 画像プリロード用のスクリプト -->
+<script define:vars={{ timelineImageUrls: imageUrls }} is:inline>
+  // @ts-nocheck
+  // ページ読み込み開始時に重要な画像をプリロード
+  if (
+    typeof window !== "undefined" &&
+    timelineImageUrls &&
+    timelineImageUrls.length > 0
+  ) {
+    // モバイル判定
+    const isMobile = window.innerWidth <= 768;
+
+    // 重要な画像（最初の3枚）を最優先でプリロード
+    const criticalUrls = timelineImageUrls.slice(0, 3).map(function (url) {
+      if (isMobile) {
+        const urlObj = new URL(url);
+        urlObj.searchParams.set("w", "300");
+        urlObj.searchParams.set("q", "75");
+        return urlObj.toString();
+      }
+      return url;
+    });
+
+    criticalUrls.forEach(function (url) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = url;
+      link.crossOrigin = "anonymous";
+      document.head.appendChild(link);
+    });
+  }
+</script>
 
 <div class="timeline">
   <div class="desktop-only">

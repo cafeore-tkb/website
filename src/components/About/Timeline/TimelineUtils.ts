@@ -20,18 +20,33 @@ export function isMobile(): boolean {
   return window.innerWidth <= 768;
 }
 
+// 要素キャッシュ
+let cachedItems: NodeListOf<Element> | null = null;
+
 /**
- * 画面中央のタイムラインアイテムを取得
+ * 画面中央のタイムラインアイテムを取得（最適化版）
  * @returns 画面中央に最も近いタイムラインアイテム
  */
 export function getCenterTimelineItem(): Element | null {
-  const items = document.querySelectorAll(".timeline-item");
+  // 要素をキャッシュして再利用
+  if (!cachedItems) {
+    cachedItems = document.querySelectorAll(".timeline-item");
+  }
+
   const viewportCenter = window.innerHeight / 2;
   let centerItem = null;
   let minDistance = Infinity;
 
-  items.forEach((item) => {
+  // 早期終了のための最適化
+  for (let i = 0; i < cachedItems.length; i++) {
+    const item = cachedItems[i];
     const rect = item.getBoundingClientRect();
+
+    // 画面外の要素はスキップ
+    if (rect.bottom < 0 || rect.top > window.innerHeight) {
+      continue;
+    }
+
     const itemCenter = rect.top + rect.height / 2;
     const distance = Math.abs(itemCenter - viewportCenter);
 
@@ -39,7 +54,7 @@ export function getCenterTimelineItem(): Element | null {
       minDistance = distance;
       centerItem = item;
     }
-  });
+  }
 
   return centerItem;
 }
@@ -61,18 +76,24 @@ export function getItemElements(item: Element): TimelineElements {
 }
 
 /**
- * スクロールイベントのthrottle処理
+ * スクロールイベントのthrottle処理（最適化版）
  * @param callback 実行するコールバック関数
  * @returns throttle処理された関数
  */
 export function createThrottledScrollHandler(callback: () => void): () => void {
   let ticking = false;
+  let lastScrollTime = 0;
+  const THROTTLE_DELAY = 16; // 60fps相当
 
   return () => {
-    if (!ticking) {
+    const now = Date.now();
+
+    // 時間ベースのthrottle + requestAnimationFrame
+    if (!ticking && now - lastScrollTime >= THROTTLE_DELAY) {
       requestAnimationFrame(() => {
         callback();
         ticking = false;
+        lastScrollTime = now;
       });
       ticking = true;
     }

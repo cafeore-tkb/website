@@ -21,22 +21,45 @@ const items: HistoryItem[] = historyData?.contents || [];
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // 初期化処理
+  // 初期化処理（最適化版）
   document.addEventListener("DOMContentLoaded", async () => {
-    setInitialStates(false); // デスクトップ版
+    // モバイルの場合は段階的に初期化
+    const isMobile = window.innerWidth <= 768;
 
-    // 画像の事前読み込みを待ってからアニメーションを開始
-    await preloadHistoryImages();
+    if (isMobile) {
+      // 1. まず初期状態を設定してタイムラインを表示
+      setInitialStates(false);
 
-    // タイムラインを表示
-    const timelineElement = document.getElementById("timeline-container");
-    if (timelineElement) {
-      timelineElement.style.display = "block";
+      const timelineElement = document.getElementById("timeline-container");
+      if (timelineElement) {
+        timelineElement.style.display = "block";
+      }
+
+      // 2. アニメーションを開始（画像読み込みを待たない）
+      initScrollAnimation();
+      setupHoverEvents(false);
+
+      // 3. バックグラウンドで画像を読み込み
+      preloadHistoryImages().then(() => {
+        console.log("Timeline images loaded for desktop");
+      });
+    } else {
+      // デスクトップ版は従来通り
+      const initPromises = [
+        Promise.resolve(setInitialStates(false)),
+        preloadHistoryImages(),
+      ];
+
+      await Promise.all(initPromises);
+
+      const timelineElement = document.getElementById("timeline-container");
+      if (timelineElement) {
+        timelineElement.style.display = "block";
+      }
+
+      initScrollAnimation();
+      setupHoverEvents(false);
     }
-
-    initScrollAnimation();
-
-    setupHoverEvents(false); // デスクトップ版
   });
 </script>
 
@@ -179,21 +202,38 @@ const items: HistoryItem[] = historyData?.contents || [];
   /* 背景画像 */
   .timeline-image-bg {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     z-index: 3;
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+    transition: opacity 0.3s ease; /* 画像読み込み時のフェードイン */
+  }
+
+  /* 画像読み込み中のプレースホルダー */
+  .timeline-image-bg:not([style*="background-image"]) {
+    background-color: #f0f0f0;
+    background-image:
+      linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+      linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+      linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-position:
+      0 0,
+      0 10px,
+      10px -10px,
+      -10px 0;
+    background-size: 20px 20px;
   }
 
   /* ホバー時のオーバーレイ */
   .timeline-image-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     z-index: 4;
     width: 100%;
     height: 100%;
@@ -223,13 +263,13 @@ const items: HistoryItem[] = historyData?.contents || [];
 
   /* 年度が右側にある場合（偶数番目のアイテム）のみ左マージンを適用 */
   .timeline-item[data-image-position="right"] .timeline-events {
-    margin-left: calc(
+    margin-inline-start: calc(
       var(--timeline-year-width) + 2rem
     ); /* 年度の幅 + 余裕分 */
   }
 
   .timeline-events ul {
-    padding-left: 0;
+    padding-inline-start: 0;
     margin: 0;
     list-style: none;
   }

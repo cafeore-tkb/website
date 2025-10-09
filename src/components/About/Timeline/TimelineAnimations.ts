@@ -1,7 +1,7 @@
 import { gsap } from "gsap";
-import { ANIMATION_CONFIG } from "./TimelineConfig";
 import type { TimelineElements } from "./TimelineUtils";
 import { getItemElements, scrollToCenter } from "./TimelineUtils";
+import { ANIMATION_CONFIG } from "./TimelineConfig";
 
 /**
  * 初期状態の設定
@@ -277,7 +277,7 @@ export function setupHoverEvents(isMobile: boolean = false): {
 }
 
 /**
- * 画像の爆速事前読み込み
+ * 画像の事前読み込み（モバイル最適化版）
  */
 export async function preloadHistoryImages(): Promise<void> {
   const imageElements = document.querySelectorAll(
@@ -292,8 +292,23 @@ export async function preloadHistoryImages(): Promise<void> {
     })
     .filter((url): url is string => url !== null);
 
+  // モバイル判定
+  const isMobile = window.innerWidth <= 768;
+
+  // モバイルの場合は画像サイズを最適化
+  const optimizedUrls = imageUrls.map((url) => {
+    if (isMobile) {
+      // モバイル用に画像サイズを小さくする（最大幅400px）
+      const urlObj = new URL(url);
+      urlObj.searchParams.set("w", "400");
+      urlObj.searchParams.set("q", "80"); // 品質を80%に下げてファイルサイズを削減
+      return urlObj.toString();
+    }
+    return url;
+  });
+
   // 画像サイズに基づいて優先度を設定（小さい画像を先に読み込み）
-  const prioritizedUrls = imageUrls.sort((a, b) => {
+  const prioritizedUrls = optimizedUrls.sort((a, b) => {
     // URLから画像サイズを推測（例: ?w=300&h=200 のようなパラメータ）
     const getSizeFromUrl = (url: string) => {
       const match = url.match(/[?&]w=(\d+)/);
@@ -302,8 +317,8 @@ export async function preloadHistoryImages(): Promise<void> {
     return getSizeFromUrl(a) - getSizeFromUrl(b);
   });
 
-  // 並列読み込みの制限（同時接続数を制御）
-  const CONCURRENT_LIMIT = 100; // 並列読み込み数を大幅に増加
+  // モバイルの場合は並列読み込み数を制限（バッテリーとネットワークを考慮）
+  const CONCURRENT_LIMIT = isMobile ? 6 : 100;
   const batches: string[][] = [];
 
   for (let i = 0; i < prioritizedUrls.length; i += CONCURRENT_LIMIT) {
@@ -311,40 +326,46 @@ export async function preloadHistoryImages(): Promise<void> {
   }
 
   // バッチごとに順次処理
-  const batchPromises = batches.map((batch) => {
+  const batchPromises = batches.map((batch, batchIndex) => {
     return new Promise<void>((resolve) => {
-      const batchImagePromises = batch.map((url) => {
-        return new Promise<void>((resolveImage) => {
-          const img = new Image();
+      // モバイルの場合はバッチ間に少し間隔を空ける
+      const delay = isMobile ? batchIndex * 100 : 0;
 
-          // 画像読み込みの最適化
-          img.crossOrigin = "anonymous"; // CORS対応
-          img.decoding = "async"; // 非同期デコード
-          img.loading = "eager"; // 優先読み込み
+      setTimeout(() => {
+        const batchImagePromises = batch.map((url) => {
+          return new Promise<void>((resolveImage) => {
+            const img = new Image();
 
-          // タイムアウト設定
-          const timeoutId = setTimeout(() => {
-            resolveImage();
-          }, 5000);
+            // 画像読み込みの最適化
+            img.crossOrigin = "anonymous"; // CORS対応
+            img.decoding = "async"; // 非同期デコード
+            img.loading = "eager"; // 優先読み込み
 
-          img.onload = () => {
-            clearTimeout(timeoutId);
-            resolveImage();
-          };
+            // モバイルの場合はタイムアウトを短く
+            const timeout = isMobile ? 3000 : 5000;
+            const timeoutId = setTimeout(() => {
+              resolveImage();
+            }, timeout);
 
-          img.onerror = () => {
-            clearTimeout(timeoutId);
-            resolveImage(); // エラーでも続行
-          };
+            img.onload = () => {
+              clearTimeout(timeoutId);
+              resolveImage();
+            };
 
-          // 画像読み込み開始
-          img.src = url;
+            img.onerror = () => {
+              clearTimeout(timeoutId);
+              resolveImage(); // エラーでも続行
+            };
+
+            // 画像読み込み開始
+            img.src = url;
+          });
         });
-      });
 
-      Promise.all(batchImagePromises).then(() => {
-        resolve();
-      });
+        Promise.all(batchImagePromises).then(() => {
+          resolve();
+        });
+      }, delay);
     });
   });
 
@@ -358,5 +379,34 @@ export async function preloadHistoryImages(): Promise<void> {
       (element as HTMLElement).style.backgroundImage = bgImage;
       element.removeAttribute("data-bg");
     }
+  });
+}
+
+/**
+ * ページ読み込み前の画像プリロード（最優先）
+ * この関数はページのheadで呼び出されることを想定
+ */
+export function preloadCriticalImages(imageUrls: string[]): void {
+  // モバイル判定
+  const isMobile = window.innerWidth <= 768;
+
+  // 重要な画像（最初の3枚）を最優先でプリロード
+  const criticalUrls = imageUrls.slice(0, 3).map((url) => {
+    if (isMobile) {
+      const urlObj = new URL(url);
+      urlObj.searchParams.set("w", "300");
+      urlObj.searchParams.set("q", "75");
+      return urlObj.toString();
+    }
+    return url;
+  });
+
+  criticalUrls.forEach((url) => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = url;
+    link.crossOrigin = "anonymous";
+    document.head.appendChild(link);
   });
 }
