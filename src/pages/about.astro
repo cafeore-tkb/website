@@ -1,7 +1,7 @@
 ---
 import SectionWrapper from "../components/About/SectionWrapper.astro";
 import Organization from "../components/About/Organization.astro";
-import Timeline from "../components/About/Timeline/Timeline.astro";
+import TimelineSection from "../components/About/Timeline/TimelineSection.astro";
 import MainNoSideLayout from "../layouts/MainNoSideLayout.astro";
 import { getAllHistory } from "../apis/history";
 
@@ -14,7 +14,5 @@ historyData = await getAllHistory();
     <Organization />
   </SectionWrapper>
 
-  <SectionWrapper title="HISTORY" description="珈琲・俺の歩みをご紹介します。">
-    <Timeline historyData={historyData} />
-  </SectionWrapper>
+  <TimelineSection historyData={historyData} />
 </MainNoSideLayout>

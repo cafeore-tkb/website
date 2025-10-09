@@ -1,0 +1,18 @@
+---
+import type { HistoryResponse } from "../../../apis/history";
+import SectionWrapper from "../SectionWrapper.astro";
+import Timeline from "./Timeline.astro";
+
+interface Props {
+  historyData: HistoryResponse | null;
+}
+
+const { historyData } = Astro.props;
+---
+
+<!-- タイムラインセクション全体（読み込み完了まで非表示） -->
+<div id="timeline-section" style="display: none;">
+  <SectionWrapper title="HISTORY" description="珈琲・俺の歩みをご紹介します。">
+    <Timeline historyData={historyData} />
+  </SectionWrapper>
+</div>

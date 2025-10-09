@@ -72,10 +72,15 @@ const items: HistoryItem[] = historyData?.contents || [];
       setInitialStates(true);
 
       const timelineElement = document.getElementById(
-        "timeline-container-mobile"
+        "timeline-container-mobile",
       );
+      const timelineSectionElement =
+        document.getElementById("timeline-section");
       if (timelineElement) {
         timelineElement.style.display = "block";
+      }
+      if (timelineSectionElement) {
+        timelineSectionElement.style.display = "block";
       }
 
       // 2. アニメーションを開始（画像読み込みを待たない）
@@ -97,10 +102,15 @@ const items: HistoryItem[] = historyData?.contents || [];
       await Promise.all(initPromises);
 
       const timelineElement = document.getElementById(
-        "timeline-container-mobile"
+        "timeline-container-mobile",
       );
+      const timelineSectionElement =
+        document.getElementById("timeline-section");
       if (timelineElement) {
         timelineElement.style.display = "block";
+      }
+      if (timelineSectionElement) {
+        timelineSectionElement.style.display = "block";
       }
 
       initScrollAnimation();
