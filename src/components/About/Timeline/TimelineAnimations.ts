@@ -43,22 +43,58 @@ export function setInitialStates(isMobile: boolean = false): void {
 }
 
 /**
- * スクロールアニメーションの初期化
+ * スクロールアニメーションの初期化（最適化版）
+ * Intersection Observerを使用して、画面に表示されたアイテムのみアニメーション
  */
 export function initScrollAnimation(): void {
-  gsap.to(".timeline-item", {
-    opacity: 1,
-    x: 0,
-    duration: 0.8,
-    stagger: ANIMATION_CONFIG.stagger.items,
-    ease: ANIMATION_CONFIG.ease.bounce,
-    scrollTrigger: {
-      trigger: ".timeline",
-      start: "top 80%",
-      end: "bottom 20%",
-      toggleActions: "play none none reverse",
+  const timelineItems = document.querySelectorAll(".timeline-item");
+
+  // 初期表示される最初の3つのアイテムは即座にアニメーション
+  const initialItems = Array.from(timelineItems).slice(0, 3);
+  if (initialItems.length > 0) {
+    gsap.to(initialItems, {
+      opacity: 1,
+      x: 0,
+      duration: 0.8,
+      stagger: ANIMATION_CONFIG.stagger.items,
+      ease: ANIMATION_CONFIG.ease.bounce,
+    });
+  }
+
+  // 残りのアイテムはIntersection Observerで監視
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const item = entry.target;
+          // 一度アニメーション済みのアイテムは再度アニメーションしない
+          if (item.classList.contains("animated")) return;
+
+          gsap.to(item, {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: ANIMATION_CONFIG.ease.bounce,
+          });
+
+          item.classList.add("animated");
+          // パフォーマンス向上のため、アニメーション後は監視を停止
+          observer.unobserve(item);
+        }
+      });
     },
-  });
+    {
+      rootMargin: "50px", // 画面に入る少し前にアニメーション開始
+      threshold: 0.1,
+    },
+  );
+
+  // 初期表示以外のアイテムを監視
+  Array.from(timelineItems)
+    .slice(3)
+    .forEach((item) => {
+      observer.observe(item);
+    });
 }
 
 /**
@@ -244,7 +280,8 @@ export function createLeaveAnimation(
 }
 
 /**
- * ホバーイベントの設定
+ * ホバーイベントの設定（最適化版）
+ * 初期表示アイテムのみイベント設定し、残りは遅延設定
  * @param isMobile モバイル版かどうか
  * @returns ホバー状態を管理する変数
  */
@@ -254,7 +291,11 @@ export function setupHoverEvents(isMobile: boolean = false): {
   const timelineItems = document.querySelectorAll(".timeline-item");
   const state = { hoveredItem: null as Element | null };
 
-  timelineItems.forEach((item) => {
+  // ホバーイベントを設定する関数
+  const attachHoverEvents = (item: Element) => {
+    // 既にイベント設定済みの場合はスキップ
+    if (item.hasAttribute("data-hover-attached")) return;
+
     const elements = getItemElements(item);
 
     // マウスホバー時のイベント
@@ -271,7 +312,37 @@ export function setupHoverEvents(isMobile: boolean = false): {
 
     // クリック時のスクロール処理
     item.addEventListener("click", () => scrollToCenter(item));
-  });
+
+    item.setAttribute("data-hover-attached", "true");
+  };
+
+  // 初期表示される最初の5つのアイテムにのみイベント設定
+  Array.from(timelineItems)
+    .slice(0, 5)
+    .forEach((item) => attachHoverEvents(item));
+
+  // 残りのアイテムは画面に近づいたらイベント設定（遅延初期化）
+  const eventObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          attachHoverEvents(entry.target);
+          // イベント設定後は監視不要
+          eventObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      rootMargin: "200px", // 画面に入るかなり前にイベント設定
+      threshold: 0,
+    },
+  );
+
+  Array.from(timelineItems)
+    .slice(5)
+    .forEach((item) => {
+      eventObserver.observe(item);
+    });
 
   return state;
 }
@@ -283,7 +354,6 @@ export async function preloadHistoryImages(): Promise<void> {
   const imageElements = document.querySelectorAll(
     ".timeline-image-bg[data-bg]",
   );
-
   // 画像URLを抽出
   const imageUrls = Array.from(imageElements)
     .map((element) => {
@@ -291,10 +361,8 @@ export async function preloadHistoryImages(): Promise<void> {
       return bgImage ? bgImage.replace(/url\(|\)/g, "") : null;
     })
     .filter((url): url is string => url !== null);
-
   // モバイル判定
   const isMobile = window.innerWidth <= 768;
-
   // モバイルの場合は画像サイズを最適化
   const optimizedUrls = imageUrls.map((url) => {
     if (isMobile) {
@@ -306,7 +374,6 @@ export async function preloadHistoryImages(): Promise<void> {
     }
     return url;
   });
-
   // 画像サイズに基づいて優先度を設定（小さい画像を先に読み込み）
   const prioritizedUrls = optimizedUrls.sort((a, b) => {
     // URLから画像サイズを推測（例: ?w=300&h=200 のようなパラメータ）
@@ -316,7 +383,6 @@ export async function preloadHistoryImages(): Promise<void> {
     };
     return getSizeFromUrl(a) - getSizeFromUrl(b);
   });
-
   // モバイルの場合は並列読み込み数を制限（バッテリーとネットワークを考慮）
   const CONCURRENT_LIMIT = isMobile ? 6 : 100;
   const batches: string[][] = [];

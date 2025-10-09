@@ -10,8 +10,6 @@ const items: HistoryItem[] = historyData?.contents || [];
 ---
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import {
     setInitialStates,
     initScrollAnimation,
@@ -19,58 +17,54 @@ const items: HistoryItem[] = historyData?.contents || [];
     preloadHistoryImages,
   } from "./TimelineAnimations";
 
-  gsap.registerPlugin(ScrollTrigger);
-
   // 初期化処理（最適化版）
-  document.addEventListener("DOMContentLoaded", async () => {
+  const initTimeline = async () => {
+    // DOM要素が確実に存在するまで待機
+    const timelineElement = document.getElementById("timeline-container");
+    const timelineSectionElement = document.getElementById("timeline-section");
+
+    if (!timelineElement) {
+      console.error("Timeline container not found");
+      return;
+    }
+
     // モバイルの場合は段階的に初期化
     const isMobile = window.innerWidth <= 768;
 
-    if (isMobile) {
-      // 1. まず初期状態を設定してタイムラインを表示
-      setInitialStates(false);
+    // 1. 初期状態を設定
+    setInitialStates(false);
 
-      const timelineElement = document.getElementById("timeline-container");
-      const timelineSectionElement =
-        document.getElementById("timeline-section");
-      if (timelineElement) {
-        timelineElement.style.display = "block";
-      }
-      if (timelineSectionElement) {
-        timelineSectionElement.style.display = "block";
-      }
-
-      // 2. アニメーションを開始（画像読み込みを待たない）
-      initScrollAnimation();
-      setupHoverEvents(false);
-
-      // 3. バックグラウンドで画像を読み込み
-      preloadHistoryImages().then(() => {
-        console.log("Timeline images loaded for desktop");
-      });
-    } else {
-      // デスクトップ版は従来通り
-      const initPromises = [
-        Promise.resolve(setInitialStates(false)),
-        preloadHistoryImages(),
-      ];
-
-      await Promise.all(initPromises);
-
-      const timelineElement = document.getElementById("timeline-container");
-      const timelineSectionElement =
-        document.getElementById("timeline-section");
-      if (timelineElement) {
-        timelineElement.style.display = "block";
-      }
-      if (timelineSectionElement) {
-        timelineSectionElement.style.display = "block";
-      }
-
-      initScrollAnimation();
-      setupHoverEvents(false);
+    // 2. タイムラインセクションを表示
+    if (timelineSectionElement) {
+      timelineSectionElement.style.display = "block";
     }
-  });
+    if (timelineElement) {
+      timelineElement.style.display = "block";
+    }
+
+    // 3. アニメーションを開始
+    initScrollAnimation();
+    setupHoverEvents(false);
+
+    // 4. バックグラウンドで画像を読み込み（非ブロッキング）
+    if (!isMobile) {
+      // デスクトップは画像を先に読み込む
+      await preloadHistoryImages();
+    } else {
+      // モバイルはバックグラウンドで
+      preloadHistoryImages().then(() => {
+        console.log("Timeline images loaded");
+      });
+    }
+  };
+
+  // DOMContentLoadedまたはreadyStateに応じて初期化
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTimeline);
+  } else {
+    // DOMが既にロード済みの場合は即座に実行
+    initTimeline();
+  }
 </script>
 
 <!-- タイムラインコンテナ -->
@@ -154,7 +148,8 @@ const items: HistoryItem[] = historyData?.contents || [];
     align-items: flex-start;
     background-color: var(--item-theme-color, transparent);
     transform: translateZ(0); /* レイヤー分離 */
-    will-change: transform; /* GPUアクセラレーション */
+
+    /* will-changeは必要な時だけJavaScriptで設定（パフォーマンス向上） */
   }
 
   /* 年度表示エリア */
