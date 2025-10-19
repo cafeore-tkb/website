@@ -1,14 +1,76 @@
 ---
-import SideBanners from "../components/SideBanners.astro";
-import MainSideLayout from "../layouts/MainSideLayout.astro";
+import StaticLayout from "../layouts/StaticLayout.astro";
+import ViewMore from "../assets/view-more.svg";
 ---
 
-<MainSideLayout title="ABOUT">
-  <Fragment slot="main">
-    <h1>ABOUT</h1>
-    <p>Work in progress...</p>
-  </Fragment>
-  <Fragment slot="aside">
-    <SideBanners />
-  </Fragment>
-</MainSideLayout>
+<StaticLayout title="ABOUT">
+  <article>
+    <div class="article-header">
+      <h1 class="article-title">珈琲・俺について</h1>
+    </div>
+    <div class="content">
+      <p>
+        珈琲・俺（かふぇおれ）は、2000年10月に活動を開始した筑波大学の珈琲研究会です。
+      </p>
+      <p>
+        毎年雙峰祭に出店することを主な活動としており、一杯一杯ハンドドリップで淹れるコーヒーが特徴です。
+      </p>
+      <h2 class="awards-title">受賞履歴</h2>
+      <ul>
+        <li>2022年 雙峰祭グランプリ優秀賞</li>
+        <li>2023年 雙峰祭グランプリ優秀賞</li>
+        <li>2024年 雙峰祭グランプリ最優秀賞</li>
+      </ul>
+      <ViewMore
+        class="view-more"
+        role="img"
+        aria-label="店舗の様子をもっと見る"
+      />
+    </div>
+  </article>
+</StaticLayout>
+
+<style>
+  .article-header {
+    padding-inline: 1rem;
+    margin-block: 3rem 2rem;
+  }
+
+  .article-title {
+    margin-block-end: 0.5rem;
+    color: var(--cafeore-brown);
+  }
+
+  .content {
+    padding-inline: 1rem;
+    font-size: 1rem;
+    line-height: 1.8rem;
+  }
+
+  .awards-title {
+    margin-block-start: 2rem;
+    color: var(--cafeore-brown);
+  }
+
+  .view-more {
+    display: block;
+    width: 30%;
+    padding-block: 5rem 0.5rem;
+    margin-inline: auto;
+  }
+
+  @media (width <= 620px) {
+    .article-title {
+      font-size: 1.5rem;
+    }
+
+    .awards-title {
+      font-size: 1.2rem;
+    }
+
+    .view-more {
+      width: 45%;
+      padding-block: 2rem 0.5rem;
+    }
+  }
+</style>
