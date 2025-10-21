@@ -23,6 +23,8 @@ const sideBanner = await getSideBanner();
 
   /* 1010px < width */
   .side-banners {
+    position: sticky;
+    top: 140px;
     display: flex;
     flex-direction: column;
     gap: var(--side-banner-gap);
@@ -35,6 +37,7 @@ const sideBanner = await getSideBanner();
   /* width <= 1010px */
   @media (width <= 1010px) {
     .side-banners {
+      position: static;
       flex-flow: row wrap;
       margin-block: calc(var(--side-banner-mrg) * 5);
       margin-inline: var(--side-banner-mrg);
