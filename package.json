@@ -21,11 +21,11 @@
     "@astrojs/react": "^4.4.0",
     "@astrojs/ts-plugin": "^1.10.4",
     "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
+    "@types/react-dom": "^19.2.2",
     "astro": "^5.14.1",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react-dom": "^19.2.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
