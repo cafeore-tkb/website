@@ -16,7 +16,7 @@
     "stylelint:fix": "stylelint **/*.{astro,css} --fix"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.5",
     "@astrojs/cloudflare": "^12.6.10",
     "@astrojs/react": "^4.4.0",
     "@astrojs/ts-plugin": "^1.10.4",
