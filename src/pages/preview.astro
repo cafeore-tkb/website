@@ -34,8 +34,8 @@ import Layout from "../layouts/Layout.astro";
   } else {
     fetch(
       `/api/preview?contentId=${encodeURIComponent(contentId)}&draftKey=${encodeURIComponent(
-        draftKey
-      )}`
+        draftKey,
+      )}`,
     )
       .then(async (res) => {
         if (!res.ok) {
