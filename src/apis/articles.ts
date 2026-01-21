@@ -35,7 +35,7 @@ export async function getArticleDraftById(
   id: string,
   draftKey: string,
 ): Promise<Article> {
-  const path = `articles/${id}?draftKey=${encodeURIComponent(draftKey)}`;
+  const path = `articles/${id}?draftKey=${draftKey}`;
   const res = await fetchWithAuth(path);
   const data: Article = await res.json();
   return data;
