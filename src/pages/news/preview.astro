@@ -9,8 +9,8 @@ import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
 import { getWidthHeight } from "../../utils/image-sizing";
 import { getWebpLosslessSrc } from "../../utils/imgix";
 
-const contentId = Astro.url.searchParams.get("contentId");
-const draftKey = Astro.url.searchParams.get("draftKey");
+const contentId = Astro.url.searchParams.get("contentId")!;
+const draftKey = Astro.url.searchParams.get("draftKey")!;
 
 const article = await getArticleDraftById(contentId, draftKey);
 
