@@ -11,7 +11,8 @@ export interface Props {
 const { article } = Astro.props;
 const { publishedAt, title, content, thumbnail } = article;
 
-const publishedDate = new Date(publishedAt);
+// publishedAt が有効な値の場合のみ日付を使用、無効な場合は null
+const publishedDate = publishedAt ? new Date(publishedAt) : null;
 ---
 
 <article>
@@ -26,9 +27,13 @@ const publishedDate = new Date(publishedAt);
   </div>
   <div class="article-header">
     <h1 class="article-title">{title}</h1>
-    <time class="published-date" datetime={publishedDate.toISOString()}>
-      {formatDate(publishedDate)}
-    </time>
+    {
+      publishedDate !== null && (
+        <time class="published-date" datetime={publishedDate.toISOString()}>
+          {formatDate(publishedDate)}
+        </time>
+      )
+    }
   </div>
   <ArticleBody htmlContent={content} />
 </article>
