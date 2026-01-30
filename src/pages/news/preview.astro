@@ -1,0 +1,37 @@
+---
+export const prerender = false;
+
+import { getImage } from "astro:assets";
+import { getArticleDraftById } from "../../apis/articles";
+import Article from "../../components/Article.astro";
+import SideBanners from "../../components/SideBanners.astro";
+import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
+import { getWidthHeight } from "../../utils/image-sizing";
+import { getWebpLosslessSrc } from "../../utils/imgix";
+
+const contentId = Astro.url.searchParams.get("contentId")!;
+const draftKey = Astro.url.searchParams.get("draftKey")!;
+
+const article = await getArticleDraftById(contentId, draftKey);
+
+const imageSrc = getWebpLosslessSrc(article.thumbnail.url);
+const imageSize = getWidthHeight({
+  src: article.thumbnail,
+  maxWidth: 1200,
+});
+const ogpImage = await getImage({
+  src: imageSrc,
+  quality: "mid",
+  ...imageSize,
+});
+const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
+---
+
+<MainSideStaticLayout title={article.title} ogImageUrl={ogImageUrl}>
+  <Fragment slot="main">
+    <Article article={article} />
+  </Fragment>
+  <Fragment slot="aside">
+    <SideBanners />
+  </Fragment>
+</MainSideStaticLayout>
