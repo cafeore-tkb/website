@@ -1,8 +1,10 @@
 ---
 import { getAllArticles } from "../apis/articles";
+import { getCMSSecrets } from "../consts";
 import ArticleCard from "./ArticleCard.astro";
 
-const articles = await getAllArticles();
+const secrets = getCMSSecrets();
+const articles = await getAllArticles(secrets);
 ---
 
 <div class="container">

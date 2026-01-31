@@ -3,8 +3,10 @@ import { getTopImages } from "../apis/top-images";
 import HeroMessage from "../assets/hero-message.svg";
 import CafeoreName from "../assets/cafeore-name-only.svg";
 import MicroCMSImage from "./MicroCMSImage.astro";
+import { getCMSSecrets } from "../consts";
 
-const topImages = await getTopImages();
+const secrets = getCMSSecrets();
+const topImages = await getTopImages(secrets);
 ---
 
 <section class="hero">
