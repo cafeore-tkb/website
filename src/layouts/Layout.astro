@@ -4,9 +4,10 @@ import "../global.css";
 export interface Props {
   title?: string;
   ogImageUrl?: string | undefined;
+  noIndex?: boolean;
 }
 
-const { title: pageTitle, ogImageUrl } = Astro.props;
+const { title: pageTitle, ogImageUrl, noIndex = false } = Astro.props;
 
 const isHome = Astro.url.pathname === "/";
 // トップページならサイトタイトルだけ、そうでなければ「ページタイトル | サイトタイトル」とする
@@ -25,6 +26,7 @@ const ogType = isHome ? "website" : "article";
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url.href} />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {noIndex && <meta name="robots" content="noindex" />}
     <title>{fullTitle}</title>
   </head>
   <body>
