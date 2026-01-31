@@ -36,6 +36,19 @@ const htmlWithImageOptimized = await optimizeImages(htmlContent);
       border-radius: 12px;
     }
 
+    a {
+      color: var(--sepia);
+      text-underline-offset: 0.2em;
+    }
+
+    a:visited {
+      color: var(--cafeore-cream);
+    }
+
+    a:hover {
+      color: var(--orange);
+    }
+
     @media (width <= 620px) {
       figure {
         margin-inline: 0;
