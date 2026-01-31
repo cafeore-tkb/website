@@ -1,3 +1,4 @@
+import type { CMSSecrets } from "../consts";
 import { fetchWithAuth } from "./api-base";
 import type { MicroCMSImage } from "./type";
 
@@ -19,14 +20,19 @@ export interface ArticleResponse {
   limit: number;
 }
 
-export async function getAllArticles(): Promise<ArticleResponse> {
-  const res = await fetchWithAuth("articles");
+export async function getAllArticles(
+  secrets: CMSSecrets,
+): Promise<ArticleResponse> {
+  const res = await fetchWithAuth("articles", secrets);
   const data: ArticleResponse = await res.json();
   return data;
 }
 
-export async function getArticleById(id: string): Promise<Article> {
-  const res = await fetchWithAuth(`articles/${id}`);
+export async function getArticleById(
+  id: string,
+  secrets: CMSSecrets,
+): Promise<Article> {
+  const res = await fetchWithAuth(`articles/${id}`, secrets);
   const data: Article = await res.json();
   return data;
 }
@@ -34,9 +40,10 @@ export async function getArticleById(id: string): Promise<Article> {
 export async function getArticleDraftById(
   id: string,
   draftKey: string,
+  secrets: CMSSecrets,
 ): Promise<Article> {
   const path = `articles/${id}?draftKey=${draftKey}`;
-  const res = await fetchWithAuth(path);
+  const res = await fetchWithAuth(path, secrets);
   const data: Article = await res.json();
   return data;
 }

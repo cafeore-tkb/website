@@ -5,8 +5,10 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
+import { getCMSSecrets } from "../consts";
 
-const res = await getAllArticles();
+const secrets = getCMSSecrets();
+const res = await getAllArticles(secrets);
 const articles = res.contents;
 ---
 

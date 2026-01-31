@@ -1,3 +1,4 @@
+import type { CMSSecrets } from "../consts";
 import { fetchWithAuth } from "./api-base";
 import type { MicroCMSImage } from "./type";
 
@@ -21,8 +22,8 @@ export interface SideBanner {
   banners: Banner[];
 }
 
-export async function getSideBanner(): Promise<SideBanner> {
-  const res = await fetchWithAuth("side-banner");
+export async function getSideBanner(secrets: CMSSecrets): Promise<SideBanner> {
+  const res = await fetchWithAuth("side-banner", secrets);
   const data: SideBanner = await res.json();
   return data;
 }

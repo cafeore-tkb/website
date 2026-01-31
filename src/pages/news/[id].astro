@@ -6,14 +6,17 @@ import SideBanners from "../../components/SideBanners.astro";
 import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
 import { getWidthHeight } from "../../utils/image-sizing";
 import { getWebpLosslessSrc } from "../../utils/imgix";
+import { getCMSSecrets } from "../../consts";
 
 export async function getStaticPaths() {
-  const articles = await getAllArticles();
+  const secrets = getCMSSecrets();
+  const articles = await getAllArticles(secrets);
   return articles.contents.map((article) => ({ params: { id: article.id } }));
 }
-const { id } = Astro.params;
-const article = await getArticleById(id);
 
+const { id } = Astro.params;
+const secrets = getCMSSecrets();
+const article = await getArticleById(id, secrets);
 const imageSrc = getWebpLosslessSrc(article.thumbnail.url);
 const imageSize = getWidthHeight({
   src: article.thumbnail,
