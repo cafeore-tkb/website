@@ -1,4 +1,6 @@
 ---
+import StaticLayout from "../layouts/StaticLayout.astro";
+
 interface Props {
   error: unknown;
 }
@@ -6,4 +8,7 @@ interface Props {
 const { error } = Astro.props;
 ---
 
-<div>{error instanceof Error ? error.message : "Unknown error"}</div>
+<StaticLayout title="500 Internal Server Error" noIndex={true}>
+  <h1>500 Internal Server Error</h1>
+  <div>{error instanceof Error ? error.message : "Unknown error"}</div>
+</StaticLayout>
