@@ -42,7 +42,11 @@ const ogpImage = await getImage({
 const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
 ---
 
-<MainSideStaticLayout title={article.title} ogImageUrl={ogImageUrl}>
+<MainSideStaticLayout
+  title={article.title}
+  ogImageUrl={ogImageUrl}
+  noIndex={true}
+>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>
