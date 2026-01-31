@@ -6,12 +6,13 @@ import Header from "../components/Header.astro";
 export interface Props {
   title: string;
   ogImageUrl?: string;
+  noIndex?: boolean;
 }
 
-const { title, ogImageUrl } = Astro.props;
+const { title, ogImageUrl, noIndex } = Astro.props;
 ---
 
-<Layout title={title} ogImageUrl={ogImageUrl}>
+<Layout title={title} ogImageUrl={ogImageUrl} noIndex={noIndex}>
   <Header />
   <div class="container">
     <main class="main-container">

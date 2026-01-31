@@ -36,6 +36,25 @@ const htmlWithImageOptimized = await optimizeImages(htmlContent);
       border-radius: 12px;
     }
 
+    a {
+      color: var(--sepia);
+      text-underline-offset: 0.2em;
+    }
+
+    a:visited {
+      color: var(--cafeore-cream);
+    }
+
+    a:hover {
+      color: var(--orange);
+    }
+
+    blockquote {
+      padding-inline-start: 1rem;
+      color: var(--gray-dark);
+      border-left: 3px solid var(--cafeore-cream);
+    }
+
     @media (width <= 620px) {
       figure {
         margin-inline: 0;

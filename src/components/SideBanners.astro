@@ -1,8 +1,10 @@
 ---
 import { getSideBanner } from "../apis/side-banner";
+import { getCMSSecrets } from "../consts";
 import Banner from "./Banner.astro";
 
-const sideBanner = await getSideBanner();
+const secrets = getCMSSecrets();
+const sideBanner = await getSideBanner(secrets);
 ---
 
 <div class="side-banners">
