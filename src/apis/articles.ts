@@ -26,10 +26,7 @@ export async function getAllArticles(
   const LIMIT = 100;
 
   // 1. limit=1でfetchしてtotalCountを取得
-  const firstRes = await fetchWithAuth(
-    "articles?limit=1&fields=id",
-    secrets,
-  );
+  const firstRes = await fetchWithAuth("articles?limit=1&fields=id", secrets);
   const firstData = (await firstRes.json()) as MicroCMSListResponse<{
     id: string;
   }>;
