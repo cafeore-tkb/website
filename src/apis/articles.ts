@@ -20,11 +20,16 @@ export interface ArticleResponse {
   limit: number;
 }
 
-export async function getAllArticles(): Promise<ArticleResponse> {
+export async function getAllArticles(
+  secrets: CMSSecrets,
+): Promise<ArticleResponse> {
   const LIMIT = 100;
 
   // 1. limit=1でfetchしてtotalCountを取得
-  const firstRes = await fetchWithAuth("articles?limit=1&fields=id");
+  const firstRes = await fetchWithAuth(
+    "articles?limit=1&fields=id",
+    secrets,
+  );
   const firstData = (await firstRes.json()) as MicroCMSListResponse<{
     id: string;
   }>;
@@ -43,7 +48,7 @@ export async function getAllArticles(): Promise<ArticleResponse> {
       offset: offset.toString(),
     });
     fetchPromises.push(
-      fetchWithAuth(`articles?${queryParams.toString()}`).then(
+      fetchWithAuth(`articles?${queryParams.toString()}`, secrets).then(
         async (res) => (await res.json()) as MicroCMSListResponse<Article>,
       ),
     );
