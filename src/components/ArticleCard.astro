@@ -5,13 +5,14 @@ import MicroCMSImage from "./MicroCMSImage.astro";
 
 export interface Props {
   article: Article;
+  type: string;
 }
-const { article } = Astro.props;
+const { article, type } = Astro.props;
 const { id, title, thumbnail, publishedAt } = article;
 const publishedDate = new Date(publishedAt);
 ---
 
-<a class="card-link" href={`/news/${id}/`}>
+<a class="card-link" href={`/${type}/${id}/`}>
   <article>
     <div class="thumbnail-container">
       <MicroCMSImage

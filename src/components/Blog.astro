@@ -5,18 +5,18 @@ import ArticleCard from "./ArticleCard.astro";
 
 const secrets = getCMSSecrets();
 const articles = await getAllArticles(secrets);
-const newsArticles = articles.contents.filter(
-  (article) => article.type[0] === "news",
+const blogArticles = articles.contents.filter(
+  (article) => article.type[0] === "blog",
 );
 ---
 
 <div class="container">
-  <h1 class="news-title">NEWS</h1>
-  <ul class="news-list">
+  <h1 class="blog-title">BLOG</h1>
+  <ul class="blog-list">
     {
-      newsArticles.map((article) => (
-        <li class="news-item">
-          <ArticleCard article={article} type="news" />
+      blogArticles.map((article) => (
+        <li class="blog-item">
+          <ArticleCard article={article} type="blog" />
         </li>
       ))
     }
@@ -28,13 +28,13 @@ const newsArticles = articles.contents.filter(
     padding-inline-start: 2rem;
   }
 
-  .news-title {
+  .blog-title {
     margin-block: 2rem;
     font-size: 1.8rem;
     color: var(--cafeore-brown);
   }
 
-  .news-list {
+  .blog-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
@@ -43,7 +43,7 @@ const newsArticles = articles.contents.filter(
     list-style: none;
   }
 
-  .news-item {
+  .blog-item {
     width: 100%;
     max-width: 400px;
   }

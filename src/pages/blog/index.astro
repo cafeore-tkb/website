@@ -1,0 +1,14 @@
+---
+import SideBanners from "../../components/SideBanners.astro";
+import MainSideLayout from "../../layouts/MainSideLayout.astro";
+import BLOG from "../../components/BLOG.astro";
+---
+
+<MainSideLayout title="BLOG">
+  <Fragment slot="main">
+    <BLOG />
+  </Fragment>
+  <Fragment slot="aside">
+    <SideBanners />
+  </Fragment>
+</MainSideLayout>
