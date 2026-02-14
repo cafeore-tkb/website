@@ -40,7 +40,7 @@
     "prettier-plugin-astro": "0.14.1",
     "stylelint": "^16.25.0",
     "stylelint-config-html": "^1.1.0",
-    "stylelint-config-recess-order": "^7.4.0",
+    "stylelint-config-recess-order": "^7.6.1",
     "stylelint-config-standard": "^39.0.1",
     "wrangler": "^4.63.0"
   }
