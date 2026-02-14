@@ -11,6 +11,7 @@ export interface Article {
   title: string;
   thumbnail: MicroCMSImage;
   content: string;
+  type: string; // "news" or "blog"
 }
 
 export interface ArticleResponse {

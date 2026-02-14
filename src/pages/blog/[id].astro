@@ -1,0 +1,40 @@
+---
+import { getImage } from "astro:assets";
+import { getAllArticles, getArticleById } from "../../apis/articles";
+import Article from "../../components/Article.astro";
+import SideBanners from "../../components/SideBanners.astro";
+import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
+import { getWidthHeight } from "../../utils/image-sizing";
+import { getWebpLosslessSrc } from "../../utils/imgix";
+import { getCMSSecrets } from "../../consts";
+
+export async function getStaticPaths() {
+  const secrets = getCMSSecrets();
+  const articles = await getAllArticles(secrets);
+  return articles.contents.map((article) => ({ params: { id: article.id } }));
+}
+
+const { id } = Astro.params;
+const secrets = getCMSSecrets();
+const article = await getArticleById(id, secrets);
+const imageSrc = getWebpLosslessSrc(article.thumbnail.url);
+const imageSize = getWidthHeight({
+  src: article.thumbnail,
+  maxWidth: 1200,
+});
+const ogpImage = await getImage({
+  src: imageSrc,
+  quality: "mid",
+  ...imageSize,
+});
+const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
+---
+
+<MainSideStaticLayout title={article.title} ogImageUrl={ogImageUrl}>
+  <Fragment slot="main">
+    <Article article={article} />
+  </Fragment>
+  <Fragment slot="aside">
+    <SideBanners />
+  </Fragment>
+</MainSideStaticLayout>
