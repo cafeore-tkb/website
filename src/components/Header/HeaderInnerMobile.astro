@@ -10,7 +10,7 @@ import { INSTAGRAM_URL, X_URL } from "../../consts.ts";
     <button id="mobile-button" class="button" type="button">
       <Logo
         class="logo"
-        fill="var(--cafeore-brown)"
+        fill="white"
         role="img"
         aria-label="珈琲・俺（かふぇおれ）"
       />
@@ -22,18 +22,13 @@ import { INSTAGRAM_URL, X_URL } from "../../consts.ts";
             role="img"
             aria-label="Instagram"
             class="sns-icon"
-            fill="var(--dark-gray)"
+            fill="white"
           />
         </a>
       </li>
       <li>
         <a class="sns-link" href={X_URL} target="_blank">
-          <XIcon
-            role="img"
-            aria-label="X"
-            class="sns-icon"
-            fill="var(--dark-gray)"
-          />
+          <XIcon role="img" aria-label="X" class="sns-icon" fill="white" />
         </a>
       </li>
     </ul>
@@ -73,9 +68,10 @@ import { INSTAGRAM_URL, X_URL } from "../../consts.ts";
     flex-direction: column;
     height: fit-content;
     padding: 4px;
-    background-color: rgb(from var(--ivory) r g b / 80%);
+
+    /* background-color: rgb(from var(--ivory) r g b / 80%);
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px); */
   }
 
   .header-top {
@@ -128,10 +124,10 @@ import { INSTAGRAM_URL, X_URL } from "../../consts.ts";
     font-size: 1.1rem;
     font-weight: bold;
     line-height: 50px;
-    color: black;
+    color: white;
     letter-spacing: 2px;
     text-decoration: none;
-    border-block-start: 1px solid rgb(from var(--gray) r g b / 50%);
+    border-block-start: 1px solid white;
   }
 
   .link.top {
