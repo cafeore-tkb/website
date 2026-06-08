@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "wrangler dev",
+    "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
     "cf-typegen": "wrangler types",
@@ -16,20 +16,20 @@
     "stylelint:fix": "stylelint **/*.{astro,css} --fix"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@astrojs/cloudflare": "^12.6.11",
-    "@astrojs/react": "^4.4.2",
-    "@astrojs/ts-plugin": "^1.10.5",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.6.1",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/ts-plugin": "^1.10.9",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.2.2",
-    "astro": "^5.16.0",
+    "astro": "^6.4.4",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.2.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "~24.13.0",
     "@typescript-eslint/parser": "^8.48.0",
     "eslint": "^9.38.0",
     "eslint-plugin-astro": "^1.6.0",
