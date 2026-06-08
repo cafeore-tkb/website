@@ -9,10 +9,6 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: "https://cafeore.cafe",
   adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
-
     imageService: "compile",
   }),
   build: {
