@@ -1,6 +1,5 @@
 ---
 import { getTopImages } from "../apis/top-images";
-import HeroMessage from "../assets/hero-message.svg";
 import CafeoreName from "../assets/cafeore-name-only.svg";
 import MicroCMSImage from "./MicroCMSImage.astro";
 import { getCMSSecrets } from "../consts";
@@ -20,29 +19,15 @@ const topImages = await getTopImages(secrets);
     />
     <div class="image-filter"></div>
   </div>
-  <div class="hero-message-container">
+  <div class="hero-name-container">
     <CafeoreName
       id="cafeore-name"
       fill="white"
       role="img"
       aria-label="珈琲・俺（かふぇおれ）"
     />
-    <HeroMessage
-      id="hero-message"
-      role="img"
-      aria-label="一口に伝統と誇りをこめて。"
-    />
   </div>
 </section>
-
-<script>
-  const heroMessage = document.getElementById("hero-message");
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      heroMessage?.classList.add("active");
-    }, 300);
-  });
-</script>
 
 <style>
   .hero {
@@ -60,12 +45,7 @@ const topImages = await getTopImages(secrets);
 </style>
 
 <style>
-  :root {
-    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
-  }
-
-  .hero-message-container {
+  .hero-name-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -82,27 +62,6 @@ const topImages = await getTopImages(secrets);
     max-width: 80%;
     height: 40%;
     margin-inline: auto;
-  }
-
-  #hero-message {
-    position: absolute;
-    bottom: 10%;
-    left: 5%;
-    display: block;
-    width: auto;
-    max-width: 70%;
-    height: 25%;
-    opacity: 0;
-    translate: 0 10%;
-  }
-
-  #hero-message.active {
-    opacity: 1;
-    translate: 0;
-    transition-timing-function:
-      opacity var(--ease-out-cubic),
-      translate var(--ease-out-quint);
-    transition-duration: 1s;
   }
 </style>
 
