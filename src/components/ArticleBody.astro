@@ -23,6 +23,9 @@ const htmlWithImageOptimized = await optimizeImages(htmlContent);
     h5,
     h6 {
       color: var(--cafeore-brown);
+
+      /* 目次から飛んだときに固定ヘッダーで隠れないようにする */
+      scroll-margin-block-start: 90px;
     }
 
     figure {
