@@ -1,14 +1,21 @@
 ---
+import type { JsonLdNode } from "../utils/jsonld";
 import MainSideLayout from "./MainSideLayout.astro";
 export interface Props {
   title: string;
   ogImageUrl?: string;
   noIndex?: boolean;
+  jsonLd?: JsonLdNode[];
 }
-const { title, ogImageUrl, noIndex } = Astro.props;
+const { title, ogImageUrl, noIndex, jsonLd } = Astro.props;
 ---
 
-<MainSideLayout title={title} ogImageUrl={ogImageUrl} noIndex={noIndex}>
+<MainSideLayout
+  title={title}
+  ogImageUrl={ogImageUrl}
+  noIndex={noIndex}
+  jsonLd={jsonLd}
+>
   <Fragment slot="main">
     <div class="static-container">
       <slot name="main" />

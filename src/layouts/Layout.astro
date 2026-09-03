@@ -1,18 +1,37 @@
 ---
 import { CAFEORE_NAME } from "../consts";
+import {
+  organizationNode,
+  serializeJsonLd,
+  webSiteNode,
+  type JsonLdNode,
+} from "../utils/jsonld";
 import "../global.css";
 export interface Props {
   title?: string;
   ogImageUrl?: string | undefined;
   noIndex?: boolean;
+  /** ページ固有の構造化データ。団体とサイトのノードは常に自動で入る */
+  jsonLd?: JsonLdNode[];
 }
 
-const { title: pageTitle, ogImageUrl, noIndex = false } = Astro.props;
+const {
+  title: pageTitle,
+  ogImageUrl,
+  noIndex = false,
+  jsonLd = [],
+} = Astro.props;
 
 const isHome = Astro.url.pathname === "/";
 // トップページならサイトタイトルだけ、そうでなければ「ページタイトル | サイトタイトル」とする
 const fullTitle = isHome ? CAFEORE_NAME : `${pageTitle} | ${CAFEORE_NAME}`;
 const ogType = isHome ? "website" : "article";
+
+// 検索結果に出さないページに構造化データを置く意味はないので noIndex なら出さない
+const site = Astro.site ?? new URL(Astro.url.origin);
+const jsonLdText = noIndex
+  ? null
+  : serializeJsonLd([organizationNode(site), webSiteNode(site), ...jsonLd]);
 ---
 
 <!doctype html>
@@ -28,6 +47,11 @@ const ogType = isHome ? "website" : "article";
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     {noIndex && <meta name="robots" content="noindex" />}
     <title>{fullTitle}</title>
+    {
+      jsonLdText && (
+        <script type="application/ld+json" is:inline set:html={jsonLdText} />
+      )
+    }
   </head>
   <body>
     <slot />
