@@ -4,5 +4,6 @@
 html,
 body {
   font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  color: var(--cafeore-brown);
   background-color: var(--ivory);
 }

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "wrangler dev",
+    "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
     "cf-typegen": "wrangler types",
@@ -16,32 +16,33 @@
     "stylelint:fix": "stylelint **/*.{astro,css} --fix"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@astrojs/cloudflare": "^12.6.11",
-    "@astrojs/react": "^4.4.2",
-    "@astrojs/ts-plugin": "^1.10.5",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.6.1",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/ts-plugin": "^1.10.9",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.2.2",
-    "astro": "^5.16.0",
+    "astro": "^6.4.4",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.2.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "@typescript-eslint/parser": "^8.48.0",
+    "@types/node": "~24.13.2",
+    "@typescript-eslint/parser": "^8.60.1",
     "eslint": "^9.38.0",
-    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "parse5": "^8.0.0",
-    "postcss-html": "^1.8.0",
+    "parse5": "^8.0.1",
+    "postcss-html": "^1.8.1",
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
-    "stylelint": "^16.25.0",
+    "stylelint": "^17.0.0",
     "stylelint-config-html": "^1.1.0",
-    "stylelint-config-recess-order": "^7.4.0",
-    "stylelint-config-standard": "^39.0.1",
-    "wrangler": "^4.46.0"
+    "stylelint-config-recess-order": "^7.7.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1",
+    "wrangler": "^4.63.0"
   }
 }
