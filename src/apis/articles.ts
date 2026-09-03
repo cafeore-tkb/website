@@ -13,46 +13,63 @@ export interface Article {
   content: string;
 }
 
-export interface ArticleResponse {
-  contents: Article[];
-  totalCount: number;
-  offset: number;
-  limit: number;
+export type ArticleResponse = MicroCMSListResponse<Article>;
+
+/** microCMSが1回のリクエストで返せるコンテンツ数の上限 */
+const LIMIT = 100;
+
+/**
+ * リスト形式のレスポンスをパースする。
+ *
+ * 失敗したレスポンスをそのままjson()に通すと
+ * 「Unexpected end of JSON input」という原因の分からないエラーになるため、
+ * ここでステータスを見て何が起きたか分かる形で投げ直す。
+ */
+async function parseListResponse<T>(
+  res: Response,
+  path: string,
+): Promise<MicroCMSListResponse<T>> {
+  if (!res.ok) {
+    throw new Error(
+      `microCMSへのリクエストに失敗しました: ${path} (${res.status} ${res.statusText})`,
+    );
+  }
+  const data: MicroCMSListResponse<T> = await res.json();
+  return data;
 }
 
 export async function getAllArticles(
   secrets: CMSSecrets,
 ): Promise<ArticleResponse> {
-  const LIMIT = 100;
-
   // 1. limit=1でfetchしてtotalCountを取得
-  const firstRes = await fetchWithAuth("articles?limit=1&fields=id", secrets);
-  const firstData = (await firstRes.json()) as MicroCMSListResponse<{
-    id: string;
-  }>;
+  const firstPath = "articles?limit=1&fields=id";
+  const firstRes = await fetchWithAuth(firstPath, secrets);
+  const firstData = await parseListResponse<{ id: string }>(
+    firstRes,
+    firstPath,
+  );
   const totalCount = firstData.totalCount;
 
   // 2. totalCount/LIMITの回数分fetchする（切り上げ）
   const fetchCount = Math.ceil(totalCount / LIMIT);
-  const results: MicroCMSListResponse<Article>[] = [];
 
   // 3. offsetを変えてLIMIT件ずつfetch
-  const fetchPromises = [];
+  const fetchPromises: Promise<MicroCMSListResponse<Article>>[] = [];
   for (let i = 0; i < fetchCount; i++) {
     const offset = i * LIMIT;
     const queryParams = new URLSearchParams({
       limit: LIMIT.toString(),
       offset: offset.toString(),
     });
+    const path = `articles?${queryParams.toString()}`;
     fetchPromises.push(
-      fetchWithAuth(`articles?${queryParams.toString()}`, secrets).then(
-        async (res) => (await res.json()) as MicroCMSListResponse<Article>,
+      fetchWithAuth(path, secrets).then((res) =>
+        parseListResponse<Article>(res, path),
       ),
     );
   }
 
-  const responses = await Promise.all(fetchPromises);
-  results.push(...responses);
+  const results = await Promise.all(fetchPromises);
 
   // 4. contentsを結合してMicroCMSListResponse形式で返す
   const allContents = results.flatMap((data) => data.contents);
