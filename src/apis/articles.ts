@@ -1,6 +1,6 @@
 import type { CMSSecrets } from "../consts";
-import { fetchWithAuth } from "./api-base";
-import type { MicroCMSImage } from "./type";
+import { fetchAllContents, fetchWithAuth } from "./api-base";
+import type { MicroCMSImage, MicroCMSListResponse } from "./type";
 
 export interface Article {
   id: string;
@@ -13,19 +13,12 @@ export interface Article {
   content: string;
 }
 
-export interface ArticleResponse {
-  contents: Article[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
+export type ArticleResponse = MicroCMSListResponse<Article>;
 
 export async function getAllArticles(
   secrets: CMSSecrets,
 ): Promise<ArticleResponse> {
-  const res = await fetchWithAuth("articles", secrets);
-  const data: ArticleResponse = await res.json();
-  return data;
+  return fetchAllContents<Article>("articles", secrets);
 }
 
 export async function getArticleById(
