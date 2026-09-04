@@ -7,6 +7,7 @@ import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
 import { getWidthHeight } from "../../utils/image-sizing";
 import { getWebpLosslessSrc } from "../../utils/imgix";
 import { getCMSSecrets } from "../../consts";
+import { articleNode } from "../../utils/jsonld";
 
 export async function getStaticPaths() {
   const secrets = getCMSSecrets();
@@ -28,9 +29,25 @@ const ogpImage = await getImage({
   ...imageSize,
 });
 const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const jsonLd = [
+  articleNode({
+    site,
+    url: new URL(Astro.url.pathname, site),
+    title: article.title,
+    imageUrl: ogImageUrl,
+    publishedAt: article.publishedAt,
+    modifiedAt: article.revisedAt,
+  }),
+];
 ---
 
-<MainSideStaticLayout title={article.title} ogImageUrl={ogImageUrl}>
+<MainSideStaticLayout
+  title={article.title}
+  ogImageUrl={ogImageUrl}
+  jsonLd={jsonLd}
+>
   <Fragment slot="main">
     <Article article={article} />
   </Fragment>

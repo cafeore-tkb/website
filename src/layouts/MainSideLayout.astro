@@ -1,4 +1,5 @@
 ---
+import type { JsonLdNode } from "../utils/jsonld";
 import Layout from "./Layout.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
@@ -7,12 +8,13 @@ export interface Props {
   title: string;
   ogImageUrl?: string;
   noIndex?: boolean;
+  jsonLd?: JsonLdNode[];
 }
 
-const { title, ogImageUrl, noIndex } = Astro.props;
+const { title, ogImageUrl, noIndex, jsonLd } = Astro.props;
 ---
 
-<Layout title={title} ogImageUrl={ogImageUrl} noIndex={noIndex}>
+<Layout title={title} ogImageUrl={ogImageUrl} noIndex={noIndex} jsonLd={jsonLd}>
   <Header />
   <div class="container">
     <main class="main-container">
