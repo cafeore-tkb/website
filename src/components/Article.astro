@@ -3,6 +3,8 @@ import type { Article } from "../apis/articles";
 import { formatDate } from "../utils/date";
 import ArticleBody from "./ArticleBody.astro";
 import MicroCMSImage from "./MicroCMSImage.astro";
+import TableOfContents from "./TableOfContents.astro";
+import { extractToc } from "../utils/toc";
 
 export interface Props {
   article: Article;
@@ -13,6 +15,12 @@ const { publishedAt, title, content, thumbnail } = article;
 
 // publishedAt が有効な値の場合のみ日付を使用、無効な場合は null
 const publishedDate = publishedAt ? new Date(publishedAt) : null;
+
+// 見出しにidを振りつつ目次を組み立てる
+const { html: contentWithHeadingIds, items: tocItems } = extractToc(content);
+
+// 見出しが1つしかない記事に目次を出しても意味がないので出さない
+const showToc = tocItems.length >= 2;
 ---
 
 <article>
@@ -35,7 +43,8 @@ const publishedDate = publishedAt ? new Date(publishedAt) : null;
       )
     }
   </div>
-  <ArticleBody htmlContent={content} />
+  {showToc && <TableOfContents items={tocItems} />}
+  <ArticleBody htmlContent={contentWithHeadingIds} />
 </article>
 
 <style>
