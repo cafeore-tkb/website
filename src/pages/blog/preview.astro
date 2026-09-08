@@ -1,0 +1,56 @@
+---
+export const prerender = false;
+
+import { getImage } from "astro:assets";
+import { getArticleDraftById } from "../../apis/articles";
+import Article from "../../components/Article.astro";
+import SideBanners from "../../components/SideBanners.astro";
+import MainSideStaticLayout from "../../layouts/MainSideStaticLayout.astro";
+import { getWidthHeight } from "../../utils/image-sizing";
+import { getWebpLosslessSrc } from "../../utils/imgix";
+import { getCMSSecrets, type CMSSecrets } from "../../consts";
+
+// Preview page requires SSR to fetch draft content from microCMS
+const secrets: CMSSecrets = import.meta.env.DEV
+  ? getCMSSecrets()
+  : {
+      MICROCMS_API_URL:
+        await Astro.locals.runtime.env.MICROCMS_API_URL_RUNTIME.get(),
+      MICROCMS_API_KEY:
+        await Astro.locals.runtime.env.MICROCMS_API_KEY_RUNTIME.get(),
+    };
+
+const contentId = Astro.url.searchParams.get("contentId");
+const draftKey = Astro.url.searchParams.get("draftKey");
+
+if (!contentId || !draftKey) {
+  throw new Error("contentId and draftKey are required");
+}
+
+const article = await getArticleDraftById(contentId, draftKey, secrets);
+
+const imageSrc = getWebpLosslessSrc(article.thumbnail.url);
+const imageSize = getWidthHeight({
+  src: article.thumbnail,
+  maxWidth: 1200,
+});
+const ogpImage = await getImage({
+  src: imageSrc,
+  quality: "mid",
+  ...imageSize,
+});
+const ogImageUrl = new URL(ogpImage.src, Astro.site).toString();
+---
+
+<MainSideStaticLayout
+  title={article.title}
+  ogImageUrl={ogImageUrl}
+  noIndex={true}
+>
+  <Fragment slot="main">
+    <Article article={article} />
+  </Fragment>
+  <Fragment slot="aside">
+    <SideBanners />
+  </Fragment>
+</MainSideStaticLayout>
