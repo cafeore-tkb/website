@@ -3,7 +3,7 @@ export const INSTAGRAM_URL = "https://www.instagram.com/cafeore_tkb";
 export const X_URL = "https://x.com/cafeore_tkb";
 
 /** Google アナリティクス 4 の測定 ID。特設サイト（2026.cafeore.cafe など）と同じプロパティに送る */
-export const GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+export const GA_MEASUREMENT_ID = "G-D8L7QTRV0H";
 
 /**
  * ビルド環境では .env から取得した値を使い
