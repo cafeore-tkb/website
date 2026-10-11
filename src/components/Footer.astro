@@ -1,7 +1,11 @@
 ---
 import InstagramIcon from "../assets/icon-instagram.svg";
 import XIcon from "../assets/icon-x.svg";
-import { INSTAGRAM_URL, X_URL } from "../consts.ts";
+import { CAFEORE_NAME, INSTAGRAM_URL, X_URL } from "../consts.ts";
+
+// 毎年手で書き換えなくて済むよう、ビルド時の年を使う
+// （CMS更新やデプロイのたびに再ビルドされるため、実質自動で更新される）
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
@@ -13,7 +17,10 @@ import { INSTAGRAM_URL, X_URL } from "../consts.ts";
       <XIcon role="img" aria-label="X" fill="var(--gray)" />
     </a>
   </div>
-  <span class="copyright"> &copy; 2026 珈琲・俺 All rights reserved. </span>
+  <span class="copyright">
+    &copy; {currentYear}
+    {CAFEORE_NAME} All rights reserved.
+  </span>
 </footer>
 
 <style>
