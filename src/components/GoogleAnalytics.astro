@@ -1,0 +1,26 @@
+<script>
+  import { GA_MEASUREMENT_ID } from "../consts";
+
+  declare global {
+    interface Window {
+      dataLayer: unknown[];
+    }
+  }
+
+  // 本番のドメインだけで計測する（PR のプレビューや手元の開発サーバーは数えない）
+  const host = location.hostname;
+  if (host === "cafeore.cafe" || host.endsWith(".cafeore.cafe")) {
+    window.dataLayer = window.dataLayer ?? [];
+    function gtag(..._args: unknown[]) {
+      // gtag.js は配列ではなく arguments オブジェクトそのものを積む前提で読む
+      window.dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", GA_MEASUREMENT_ID);
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+  }
+</script>

@@ -1,4 +1,5 @@
 ---
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import { CAFEORE_NAME } from "../consts";
 import "../global.css";
 export interface Props {
@@ -28,6 +29,7 @@ const ogType = isHome ? "website" : "article";
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     {noIndex && <meta name="robots" content="noindex" />}
     <title>{fullTitle}</title>
+    <GoogleAnalytics />
   </head>
   <body>
     <slot />
