@@ -51,8 +51,79 @@ const htmlWithImageOptimized = await optimizeImages(htmlContent);
 
     blockquote {
       padding-inline-start: 1rem;
-      color: var(--gray-dark);
+      color: var(--dark-gray);
       border-left: 3px solid var(--cafeore-cream);
+    }
+
+    /* 番号なしリスト: デフォルトの黒丸をやめ、ブランドカラーの丸を打つ */
+    ul {
+      padding-inline-start: 0.25rem;
+      list-style: none;
+    }
+
+    ul > li {
+      position: relative;
+      padding-inline-start: 1.6em;
+      margin-block: 0.4em;
+    }
+
+    ul > li::before {
+      position: absolute;
+      inset-block-start: 0.62em;
+      inset-inline-start: 0.35em;
+      width: 0.45em;
+      height: 0.45em;
+      content: "";
+      background-color: var(--cafeore-cream);
+      border-radius: 50%;
+    }
+
+    /* 番号つきリスト: 番号をブランドカラーにし、字下げの溝を揃える */
+    ol {
+      padding-inline-start: 0.25rem;
+      list-style: none;
+      counter-reset: ordered-item;
+    }
+
+    ol > li {
+      position: relative;
+      padding-inline-start: 2.2em;
+      margin-block: 0.4em;
+      counter-increment: ordered-item;
+    }
+
+    ol > li::before {
+      position: absolute;
+      inset-inline-start: 0;
+      width: 1.6em;
+      font-size: 0.9em;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+      color: var(--sepia);
+      text-align: end;
+      content: counter(ordered-item) ".";
+    }
+
+    /* 入れ子は塗りつぶさず輪郭だけにして階層を区別する */
+    ul ul > li::before {
+      background-color: transparent;
+      border: 1px solid var(--cafeore-cream);
+    }
+
+    /* リストの入れ子で余白が二重にならないようにする */
+    li > ul,
+    li > ol {
+      margin-block: 0.3em;
+    }
+
+    /* 下線: 罫線ではなくマーカーで引いたような見た目にする */
+    u {
+      padding-inline: 0.1em;
+      text-decoration: none;
+      background-image: linear-gradient(
+        transparent 58%,
+        rgb(from var(--cafeore-cream) r g b / 45%) 58%
+      );
     }
 
     @media (width <= 620px) {
