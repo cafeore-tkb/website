@@ -5,13 +5,16 @@ import ArticleCard from "./ArticleCard.astro";
 
 const secrets = getCMSSecrets();
 const articles = await getAllArticles(secrets);
+const newsArticles = articles.contents.filter(
+  (article) => article.type[0] === "news",
+);
 ---
 
 <div class="container">
   <h1 class="news-title">NEWS</h1>
   <ul class="news-list">
     {
-      articles.contents.map((article) => (
+      newsArticles.map((article) => (
         <li class="news-item">
           <ArticleCard article={article} />
         </li>

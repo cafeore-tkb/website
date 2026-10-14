@@ -1,0 +1,61 @@
+---
+import { getAllArticles } from "../apis/articles";
+import { getCMSSecrets } from "../consts";
+import ArticleCard from "./ArticleCard.astro";
+
+const secrets = getCMSSecrets();
+const articles = await getAllArticles(secrets);
+const blogArticles = articles.contents.filter(
+  (article) => article.type[0] === "blog",
+);
+---
+
+<div class="container">
+  <h1 class="blog-title">BLOG</h1>
+  <ul class="blog-list">
+    {
+      blogArticles.map((article) => (
+        <li class="blog-item">
+          <ArticleCard article={article} />
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .container {
+    padding-inline-start: 2rem;
+  }
+
+  .blog-title {
+    margin-block: 2rem;
+    font-size: 1.8rem;
+    color: var(--cafeore-brown);
+  }
+
+  .blog-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .blog-item {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  @media (width <= 620px) {
+    .container {
+      padding-inline: 1rem;
+    }
+
+    .news-list {
+      grid-template-columns: 1fr;
+      padding-inline: 1rem;
+    }
+  }
+</style>

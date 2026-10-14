@@ -11,7 +11,7 @@ const { id, title, thumbnail, publishedAt } = article;
 const publishedDate = new Date(publishedAt);
 ---
 
-<a class="card-link" href={`/news/${id}/`}>
+<a class="card-link" href={`/${article.type}/${id}/`}>
   <article>
     <div class="thumbnail-container">
       <MicroCMSImage
