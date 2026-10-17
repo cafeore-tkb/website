@@ -43,6 +43,6 @@
     "stylelint-config-recess-order": "^7.7.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-order": "^8.1.1",
-    "wrangler": "^4.63.0"
+    "wrangler": "^4.105.0"
   }
 }
